@@ -495,7 +495,7 @@
           <guid>https://jaredririe.github.io/2018/07/14/what-this-blog-is-all-about/</guid>
           <description>
 
-&lt;h2 id=&#34;backended&#34;&gt;&amp;ldquo;Backended&amp;rdquo;?&lt;/h2&gt;
+&lt;h2 id=&#34;backendology&#34;&gt;&amp;ldquo;Backendology&amp;rdquo;?&lt;/h2&gt;
 
 &lt;blockquote&gt;
 &lt;p&gt;There are only two hard things in Computer Science: cache invalidation and naming things (Phil Karlton).&lt;/p&gt;
@@ -507,9 +507,7 @@
 &lt;p&gt;There are only two hard things in Computer Science: cache invalidation, naming things, and off by one errors (Unknown)&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;Naming is hard. Backended isn&amp;rsquo;t a real word. &amp;ldquo;Back ended&amp;rdquo; and its hyphened form &amp;ldquo;back-ended&amp;rdquo; do appear to be real words, though rarely used and completely unrelated to the purpose of this blog. Like the programmer who decides to write a lengthy comment rather than coming up with a better name, I&amp;rsquo;ll try to explain what I intended when I named this blog Backended.&lt;/p&gt;
-
-&lt;p&gt;Backended draws obvious reference to the term &amp;ldquo;backend” as in backend or server-side web development. If it was a real word, I might say, &amp;ldquo;Because of my backended nature, writing frontend code is inherently painful.&amp;rdquo; I find the problems that get solved on the backend to be incredibly interesting and therefore chose it as the underlying theme of my blog.&lt;/p&gt;
+&lt;p&gt;Naming is hard. Backendology isn&amp;rsquo;t a real word. Like the programmer who decides to write a lengthy comment rather than coming up with a better name, I&amp;rsquo;ll try to explain what I intended when I named this blog Backendology. The name draws obvious reference to the term &amp;ldquo;backend” as in backend or server-side web development. The suffix &amp;ldquo;-logy&amp;rdquo; is a branch of learning, or study of a particular subject. Put together, this blog is a detailed study of the concepts and technologies related to backend web development.&lt;/p&gt;
 
 &lt;h2 id=&#34;topics-i-plan-to-cover&#34;&gt;Topics I plan to cover&lt;/h2&gt;
 
