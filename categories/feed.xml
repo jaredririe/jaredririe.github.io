@@ -30,6 +30,15 @@
     </item>
     
     <item>
+      <title>Golang</title>
+      <link>https://jaredririe.github.io/categories/golang/</link>
+      <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jaredririe.github.io/categories/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Personal</title>
       <link>https://jaredririe.github.io/categories/personal/</link>
       <pubDate>Mon, 02 Jul 2018 00:00:00 +0000</pubDate>
@@ -39,11 +48,11 @@
     </item>
     
     <item>
-      <title>Technical Books</title>
-      <link>https://jaredririe.github.io/categories/technical-books/</link>
+      <title>Reading</title>
+      <link>https://jaredririe.github.io/categories/reading/</link>
       <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://jaredririe.github.io/categories/technical-books/</guid>
+      <guid>https://jaredririe.github.io/categories/reading/</guid>
       <description></description>
     </item>
     

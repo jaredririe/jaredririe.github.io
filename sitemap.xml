@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://jaredririe.github.io/2018/08/06/lessons-from-adopting-go-qualtrics/</loc>
+    <lastmod>2018-08-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jaredririe.github.io/2018/07/30/top-software-books/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
   </url>
@@ -52,7 +57,7 @@
   
   <url>
     <loc>https://jaredririe.github.io/tags/databases/</loc>
-    <lastmod>2018-07-23T00:00:00+00:00</lastmod>
+    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -69,6 +74,24 @@
   </url>
   
   <url>
+    <loc>https://jaredririe.github.io/tags/golang/</loc>
+    <lastmod>2018-08-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/categories/golang/</loc>
+    <lastmod>2018-08-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/microservices/</loc>
+    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://jaredririe.github.io/categories/personal/</loc>
     <lastmod>2018-07-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -76,18 +99,18 @@
   
   <url>
     <loc>https://jaredririe.github.io/post/</loc>
+    <lastmod>2018-08-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/categories/reading/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://jaredririe.github.io/tags/</loc>
-    <lastmod>2018-07-23T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://jaredririe.github.io/categories/technical-books/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>

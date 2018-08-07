@@ -86,6 +86,59 @@
 <div class="posts">
   
     <div class="post">
+      <h1 class="post-title"><a href="https://jaredririe.github.io/2018/08/06/lessons-from-adopting-go-qualtrics/">Lessons From Adopting Go at Qualtrics</a></h1>
+      <span class="post-date">August 6, 2018</span>
+      
+
+<p><img src="/public/images/utgo-qualtrics.png" alt="UTGO + Qualtrics" /></p>
+
+<p>Back in September 2017, I teamed up with a coworker to give a presentation for the <a href="http://utahgolang.com/">Utah Golang User Group</a>. We chose to share the lessons we had learned as we adopted and scaled Go as one of the core programming languages at Qualtrics. Our intended audience was companies and developers who were interested in trying out Go and increasing its use within an organization. Many companies are considering Go because its popularity has only continued to rise (for good reason), so I&rsquo;m excited to repost this content via my blog.</p>
+
+<h2 id="summary-of-the-content">Summary of the content</h2>
+
+<p>Here is a summary of the content of our presentation which will serve as a teaser of the slides and video below:</p>
+
+<h3 id="context-context-day-in-the-life-of-a-qualtrics-engineer"><code>context.Context</code> Day in the life of a Qualtrics engineer</h3>
+
+<p>There were key software development life cycle (SDLC) problems at Qualtrics that started pushing us towards significant changes in our architecture. We adopted Docker and Consul and wrote our first microservices in Node.js.</p>
+
+<h3 id="reflect-value-how-why-go-works-for-us"><code>reflect.Value</code> How/why Go works for us</h3>
+
+<p>Adopting microservices solved many problems, such as decreasing the size of our codebases and enabling clear assignment of ownership. Some problems remained, however, which is what encouraged us to try Go, a language we knew was proven for microservices.</p>
+
+<h3 id="func-main-getting-the-initial-buy-in"><code>func main()</code> Getting the initial buy-in</h3>
+
+<p>Convincing an organization to adopt a new programming language is challenging. This is what worked for us:</p>
+
+<ul>
+<li>Learn Go well enough to sell it (perhaps through side projects outside of work)</li>
+<li>Start with something small</li>
+<li>Stand up a Go service that compares favorably to a service it replaces</li>
+<li>Attain manager buy-in</li>
+<li>Deploy a real service into production</li>
+</ul>
+
+<h3 id="go-build-scale-process-of-driving-go-adoption-among-engineers"><code>go build &amp;&amp; ./scale</code> Process of driving Go adoption among engineers</h3>
+
+<p>Once you managed to get your initial service in production, how do you continue the momentum? We focused on lowering the learning barrier for the base case, helping developers get started and be productive in Go as quickly as possible. We did this by providing getting-started documentation, educating developers through trainings, and building tools and libraries which addressed common needs.</p>
+
+<h3 id="if-err-nil-things-we-wish-we-knew-things-we-d-do-differently"><code>if err != nil</code> Things we wish we knew / things we’d do differently</h3>
+
+<p>We wish we would known how long it can take to garner interest around a new language&ndash;it took nearly a year to expand the number of Go developers to more than one. Also, in building shared libraries, we focused too much on libraries that would be useful to our work rather than core functionality needed by engineering at large.</p>
+
+<h3 id="wg-wait-ideas-for-future-work"><code>wg.Wait()</code> Ideas for future work</h3>
+
+<p>To continue to scale Go at Qualtrics, we&rsquo;d like to augment our documentation with tutorial-style guides and provide more specific training. It would also be great to offer some form of tailored service template that other developers could use as a starting point for their Go projects.</p>
+
+<h2 id="presentation-slides-and-recording">Presentation slides and recording</h2>
+
+<p><a href="https://docs.google.com/presentation/d/18JiufQTTm8GxFRb2uyg2C8RHmm5NbtWU9Se7vBtwkUY/edit?usp=sharing">Here are the slides</a> we created for the presentation. We retroactively fleshed out the notes section to help the slides stand alone without the presentation. If you prefer the original video, however, the user group recorded our presentation and put together <a href="https://www.youtube.com/watch?v=8wmEL0JwHQA&amp;feature=youtu.be">this Youtube video</a>.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/8wmEL0JwHQA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+    </div>
+  
+    <div class="post">
       <h1 class="post-title"><a href="https://jaredririe.github.io/2018/07/30/top-software-books/">Top 10 Books for New Software Engineers</a></h1>
       <span class="post-date">July 30, 2018</span>
       
@@ -543,16 +596,16 @@
 
 <h3 id="software-and-non-software-books">Software and non-software books</h3>
 
-<p>I have become an avid reader of technical books, as well as popular non-fiction books like &ldquo;<a href="https://www.amazon.com/gp/product/1501111108/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1501111108&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=c173ddc20b9a9fcd700e582440ca8479">Grit</a>,&rdquo; &ldquo;<a href="https://www.amazon.com/gp/product/0345472322/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0345472322&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=28b35ebce32bc00c963a529c58070d49">Mindset</a>,” and “<a href="https://www.amazon.com/gp/product/1455554790/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1455554790&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=fff6e98d9dd5016e1aa4be73e0368874">Work Rules!</a>” ever since I graduated from college. I read five books each quarter, so 20 books/year. And by read, I really read <em>or</em> listen; I&rsquo;m an advocate of <a href="https://www.amazon.com/gp/product/B00NB86OYE/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B00NB86OYE&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=627d0e41b121bbc9b5a33b365e23a2d7">Audible</a> and think it&rsquo;s a solid investment.</p>
+<p>I have become an avid reader of technical books, as well as popular non-fiction books like <a href="https://www.amazon.com/gp/product/1501111108/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1501111108&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=c173ddc20b9a9fcd700e582440ca8479"><em>Grit</em></a>, <a href="https://www.amazon.com/gp/product/0345472322/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0345472322&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=28b35ebce32bc00c963a529c58070d49"><em>Mindset</em></a>, and <a href="https://www.amazon.com/gp/product/1455554790/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1455554790&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=fff6e98d9dd5016e1aa4be73e0368874"><em>Work Rules!</em></a> ever since I graduated from college. I read five books each quarter, so 20 books/year. And by read, I really read <em>or</em> listen; I&rsquo;m an advocate of <a href="https://www.amazon.com/gp/product/B00NB86OYE/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B00NB86OYE&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=627d0e41b121bbc9b5a33b365e23a2d7">Audible</a> and think it&rsquo;s a solid investment.</p>
 
 <p>I’m planning on writing a post for each book I read with a summary of the content, further learning it inspired, and my overall recommendation. Here are some books on my reading list:</p>
 
 <ul>
-<li><a href="https://www.amazon.com/gp/product/B001GSTOAM/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B001GSTOAM&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=2596e9caf8f63700450812054449c5d0">Clean Code</a></li>
-<li><a href="https://www.amazon.com/gp/product/1934356557/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1934356557&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=2bc3044e49259e2a806ec0d84738be0c">SQL Antipatterns</a></li>
-<li><a href="https://www.amazon.com/gp/product/0984782850/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0984782850&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=06a672d4319440a648fcea507d939810">Cracking the Coding Interview</a></li>
-<li><a href="https://www.amazon.com/gp/product/0062663070/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0062663070&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=f07f15aaa881d773ccfdbe396f4c7560">Multipliers: How the Best Leaders Make Everyone Smarter</a></li>
-<li><a href="https://www.amazon.com/gp/product/0060833459/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0060833459&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=67180a0eee99a76f7aca0cf432e84625">Effective Executive</a></li>
+<li><a href="https://www.amazon.com/gp/product/B001GSTOAM/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B001GSTOAM&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=2596e9caf8f63700450812054449c5d0"><em>Clean Code</em></a></li>
+<li><a href="https://www.amazon.com/gp/product/1934356557/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=1934356557&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=2bc3044e49259e2a806ec0d84738be0c"><em>SQL Antipatterns</em></a></li>
+<li><a href="https://www.amazon.com/gp/product/0984782850/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0984782850&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=06a672d4319440a648fcea507d939810"><em>Cracking the Coding Interview</em></a></li>
+<li><a href="https://www.amazon.com/gp/product/0062663070/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0062663070&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=f07f15aaa881d773ccfdbe396f4c7560"><em>Multipliers: How the Best Leaders Make Everyone Smarter</em></a></li>
+<li><a href="https://www.amazon.com/gp/product/0060833459/ref=as_li_tl?ie=UTF8&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0060833459&amp;linkCode=as2&amp;tag=jaredririeblo-20&amp;linkId=67180a0eee99a76f7aca0cf432e84625"><em>The Effective Executive</em></a></li>
 </ul>
 
 <h3 id="research-papers">Research papers</h3>
