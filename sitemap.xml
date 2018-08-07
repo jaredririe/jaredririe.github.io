@@ -38,8 +38,20 @@
   </url>
   
   <url>
+    <loc>https://jaredririe.github.io/tags/architecture/</loc>
+    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://jaredririe.github.io/</loc>
     <lastmod>2018-07-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/categories/books/</loc>
+    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -50,7 +62,25 @@
   </url>
   
   <url>
+    <loc>https://jaredririe.github.io/tags/byu/</loc>
+    <lastmod>2018-07-02T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://jaredririe.github.io/categories/</loc>
+    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/coding-interview/</loc>
+    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/data-structures/</loc>
     <lastmod>2018-07-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -58,6 +88,12 @@
   <url>
     <loc>https://jaredririe.github.io/tags/databases/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/distributed-systems/</loc>
+    <lastmod>2018-07-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -86,7 +122,25 @@
   </url>
   
   <url>
+    <loc>https://jaredririe.github.io/tags/javascript/</loc>
+    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/machine-learning/</loc>
+    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://jaredririe.github.io/tags/microservices/</loc>
+    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/nosql/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -104,8 +158,20 @@
   </url>
   
   <url>
-    <loc>https://jaredririe.github.io/categories/reading/</loc>
-    <lastmod>2018-07-30T00:00:00+00:00</lastmod>
+    <loc>https://jaredririe.github.io/tags/qualtrics/</loc>
+    <lastmod>2018-08-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/software/</loc>
+    <lastmod>2018-08-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/sql/</loc>
+    <lastmod>2018-07-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
