@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Blogging</title>
+      <link>https://jaredririe.github.io/tags/blogging/</link>
+      <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jaredririe.github.io/tags/blogging/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Byu</title>
       <link>https://jaredririe.github.io/tags/byu/</link>
       <pubDate>Mon, 02 Jul 2018 00:00:00 +0000</pubDate>
@@ -68,9 +77,18 @@
     <item>
       <title>Golang</title>
       <link>https://jaredririe.github.io/tags/golang/</link>
-      <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>https://jaredririe.github.io/tags/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>https://jaredririe.github.io/tags/hugo/</link>
+      <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jaredririe.github.io/tags/hugo/</guid>
       <description></description>
     </item>
     
@@ -125,15 +143,6 @@
       <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>https://jaredririe.github.io/tags/software/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Sql</title>
-      <link>https://jaredririe.github.io/tags/sql/</link>
-      <pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://jaredririe.github.io/tags/sql/</guid>
       <description></description>
     </item>
     

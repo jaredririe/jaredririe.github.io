@@ -8,6 +8,11 @@
   </url>
   
   <url>
+    <loc>https://jaredririe.github.io/2018/08/13/experience-using-hugo/</loc>
+    <lastmod>2018-08-13T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jaredririe.github.io/2018/08/06/lessons-from-adopting-go-qualtrics/</loc>
     <lastmod>2018-08-06T00:00:00+00:00</lastmod>
   </url>
@@ -46,6 +51,12 @@
   <url>
     <loc>https://jaredririe.github.io/</loc>
     <lastmod>2018-07-01T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/blogging/</loc>
+    <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -110,14 +121,20 @@
   </url>
   
   <url>
-    <loc>https://jaredririe.github.io/categories/golang/</loc>
-    <lastmod>2018-08-06T00:00:00+00:00</lastmod>
+    <loc>https://jaredririe.github.io/tags/golang/</loc>
+    <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://jaredririe.github.io/tags/golang/</loc>
-    <lastmod>2018-08-06T00:00:00+00:00</lastmod>
+    <loc>https://jaredririe.github.io/categories/golang/</loc>
+    <lastmod>2018-08-13T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://jaredririe.github.io/tags/hugo/</loc>
+    <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -153,7 +170,7 @@
   
   <url>
     <loc>https://jaredririe.github.io/post/</loc>
-    <lastmod>2018-08-06T00:00:00+00:00</lastmod>
+    <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

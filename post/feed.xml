@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 06 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 13 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://jaredririe.github.io/post/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>My Experience Using Hugo</title>
+      <link>https://jaredririe.github.io/2018/08/13/experience-using-hugo/</link>
+      <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://jaredririe.github.io/2018/08/13/experience-using-hugo/</guid>
+      <description>Disclaimer: this blog post is somewhat off topic in that it focuses on blogging more than backend software development. I think you will find this post informative if you have any interest in blogging, static site generation, or Go.
+This post starts with a full example of using Hugo to create a simple blog. It then compares alternative blogging frameworks like Jekyll and Wordpress.
+What is Hugo? Hugo is an open-source static site generator known for its performance and flexibility.</description>
+    </item>
     
     <item>
       <title>Lessons From Adopting Go at Qualtrics</title>

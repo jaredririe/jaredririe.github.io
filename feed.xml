@@ -13,6 +13,191 @@
     
       
         <item>
+          <title>My Experience Using Hugo</title>
+          <link>https://jaredririe.github.io/2018/08/13/experience-using-hugo/</link>
+          <pubDate>Mon, 13 Aug 2018 00:00:00 UTC</pubDate>
+          <author>Jared Ririe</author>
+          <guid>https://jaredririe.github.io/2018/08/13/experience-using-hugo/</guid>
+          <description>
+
+&lt;p&gt;&lt;em&gt;Disclaimer: this blog post is somewhat off topic in that it focuses on blogging more than backend software development. I think you will find this post informative if you have any interest in blogging, static site generation, or Go.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This post starts with a full example of using Hugo to create a simple blog. It then compares alternative blogging frameworks like Jekyll and Wordpress.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://jaredririe.github.io/public/images/hugo.png&#34; alt=&#34;Hugo&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;what-is-hugo&#34;&gt;What is Hugo?&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; is an open-source static site generator known for its performance and flexibility. Hugo was initially released in 2013 and has quickly grown in popularity. It is written in Go which is what pushed me to give it a shot.&lt;/p&gt;
+
+&lt;p&gt;Without further ado, let&amp;rsquo;s jump into a real world example of using Hugo (my blog).&lt;/p&gt;
+
+&lt;h3 id=&#34;setting-up-a-simple-blog-with-hugo&#34;&gt;Setting up a simple blog with Hugo&lt;/h3&gt;
+
+&lt;p&gt;These steps will show how to make a simple blog generated with Hugo. Most of this content is adapted from &lt;a href=&#34;https://gohugo.io/hosting-and-deployment/hosting-on-github/&#34;&gt;this tutorial&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;install-hugo&#34;&gt;Install Hugo&lt;/h4&gt;
+
+&lt;p&gt;Install Hugo by following the steps outlined &lt;a href=&#34;https://gohugo.io/getting-started/installing/&#34;&gt;here&lt;/a&gt;. On a Mac, it is as simple as &lt;code&gt;brew install hugo&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;create-github-repositories-and-submodule&#34;&gt;Create GitHub repositories and submodule&lt;/h4&gt;
+
+&lt;p&gt;GitHub is a great way to store the contents of your blog. Several of the guides I followed recommended that you make two repositories, one for the site and another for the generated site that will actually be hosted.&lt;/p&gt;
+
+&lt;p&gt;Make the first repository for the content of the blog with any name you prefer. I chose &lt;code&gt;backendology&lt;/code&gt;. (&lt;a href=&#34;https://github.com/jaredririe/backendology&#34;&gt;github.com/jaredririe/backendology&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;Now, make the second repository named &lt;code&gt;&amp;lt;username&amp;gt;.github.io&lt;/code&gt; for the generated site: (&lt;a href=&#34;https://github.com/jaredririe/jaredririe.github.io&#34;&gt;github.com/jaredririe/jaredririe.github.io&lt;/a&gt;).&lt;/p&gt;
+
+&lt;p&gt;With both repositories in place, run this command to make the &lt;code&gt;public&lt;/code&gt; directory a submodule for the second repository.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;git submodule add -b master git@github.com:&amp;lt;username&amp;gt;/&amp;lt;username&amp;gt;.github.io.git public
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;To make it easy to generate your site and push changes to the second repository, write a script like the following:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;#!/bin/bash
+
+echo -e &amp;quot;\033[0;32mDeploying updates to GitHub...\033[0m&amp;quot;
+
+# Generate the static site in the default /public folder.
+hugo
+
+# Add changes to the git submodule.
+cd public
+git add .
+
+# Commit changes.
+msg=&amp;quot;Rebuilding site on `date`&amp;quot;
+if [ $# -eq 1 ]
+  then msg=&amp;quot;$1&amp;quot;
+fi
+git commit -m &amp;quot;$msg&amp;quot;
+
+# Push changes to origin.
+git push origin master
+
+# Come back up to the project&#39;s root.
+cd ..
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The script runs the &lt;code&gt;hugo&lt;/code&gt; command which by default overwrites the public directory. It pushes the changes to GitHub with a default message or the one specified as an argument to the script.&lt;/p&gt;
+
+&lt;h4 id=&#34;copy-someone-else-s-repository-using-hugo&#34;&gt;Copy someone else&amp;rsquo;s repository using Hugo&lt;/h4&gt;
+
+&lt;p&gt;Rather than starting from an empty repo, I recommend copying someone else&amp;rsquo;s who is using Hugo, getting it to work, and then modifying and customizing it as you see fit. Feel free to fork &lt;a href=&#34;https://github.com/jaredririe/backendology&#34;&gt;my GitHub repo&lt;/a&gt; for this purpose.&lt;/p&gt;
+
+&lt;h4 id=&#34;enable-github-pages&#34;&gt;Enable GitHub Pages&lt;/h4&gt;
+
+&lt;p&gt;This option is found in the GitHub settings under &amp;ldquo;GitHub Pages&amp;rdquo; on the repository for the generated site.&lt;/p&gt;
+
+&lt;h3 id=&#34;deploying-my-hugo-site-to-production&#34;&gt;Deploying my Hugo site to &amp;ldquo;production&amp;rdquo;&lt;/h3&gt;
+
+&lt;p&gt;To illustrate my workflow for deploying my site, let&amp;rsquo;s follow a post from draft to finished product.&lt;/p&gt;
+
+&lt;h4 id=&#34;1-write-a-draft&#34;&gt;1. Write a draft&lt;/h4&gt;
+
+&lt;p&gt;Begin a post as a draft in markdown. I store these in a separate directory (&lt;code&gt;drafts/&lt;/code&gt;). Once I&amp;rsquo;m happy with what I have written, I move the file into a finished directory (&lt;code&gt;finished&lt;/code&gt;/).&lt;/p&gt;
+
+&lt;h4 id=&#34;2-publish-the-post&#34;&gt;2. Publish the post&lt;/h4&gt;
+
+&lt;p&gt;I consider publishing to be the step which turns a post you are finished writing into one that is ready for Hugo. One could choose to write posts directly in this Hugo format, but I chose not to for a few reasons:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I include a notes section at the bottom of my posts that&amp;rsquo;s intended to be used for research while writing the post, not for the users reading my blog. I could just manually delete it, but I might find the raw content or quotes to be useful at some later point.&lt;/li&gt;
+&lt;li&gt;Hugo expects the post to be named according to its publish date (e.g. &lt;code&gt;2018-07-23-database-indexes.md&lt;/code&gt;) but I don&amp;rsquo;t know that information until I&amp;rsquo;m done writing.&lt;/li&gt;
+&lt;li&gt;Each post includes &amp;ldquo;front matter&amp;rdquo; (a few lines of JSON/YAML/TOML at the top of the markdown) that I think is better to automatically generate:&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-yaml&#34;&gt;---
+title: &#39;Breaking Down Abstractions: Database Indexes&#39;
+featured_image: /public/images/b+-tree.png
+author: Jared Ririe
+categories: Breaking Abstractions
+tags:
+- databases
+- sql
+- nosql
+- data-structures
+date: &amp;quot;2018-07-23&amp;quot;
+slug: database-indexes
+---
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;If I wrote the front matter directly, I could accidentally make a typo when assigning the category which would have the effect of making a new category. With my categories and tags defined in code, it&amp;rsquo;s easy to find ones I&amp;rsquo;ve previously used through auto-completion. I keep track of my categories in a Go struct:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-go&#34;&gt;type categoryType string
+
+var category = struct {
+    Personal             categoryType
+    General              categoryType
+    BreakingAbstractions categoryType
+    Books                categoryType
+    Golang               categoryType
+    Research             categoryType
+}{
+    &amp;quot;Personal&amp;quot;,
+    &amp;quot;General&amp;quot;,
+    &amp;quot;Breaking Abstractions&amp;quot;,
+    &amp;quot;Books&amp;quot;,
+    &amp;quot;Golang&amp;quot;,
+    &amp;quot;Research&amp;quot;,
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/jaredririe/backendology/tree/master/publish&#34;&gt;Here&lt;/a&gt; is the Go code I use to publish a post. It makes a copy of the post in the &lt;code&gt;finished/&lt;/code&gt; directory, makes the changes described (strips off the notes, renames the file, and adds front matter) and writes to &lt;code&gt;content/post&lt;/code&gt;.&lt;/p&gt;
+
+&lt;h4 id=&#34;3-generate-the-site-locally&#34;&gt;3. Generate the site locally&lt;/h4&gt;
+
+&lt;p&gt;Run the command &lt;code&gt;hugo server&lt;/code&gt; to start up a server running at localhost:1313. Take a look at the new post: Did the markdown render as you expected? Are the images displaying correctly?&lt;/p&gt;
+
+&lt;h4 id=&#34;4-run-the-deploy-script&#34;&gt;4. Run the deploy script&lt;/h4&gt;
+
+&lt;p&gt;Once you&amp;rsquo;re happy, run the deploy script mentioned in the initial setup to push your changes to production. Within a few minutes, your site should be deployed to &lt;code&gt;https://&amp;lt;username&amp;gt;.github.io/&lt;/code&gt; or a custom domain (if you configured it this way).&lt;/p&gt;
+
+&lt;h2 id=&#34;alternatives-to-hugo&#34;&gt;Alternatives to Hugo&lt;/h2&gt;
+
+&lt;h3 id=&#34;wordpress&#34;&gt;Wordpress&lt;/h3&gt;
+
+&lt;p&gt;Wordpress is a fully-featured and proven website creation platform. It has everything you need to write a blog, including plenty of free themes, plugins to share your new posts via social media providers (and automatically send an email version of your post to those who subscribe), and usable (but not great) markdown support.&lt;/p&gt;
+
+&lt;p&gt;It&amp;rsquo;s worth noting here that &lt;a href=&#34;https://wordpress.com/&#34;&gt;wordpress.com&lt;/a&gt; is different from &lt;a href=&#34;https://wordpress.org/&#34;&gt;wordpress.org&lt;/a&gt;. This confused me at first! wordpress.com is a solution built on top of the open source software which is Wordpress (wordpress.org). wordpress.com offers things like free and paid hosting options and a simpler GUI for writing posts.&lt;/p&gt;
+
+&lt;p&gt;When I first started writing this blog, I chose to host my site under a free wordpress.com subdomain&amp;ndash;this removed the barrier to start blogging in terms of both effort and cost. I was still settling on a name for my blog anyway, so I didn&amp;rsquo;t want to pay for a domain quite yet. If I choose Wordpress over Hugo going forward, I will use the open source version directly and buy my own domain. The conveniences offered by wordpress.com are not valuable enough to me for their relatively high cost.&lt;/p&gt;
+
+&lt;p&gt;Wordpress has some clear disadvantages in my mind. Foremost, its target audience is not a software engineer who thinks some of the challenges of blogging might be fun to solve as a form of side project. Because it&amp;rsquo;s so fully featured, there aren&amp;rsquo;t that many problems left to solve. I think someone who doesn&amp;rsquo;t write software might find it strange I&amp;rsquo;m listing this as a negative! Perhaps fellow developers will agree that it would be fun to learn how to integrate with a commenting system or learn the Twitter API well enough to update followers of new posts.&lt;/p&gt;
+
+&lt;p&gt;Even as I write this, though, I recognize that needing to solve these problems will slow me down from getting content to users. There are arguments on both sides which make it a tough call!&lt;/p&gt;
+
+&lt;h3 id=&#34;jekyll&#34;&gt;Jekyll&lt;/h3&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://jekyllrb.com/&#34;&gt;Jekyll&lt;/a&gt; was started by GitHub’s founder Tom Preston-Werner in 2008. It is more directly comparable to Hugo as it&amp;rsquo;s primarily a static site generator, not a full blogging solution. In fact, Jekyll is the software that started the current excitement around static site generation.&lt;/p&gt;
+
+&lt;p&gt;As Jekyll installs as a RubyGem, it does require that you install and configure a Ruby environment on your computer. I did not already have everything set up for Ruby, so it was a bit of a hassle to get the &lt;code&gt;jekyll&lt;/code&gt; command to work. The set up for Hugo was a breeze in comparison as Brew just downloaded the Go binary that was immediately runnable. While I have Go installed for other reasons, this is unnecessary.&lt;/p&gt;
+
+&lt;p&gt;Jekyll has been around longer than Hugo (2008 vs. 2013) and therefore is known to be more extensible through plugins. Hugo is still under heavy development, so new features are being added all the time. When I added Google Analytics to my site, for example, some guides showed how to do it manually but then newer ones pointed out built-in support.&lt;/p&gt;
+
+&lt;p&gt;Hugo is the clear winner in terms of the speed of static site generation.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; This is noticeable when you&amp;rsquo;re actively changing the site&amp;rsquo;s contents and Hugo is able to easily keep up with your changes in real time. Jekyll also supports live reload like this, but some files require a full rebuild (such as the changes to the config). Hugo does not have this limitation.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;&lt;a href=&#34;https://git-scm.com/book/en/v2/Git-Tools-Submodules&#34;&gt;https://git-scm.com/book/en/v2/Git-Tools-Submodules&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;&lt;a href=&#34;https://forestry.io/blog/hugo-vs-jekyll-benchmark/&#34;&gt;https://forestry.io/blog/hugo-vs-jekyll-benchmark/&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
           <title>Lessons From Adopting Go at Qualtrics</title>
           <link>https://jaredririe.github.io/2018/08/06/lessons-from-adopting-go-qualtrics/</link>
           <pubDate>Mon, 06 Aug 2018 00:00:00 UTC</pubDate>
