@@ -98,149 +98,23 @@ if (!doNotTrack) {
   <span class="post-date">August 13, 2018 &middot; Filed in <a href="/categories/golang">Golang</a></span>
   
 
-<p><em>Disclaimer: this blog post is somewhat off topic in that it focuses on blogging more than backend software development. I think you will find this post informative if you have any interest in blogging, static site generation, or Go.</em></p>
-
-<p>This post starts with a full example of using Hugo to create a simple blog. It then compares alternative blogging frameworks like Jekyll and Wordpress.</p>
-
-<p><img src="/public/images/hugo.png" alt="Hugo" /></p>
+<p>As my blog is still in its infancy, I have been exploring various blogging platforms and tools to find the ones that I would like to use moving forward. This post introduces Hugo, considers its alternatives, and walks through an example of setting up a Hugo blog and publishing a post.</p>
 
 <h2 id="what-is-hugo">What is Hugo?</h2>
 
+<p><img src="/public/images/hugo.png" alt="Hugo" /></p>
+
 <p><a href="https://gohugo.io/">Hugo</a> is an open-source static site generator known for its performance and flexibility. Hugo was initially released in 2013 and has quickly grown in popularity. It is written in Go which is what pushed me to give it a shot.</p>
 
-<p>Without further ado, let&rsquo;s jump into a real world example of using Hugo (my blog).</p>
+<p>Static sites take the content (usually markdown in the case of blogs) and apply it to layouts or templates, ultimately generating static HTML files that can be served to the user. They make a lot of sense for websites like blogs that don&rsquo;t offer a dynamic experience that requires custom JavaScript to run on the user&rsquo;s web browser. As the HTML is served directly, static sites are highly performant and more secure.</p>
 
-<h3 id="setting-up-a-simple-blog-with-hugo">Setting up a simple blog with Hugo</h3>
+<h3 id="alternatives-to-hugo">Alternatives to Hugo</h3>
 
-<p>These steps will show how to make a simple blog generated with Hugo. Most of this content is adapted from <a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/">this tutorial</a>.</p>
+<p>Let&rsquo;s take a look at some alternatives to Hugo which will help us learn more about it and help us make a better decision.</p>
 
-<h4 id="install-hugo">Install Hugo</h4>
+<h4 id="wordpress">Wordpress</h4>
 
-<p>Install Hugo by following the steps outlined <a href="https://gohugo.io/getting-started/installing/">here</a>. On a Mac, it is as simple as <code>brew install hugo</code>.</p>
-
-<h4 id="create-github-repositories-and-submodule">Create GitHub repositories and submodule</h4>
-
-<p>GitHub is a great way to store the contents of your blog. Several of the guides I followed recommended that you make two repositories, one for the site and another for the generated site that will actually be hosted.</p>
-
-<p>Make the first repository for the content of the blog with any name you prefer. I chose <code>backendology</code>. (<a href="https://github.com/jaredririe/backendology">github.com/jaredririe/backendology</a>)</p>
-
-<p>Now, make the second repository named <code>&lt;username&gt;.github.io</code> for the generated site: (<a href="https://github.com/jaredririe/jaredririe.github.io">github.com/jaredririe/jaredririe.github.io</a>).</p>
-
-<p>With both repositories in place, run this command to make the <code>public</code> directory a submodule for the second repository.</p>
-
-<blockquote>
-<p>Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup></p>
-</blockquote>
-
-<pre><code class="language-bash">git submodule add -b master git@github.com:&lt;username&gt;/&lt;username&gt;.github.io.git public
-</code></pre>
-
-<p>To make it easy to generate your site and push changes to the second repository, write a script like the following:</p>
-
-<pre><code class="language-bash">#!/bin/bash
-
-echo -e &quot;\033[0;32mDeploying updates to GitHub...\033[0m&quot;
-
-# Generate the static site in the default /public folder.
-hugo
-
-# Add changes to the git submodule.
-cd public
-git add .
-
-# Commit changes.
-msg=&quot;Rebuilding site on `date`&quot;
-if [ $# -eq 1 ]
-  then msg=&quot;$1&quot;
-fi
-git commit -m &quot;$msg&quot;
-
-# Push changes to origin.
-git push origin master
-
-# Come back up to the project's root.
-cd ..
-</code></pre>
-
-<p>The script runs the <code>hugo</code> command which by default overwrites the public directory. It pushes the changes to GitHub with a default message or the one specified as an argument to the script.</p>
-
-<h4 id="copy-someone-else-s-repository-using-hugo">Copy someone else&rsquo;s repository using Hugo</h4>
-
-<p>Rather than starting from an empty repo, I recommend copying someone else&rsquo;s who is using Hugo, getting it to work, and then modifying and customizing it as you see fit. Feel free to fork <a href="https://github.com/jaredririe/backendology">my GitHub repo</a> for this purpose.</p>
-
-<h4 id="enable-github-pages">Enable GitHub Pages</h4>
-
-<p>This option is found in the GitHub settings under &ldquo;GitHub Pages&rdquo; on the repository for the generated site.</p>
-
-<h3 id="deploying-my-hugo-site-to-production">Deploying my Hugo site to &ldquo;production&rdquo;</h3>
-
-<p>To illustrate my workflow for deploying my site, let&rsquo;s follow a post from draft to finished product.</p>
-
-<h4 id="1-write-a-draft">1. Write a draft</h4>
-
-<p>Begin a post as a draft in markdown. I store these in a separate directory (<code>drafts/</code>). Once I&rsquo;m happy with what I have written, I move the file into a finished directory (<code>finished</code>/).</p>
-
-<h4 id="2-publish-the-post">2. Publish the post</h4>
-
-<p>I consider publishing to be the step which turns a post you are finished writing into one that is ready for Hugo. One could choose to write posts directly in this Hugo format, but I chose not to for a few reasons:</p>
-
-<ul>
-<li>I include a notes section at the bottom of my posts that&rsquo;s intended to be used for research while writing the post, not for the users reading my blog. I could just manually delete it, but I might find the raw content or quotes to be useful at some later point.</li>
-<li>Hugo expects the post to be named according to its publish date (e.g. <code>2018-07-23-database-indexes.md</code>) but I don&rsquo;t know that information until I&rsquo;m done writing.</li>
-<li>Each post includes &ldquo;front matter&rdquo; (a few lines of JSON/YAML/TOML at the top of the markdown) that I think is better to automatically generate:</li>
-</ul>
-
-<pre><code class="language-yaml">---
-title: 'Breaking Down Abstractions: Database Indexes'
-featured_image: /public/images/b+-tree.png
-author: Jared Ririe
-categories: Breaking Abstractions
-tags:
-- databases
-- sql
-- nosql
-- data-structures
-date: &quot;2018-07-23&quot;
-slug: database-indexes
----
-</code></pre>
-
-<p>If I wrote the front matter directly, I could accidentally make a typo when assigning the category which would have the effect of making a new category. With my categories and tags defined in code, it&rsquo;s easy to find ones I&rsquo;ve previously used through auto-completion. I keep track of my categories in a Go struct:</p>
-
-<pre><code class="language-go">type categoryType string
-
-var category = struct {
-    Personal             categoryType
-    General              categoryType
-    BreakingAbstractions categoryType
-    Books                categoryType
-    Golang               categoryType
-    Research             categoryType
-}{
-    &quot;Personal&quot;,
-    &quot;General&quot;,
-    &quot;Breaking Abstractions&quot;,
-    &quot;Books&quot;,
-    &quot;Golang&quot;,
-    &quot;Research&quot;,
-}
-</code></pre>
-
-<p><a href="https://github.com/jaredririe/backendology/tree/master/publish">Here</a> is the Go code I use to publish a post. It makes a copy of the post in the <code>finished/</code> directory, makes the changes described (strips off the notes, renames the file, and adds front matter) and writes to <code>content/post</code>.</p>
-
-<h4 id="3-generate-the-site-locally">3. Generate the site locally</h4>
-
-<p>Run the command <code>hugo server</code> to start up a server running at localhost:1313. Take a look at the new post: Did the markdown render as you expected? Are the images displaying correctly?</p>
-
-<h4 id="4-run-the-deploy-script">4. Run the deploy script</h4>
-
-<p>Once you&rsquo;re happy, run the deploy script mentioned in the initial setup to push your changes to production. Within a few minutes, your site should be deployed to <code>https://&lt;username&gt;.github.io/</code> or a custom domain (if you configured it this way).</p>
-
-<h2 id="alternatives-to-hugo">Alternatives to Hugo</h2>
-
-<h3 id="wordpress">Wordpress</h3>
-
-<p>Wordpress is a fully-featured and proven website creation platform. It has everything you need to write a blog, including plenty of free themes, plugins to share your new posts via social media providers (and automatically send an email version of your post to those who subscribe), and usable (but not great) markdown support.</p>
+<p>Wordpress is a fully-featured and proven website creation platform. It has everything you need to write a blog, including plenty of free themes, plugins to share your new posts via social media providers (and automatically send an email version of your post to those who subscribe), and usable (but not great) markdown support. The websites it produces are <em>not</em> static sites which makes Wordpress a common target for malicious attacks.</p>
 
 <p>It&rsquo;s worth noting here that <a href="https://wordpress.com/">wordpress.com</a> is different from <a href="https://wordpress.org/">wordpress.org</a>. This confused me at first! wordpress.com is a solution built on top of the open source software which is Wordpress (wordpress.org). wordpress.com offers things like free and paid hosting options and a simpler GUI for writing posts.</p>
 
@@ -250,7 +124,7 @@ var category = struct {
 
 <p>Even as I write this, though, I recognize that needing to solve these problems will slow me down from getting content to users. There are arguments on both sides which make it a tough call!</p>
 
-<h3 id="jekyll">Jekyll</h3>
+<h4 id="jekyll">Jekyll</h4>
 
 <p><a href="https://jekyllrb.com/">Jekyll</a> was started by GitHub’s founder Tom Preston-Werner in 2008. It is more directly comparable to Hugo as it&rsquo;s primarily a static site generator, not a full blogging solution. In fact, Jekyll is the software that started the current excitement around static site generation.</p>
 
@@ -258,16 +132,130 @@ var category = struct {
 
 <p>Jekyll has been around longer than Hugo (2008 vs. 2013) and therefore is known to be more extensible through plugins. Hugo is still under heavy development, so new features are being added all the time. When I added Google Analytics to my site, for example, some guides showed how to do it manually but then newer ones pointed out built-in support.</p>
 
-<p>Hugo is the clear winner in terms of the speed of static site generation.<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup> This is noticeable when you&rsquo;re actively changing the site&rsquo;s contents and Hugo is able to easily keep up with your changes in real time. Jekyll also supports live reload like this, but some files require a full rebuild (such as the changes to the config). Hugo does not have this limitation.</p>
+<p>Hugo is the clear winner in terms of the speed of static site generation.<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">1</a></sup> This is noticeable when you&rsquo;re actively changing the site&rsquo;s contents and Hugo is able to easily keep up with your changes in real time. Jekyll also supports live reload like this, but some files require a full rebuild (such as the changes to the config). Hugo does not have this limitation.</p>
+
+<h2 id="setting-up-a-simple-blog-with-hugo">Setting up a simple blog with Hugo</h2>
+
+<p>Without further ado, let&rsquo;s jump into a real world example of using Hugo (my blog!). You could follow these steps to learn how to make a simple blog generated with Hugo. Most of this content is adapted from <a href="https://gohugo.io/hosting-and-deployment/hosting-on-github/">this tutorial</a>.</p>
+
+<h3 id="install-hugo">Install Hugo</h3>
+
+<p>Install Hugo by following the steps outlined <a href="https://gohugo.io/getting-started/installing/">here</a>. On a Mac, it is as simple as <code>brew install hugo</code>.</p>
+
+<h3 id="create-github-repositories-and-submodule">Create GitHub repositories and submodule</h3>
+
+<p>GitHub is a great way to store the contents of your blog to keep it under version control. Several of the guides I followed recommended that you make two repositories, one for the site and another for the generated site that will actually be hosted.</p>
+
+<p>Make the first repository for the content of the blog with any name you prefer. I chose <code>backendology</code>. (<a href="https://github.com/jaredririe/backendology">github.com/jaredririe/backendology</a>)</p>
+
+<p>Now, make the second repository named <code>&lt;username&gt;.github.io</code> for the generated site: (<a href="https://github.com/jaredririe/jaredririe.github.io">github.com/jaredririe/jaredririe.github.io</a>).</p>
+
+<p>With both repositories in place, run this command to make the <code>public</code> directory a submodule for the second repository.</p>
+
+<blockquote>
+<p>Submodules allow you to keep a Git repository as a subdirectory of another Git repository. This lets you clone another repository into your project and keep your commits separate.<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">2</a></sup></p>
+</blockquote>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git submodule add -b master https://github.com/&lt;username&gt;/&lt;username&gt;.github.io.git public</code></pre></div>
+<p>To make it easy to generate your site and push changes to the second repository, write a script like the following:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>
+echo -e <span style="color:#e6db74">&#34;\033[0;32mDeploying updates to GitHub...\033[0m&#34;</span>
+
+<span style="color:#75715e"># Generate the static site in the default /public folder.
+</span><span style="color:#75715e"></span>hugo
+
+<span style="color:#75715e"># Add changes to the git submodule.
+</span><span style="color:#75715e"></span>cd public
+git add .
+
+<span style="color:#75715e"># Commit changes.
+</span><span style="color:#75715e"></span>msg<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Rebuilding site on `date`&#34;</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $# -eq <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>
+  <span style="color:#66d9ef">then</span> msg<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span>
+<span style="color:#66d9ef">fi</span>
+git commit -m <span style="color:#e6db74">&#34;</span>$msg<span style="color:#e6db74">&#34;</span>
+
+<span style="color:#75715e"># Push changes to origin.
+</span><span style="color:#75715e"></span>git push origin master
+
+<span style="color:#75715e"># Come back up to the project&#39;s root.
+</span><span style="color:#75715e"></span>cd ..</code></pre></div>
+<p>The script runs the <code>hugo</code> command which by default overwrites the public directory. It pushes the changes to GitHub with a default message or the one specified as an argument to the script.</p>
+
+<h3 id="copy-someone-else-s-repository-using-hugo">Copy someone else&rsquo;s repository using Hugo</h3>
+
+<p>Rather than starting from an empty repo, I recommend copying someone else&rsquo;s who is using Hugo, getting it to work, and then modifying and customizing it as you see fit. Feel free to fork <a href="https://github.com/jaredririe/backendology">my GitHub repo</a> for this purpose.</p>
+
+<h3 id="enable-github-pages">Enable GitHub Pages</h3>
+
+<p>This option is found in the GitHub settings under &ldquo;GitHub Pages&rdquo; on the repository for the generated site.</p>
+
+<h2 id="deploying-my-hugo-site-to-production">Deploying my Hugo site to &ldquo;production&rdquo;</h2>
+
+<p>To illustrate my workflow for deploying my site, let&rsquo;s follow a post from draft to finished product.</p>
+
+<h3 id="1-write-a-draft">1. Write a draft</h3>
+
+<p>Begin a post as a draft in markdown. I store these in a separate directory (<code>drafts/</code>). Once I&rsquo;m happy with what I have written, I move the file into a finished directory (<code>finished</code>/).</p>
+
+<h3 id="2-publish-the-post">2. Publish the post</h3>
+
+<p>I consider publishing to be the step which turns a post you are finished writing into one that is ready for Hugo. One could choose to write posts directly in this Hugo format, but I chose not to for a few reasons:</p>
+
+<ul>
+<li>I include a notes section at the bottom of my posts that&rsquo;s intended to be used for research while writing the post, not for the users reading my blog. I could just manually delete it, but I might find the raw content or quotes to be useful at some later point.</li>
+<li>Hugo expects the post to be named according to its publish date (e.g. <code>2018-07-23-database-indexes.md</code>) but I don&rsquo;t know that information until I&rsquo;m done writing.</li>
+<li>Each post includes &ldquo;front matter&rdquo; (a few lines of JSON/YAML/TOML at the top of the markdown) that I think is better to automatically generate:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">---
+title: <span style="color:#e6db74">&#39;Breaking Down Abstractions: Database Indexes&#39;</span>
+featured_image: /public/images/b+-tree.png
+author: Jared Ririe
+categories: Breaking Abstractions
+tags:
+- databases
+- sql
+- nosql
+- data-structures
+date: <span style="color:#e6db74">&#34;2018-07-23&#34;</span>
+slug: database-indexes
+---</code></pre></div>
+<p>If I wrote the front matter directly, I could accidentally make a typo when assigning the category which would have the effect of making a new category. With my categories and tags defined in code, it&rsquo;s easy to find ones I&rsquo;ve previously used through auto-completion. I keep track of my categories in a Go struct:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">categoryType</span> <span style="color:#66d9ef">string</span>
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">category</span> = <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">Personal</span>             <span style="color:#a6e22e">categoryType</span>
+    <span style="color:#a6e22e">General</span>              <span style="color:#a6e22e">categoryType</span>
+    <span style="color:#a6e22e">BreakingAbstractions</span> <span style="color:#a6e22e">categoryType</span>
+    <span style="color:#a6e22e">Books</span>                <span style="color:#a6e22e">categoryType</span>
+    <span style="color:#a6e22e">Golang</span>               <span style="color:#a6e22e">categoryType</span>
+    <span style="color:#a6e22e">Research</span>             <span style="color:#a6e22e">categoryType</span>
+}{
+    <span style="color:#e6db74">&#34;Personal&#34;</span>,
+    <span style="color:#e6db74">&#34;General&#34;</span>,
+    <span style="color:#e6db74">&#34;Breaking Abstractions&#34;</span>,
+    <span style="color:#e6db74">&#34;Books&#34;</span>,
+    <span style="color:#e6db74">&#34;Golang&#34;</span>,
+    <span style="color:#e6db74">&#34;Research&#34;</span>,
+}</code></pre></div>
+<p><a href="https://github.com/jaredririe/backendology/tree/master/publish">Here</a> is the Go code I use to publish a post. It makes a copy of the post in the <code>finished/</code> directory, makes the changes described (strips off the notes, renames the file, and adds front matter) and writes to <code>content/post</code>.</p>
+
+<h3 id="3-generate-the-site-locally">3. Generate the site locally</h3>
+
+<p>Run the command <code>hugo server</code> to start up a server running at localhost:1313. Take a look at the new post: Did the markdown render as you expected? Are the images displaying correctly?</p>
+
+<h3 id="4-run-the-deploy-script">4. Run the deploy script</h3>
+
+<p>Once you&rsquo;re happy, run the deploy script mentioned in the initial setup to push your changes to production. Within a few minutes, your site should be deployed to <code>https://&lt;username&gt;.github.io/</code> or a custom domain (if you configured it this way).</p>
 <div class="footnotes">
 
 <hr />
 
 <ol>
-<li id="fn:1"><a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">https://git-scm.com/book/en/v2/Git-Tools-Submodules</a>
- <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
 <li id="fn:2"><a href="https://forestry.io/blog/hugo-vs-jekyll-benchmark/">https://forestry.io/blog/hugo-vs-jekyll-benchmark/</a>
  <a class="footnote-return" href="#fnref:2"><sup>[return]</sup></a></li>
+<li id="fn:1"><a href="https://git-scm.com/book/en/v2/Git-Tools-Submodules">https://git-scm.com/book/en/v2/Git-Tools-Submodules</a>
+ <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
 </ol>
 </div>
 

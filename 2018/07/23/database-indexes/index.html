@@ -181,10 +181,7 @@ if (!doNotTrack) {
 </table>
 
 <p>Given an ID, we&rsquo;d like to find out the name and age. Here&rsquo;s a SQL query to discover that Leo Thurlow (age 84) is stored at ID 9:</p>
-
-<pre><code class="language-sql">SELECT name, age FROM people WHERE id = 9
-</code></pre>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> name, age <span style="color:#66d9ef">FROM</span> people <span style="color:#66d9ef">WHERE</span> id <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span></code></pre></div>
 <p>How does this query find the right answer? Well, without indexes, it merely scans the rows of the table until it happens upon ID 9. This ID was just a few entries from the start, so that doesn&rsquo;t sound too bad. Consider, however, that this table could be thousands, millions, or billions of rows long. What if ID 9 was the <em>last</em> row? We&rsquo;d have to scan through a lot of rows! This process of scanning each row has a time complexity of O(N). Not great.</p>
 
 <p>It&rsquo;s also worth noting that if the <code>id</code> column was not unique, it would become necessary to scan all entries to find all the ones with the given ID. When N is large, scanning N items every time we need to respond to a query is going to take a long time. It&rsquo;s possible that a long-running query combined with lots of other concurrent queries could just cause a database to fail (it could run out of memory, go into swap, become unable to respond to healthchecks, and be removed from the cluster).</p>

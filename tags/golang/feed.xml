@@ -17,9 +17,8 @@
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>https://jaredririe.github.io/2018/08/13/experience-using-hugo/</guid>
-      <description>Disclaimer: this blog post is somewhat off topic in that it focuses on blogging more than backend software development. I think you will find this post informative if you have any interest in blogging, static site generation, or Go.
-This post starts with a full example of using Hugo to create a simple blog. It then compares alternative blogging frameworks like Jekyll and Wordpress.
-What is Hugo? Hugo is an open-source static site generator known for its performance and flexibility.</description>
+      <description>As my blog is still in its infancy, I have been exploring various blogging platforms and tools to find the ones that I would like to use moving forward. This post introduces Hugo, considers its alternatives, and walks through an example of setting up a Hugo blog and publishing a post.
+What is Hugo? Hugo is an open-source static site generator known for its performance and flexibility. Hugo was initially released in 2013 and has quickly grown in popularity.</description>
     </item>
     
     <item>
