@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://backendology.com/post/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Microservices: Are We Making a Huge Mistake?</title>
+      <link>http://backendology.com/2018/08/21/microservices-huge-mistake/</link>
+      <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://backendology.com/2018/08/21/microservices-huge-mistake/</guid>
+      <description>There is a clear trend in the software industry moving away from large, monolithic systems to fine-grained services known as &amp;ldquo;microservices.&amp;rdquo; While compelling, microservices introduce their own set of challenges and fallacies. This post considers the benefits and drawbacks of a microservices architecture (MSA) and contemplates the question: are we making a huge mistake in adopting this kind of architecture?
+Relationship to &amp;ldquo;distributed systems&amp;rdquo; First, let&amp;rsquo;s clear up some terminology that you may find confusing.</description>
+    </item>
     
     <item>
       <title>My Experience Using Hugo</title>

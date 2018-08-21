@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"><head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123885643-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Microservices: Are We Making a Huge Mistake? - Backendology - A study of the backend by Jared Ririe</title>
+
+  
+  <meta name="author" content="Jared Ririe">
+  <meta property="og:site_name" content="Backendology">
+  
+  <meta property="og:description" content="Microservices: Are We Making a Huge Mistake? - Backendology - A study of the backend by Jared Ririe">
+  <meta property="og:title" content="Microservices: Are We Making a Huge Mistake? - Backendology - A study of the backend by Jared Ririe">
+  
+  <meta property="og:type" content="article">
+  <meta name="keywords" content="Databases, Architecture, Microservices, Distributed Systems, Coding Interview, Data Structures, Machine Learning, NoSQL, SQL, Golang, JavaScript, Software, Blogging, Hugo">
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+  <link rel="stylesheet" href="/public/font-awesome/css/font-awesome.min.css">
+
+  
+  <link rel="canonical" href="http://backendology.com/2018/08/21/microservices-huge-mistake/">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+
+  
+  
+</head>
+<body class="theme-base-0d">
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A detailed study of the concepts and technologies related to backend web development</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item " href="/">Home</a>
+    <a class="sidebar-nav-item" href="/about/">About</a>
+    <a class="sidebar-nav-item" href="/archives/">Site Archives</a>
+    <a class="sidebar-nav-item" href="/categories/">Post Categories</a>
+    <a class="sidebar-nav-item" href="/tags/">Content Tags</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      <a href="https://github.com/jaredririe"><i class="fa fa-github fa-3x"></i></a>
+      <a href="https://twitter.com/jaredririe"><i class="fa fa-twitter fa-3x"></i></a>
+      <a href="https://www.linkedin.com/in/jaredririe"><i class="fa fa-linkedin-square fa-3x"></i></a>
+      <a href="http://feeds.jaredririe.com/jaredririe/content/feed/"><i class="fa fa-rss fa-3x"></i></a>
+    </p>
+  </div>
+
+  <div class="sidebar-item">
+    <p>&copy; 2018. All rights reserved.</p>
+  </div>
+</div>
+
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Backendology</a>
+            <small>A study of the backend by Jared Ririe</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+<div class="post">
+  <h1 class="post-title">Microservices: Are We Making a Huge Mistake?</h1>
+  <span class="post-date">August 21, 2018 &middot; Filed in <a href="/categories/microservices">Microservices</a></span>
+  
+
+<p>There is a clear trend in the software industry moving away from large, monolithic systems to fine-grained services known as &ldquo;microservices.&rdquo; While compelling, microservices introduce their own set of challenges and fallacies. This post considers the benefits and drawbacks of a microservices architecture (MSA) and contemplates the question: are we making a huge mistake in adopting this kind of architecture?</p>
+
+<h2 id="relationship-to-distributed-systems">Relationship to &ldquo;distributed systems&rdquo;</h2>
+
+<p>First, let&rsquo;s clear up some terminology that you may find confusing. A distributed system is a general term which refers to a network of independent computers that form a coherent system. A microservices architecture, on the other hand, is a software development technique for building a software system that <em>runs on a distributed system</em>. This kind of architecture encourages small services with lightweight, easy-to-use communication protocols like HTTP/S and RPC.</p>
+
+<p>Building a microservices architecture implies utilizing a distributed system<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup>. This is <em>not</em> an implication to be taken lightly. The foundation of a distributed system has several key fallacies that must be understood in order to build a reliable system!</p>
+
+<h3 id="fallacies">Fallacies</h3>
+
+<p>L. Peter Deutsch and others at Sun Microservices stated eight false assumptions that new programmers often have regarding distributed systems:</p>
+
+<blockquote>
+<ol>
+<li>The network is reliable.</li>
+<li>Latency is zero.</li>
+<li>Bandwidth is infinite.</li>
+<li>The network is secure.</li>
+<li>Topology doesn&rsquo;t change.</li>
+<li>There is one administrator.</li>
+<li>Transport cost is zero.</li>
+<li>The network is homogeneous.<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></li>
+</ol>
+</blockquote>
+
+<h4 id="never-assume-the-network-is-reliable">Never assume the network is reliable</h4>
+
+<p>When writing code that calls an external service, remember to handle failure scenarios. What happens if your request never makes it to the other service? Will you retry, propagate the failure upwards, log an error, or do nothing? If you choose to retry, at what rate will you retry and for how long? What if your request makes it to the external service and is processed but the response never makes it back to you?</p>
+
+<p>When a system is a traditional monolith, the external service is just another part of the monolith so you’re making a function call, not a network call; if you’re able to make the request, the other component is able to respond. Failure modes are more limited.</p>
+
+<h4 id="network-latency-is-not-zero">Network latency is not zero</h4>
+
+<blockquote>
+<p>Inter-service calls over a network have a higher cost in terms of network latency and message processing time than in-process calls within a monolithic service process.<sup class="footnote-ref" id="fnref:3"><a href="#fn:3">3</a></sup></p>
+</blockquote>
+
+<p>Although it takes a measurable amount of time to make a function call, it’s so minimal that for most purposes it can be considered zero. A network call, on the other hand, will take a nontrivial amount of time (maybe 2 ms).</p>
+
+<p>When moving to microservices, it’s important to be mindful when crossing service boundaries. Perhaps your algorithm used to make a few thousand function calls in a monolith. For MSA, the system was split into services such that your function calls become network calls. This does not impact the Big-O runtime of the algorithm but it does change the constant! Could the result of the call be cached? Could the number of calls be reduced?</p>
+
+<h4 id="systems-need-to-handle-topology-changes-gracefully">Systems need to handle topology changes gracefully</h4>
+
+<blockquote>
+<p>Network topology is the arrangement of the elements (links, nodes, etc.) of a communication network.<sup class="footnote-ref" id="fnref:4"><a href="#fn:4">4</a></sup></p>
+</blockquote>
+
+<p>A given microservice could have the topology of a cluster of identical nodes. The service is running (&ldquo;alive&rdquo;, &ldquo;healthy&rdquo;) when at least one of these nodes is running. If a caller is too strongly connected to the IP address of a particular node in the service, it will be extremely susceptible to a topology change that removes that node from the cluster.</p>
+
+<p>Instead, a tool like <a href="https://www.consul.io/">Consul</a> can provide DNS service discovery that abstracts the underlying IP addresses of a cluster and allows the service to be discovered via a host-agnostic address like <code>{service name}.service.consul</code>. Making requests to a service through this address allows the underlying topology to change without impacting the callers.</p>
+
+<h3 id="change-of-mindset">Change of mindset</h3>
+
+<p>Working with distributed systems requires a change of mindset. Most of us learned how to program by writing simple command-line applications. Perhaps your first program was the iconic script that printed the words “Hello, world” to the console. Then you progressed to programs that could read in a file, make some changes, and spit out another file. With time, you developed a mental model of how code executes with the simplified assumptions that can be made in a <strong>single computer environment</strong>.</p>
+
+<p>Once a system of computers must solve a problem <em>in a coordinated manner</em>, the assumptions we previously could make turn into misconceptions. Communicating with another computer is fundamentally different; we must retrain our mental models to account for this. Some developers do not work within a distributed system until after graduation from college, which means that they&rsquo;re simultaneously adapting to full-time work <em>and</em> grappling with the need for a new mental model to understand distributed computing.</p>
+
+<h2 id="challenges-of-a-microservices-architecture">Challenges of a microservices architecture</h2>
+
+<p>Here are the primary challenges related to microservices which I have experienced in practice.</p>
+
+<h3 id="complexity-and-cognitive-load">Complexity and cognitive load</h3>
+
+<p>The first few microservices which are built will likely require modernizations to the infrastructure to handle problems like service discovery and independent deployability. These improvements, though difficult, push the architecture in the right direction. Often, the first services which are implemented are carefully deliberated and their need is clear. An example of this from my company was a well-placed reverse proxy cache for a monolithic service. It was a clear and impressive win for our system&rsquo;s scalability.</p>
+
+<p><img src="/public/images/microservices-reverse-proxy-cache.png" alt="Reverse Proxy Cache" /></p>
+
+<p>As more microservices are added, however, <strong>the entanglement begins</strong>, raising the cognitive load required to understand the details of how the system really works. The flow of requests through the system is challenging and convoluted.</p>
+
+<p><img src="/public/images/microservices-entanglement.png" alt="Entanglement of Microservices" /></p>
+
+<p>The need for orchestration, service-to-service software load balancing, and improved fault tolerance becomes evident. The service mesh pattern is one response to the growing complexity of operating microservices at scale. This pattern places a layer of abstraction between a service and the network that presents a more idealized view. For example, instead of all applications handling their own retry logic, the service mesh layer can implement retries with exponential backoff<sup class="footnote-ref" id="fnref:5"><a href="#fn:5">5</a></sup> by default.</p>
+
+<h3 id="nanoservices">Nanoservices</h3>
+
+<blockquote>
+<p>Too-fine-grained microservices have been criticized as an anti-pattern, dubbed a nanoservice by Arnon Rotem-Gal-Oz.<sup class="footnote-ref" id="fnref:3"><a href="#fn:3">3</a></sup></p>
+</blockquote>
+
+<p>How small is too small? How big is too big? It&rsquo;s hard to get the size of a microservice right. Sometimes in the excitement of breaking up a system, developers go too far and end up building a mess of nanoservices which suffer from a massive amount of overhead.</p>
+
+<h3 id="service-boundaries-and-coordinating-efforts">Service boundaries and coordinating efforts</h3>
+
+<blockquote>
+<p>Dividing the backend into 8 separate services followed by a decision to assign services to people enforced ownership of specific services by developers. This led to developers complaining of their service being blocked by tasks on other services and refusing to help out by working with these blocking tasks. The separation also lead to developers losing sight of the overarching system goals, instead only focusing on the service they were working on.<sup class="footnote-ref" id="fnref:6"><a href="#fn:6">6</a></sup></p>
+</blockquote>
+
+<p>It&rsquo;s true that the codebases of microservices are easier to fully understand. It&rsquo;s possible for a single engineer to keep all the details in his or her head, leading to safer changes. That said, when service boundaries cross teams, it&rsquo;s easy to make mistakes.</p>
+
+<p>Deployments sometimes must be coordinated. Imagine that service A owned by one team wants to expose a new API that will be used by another team&rsquo;s service B. The fact that service A&rsquo;s deployment had to be rolled back is not communicated to the other team and they proceed with their release, causing all requests to fail which rely on the new APIs. Putting a strong emphasis on backwards compatibility can help these situations. In a monolithic architecture, the deployment was all or nothing, so either the new APIs were released <em>and</em> used, or neither, removing the need for coordinated deployments.</p>
+
+<h3 id="duplicated-common-functionality">Duplicated common functionality</h3>
+
+<p>Each microservices requires much of the same functionality, which requires all developers to have at least some understanding of things like logging, emitting metrics, creating dashboards, and communicating with other services. While some microservices will nail these aspects, others will have problems, and still others will be missing them entirely. In a monolith, the logging infrastructure only has to be set up once and all components can take advantage of it. This also means that there is a great deal of duplication among microservices, though this can be mitigated in part through shared libraries and gateway layers which provide common functionality.</p>
+
+<p><img src="/public/images/microservices-gateway-pattern.png" alt="API Gateway" /></p>
+
+<h2 id="benefits-of-microservices">Benefits of microservices</h2>
+
+<p>This blog post has admittedly had a cautionary tone. I covered the fallacies of distributed systems and many of the challenges of an MSA. So what are the benefits of microservices that have motivated its strong adoption?</p>
+
+<h3 id="conway-s-law">Conway&rsquo;s Law</h3>
+
+<p>A monolith can make sense for a company with a small engineering team. Once the number of developers increases, however, the monolith becomes unwieldy, difficult (or impossible) to fully understand, and diffused in ownership. Conway’s Law<sup class="footnote-ref" id="fnref:7"><a href="#fn:7">7</a></sup> simply states that a company’s architecture will mimic the way teams are structured. So as new engineers are hired and teams split or are moved to another office, the architecture naturally evolves as well. Sometimes the monolith refutes this natural evolution and fights against Conway’s Law, leading to an engineering culture that despises the monolith.</p>
+
+<p>Microservices tend to more easily conform to the organization of an engineering team. Give some to one team, a few others to another team, and so on (hopefully these decisions around ownership are taken more seriously than this sentence implied). How do you split up ownership of a monolith? You can’t really, which is why it will erode without invested engineers.</p>
+
+<h3 id="independent-scalability-and-deployability">Independent scalability and deployability</h3>
+
+<p>Once a large, monolithic system has been broken into services, it becomes clear which ones require more capacity and which demand very little. The services can then be scaled appropriately. It&rsquo;s also possible at this point to more easily identify bottlenecks and opportunities for optimization.</p>
+
+<p>Deployment becomes decentralized and individual teams must begin to take ownership of their entire deploy pipeline as it&rsquo;s no longer feasible to ask a single team to handle all deployments. I view the possibility to eliminate the &ldquo;throw code over the wall&rdquo; mentality as a major step forward for any engineering team: developers tend to write better code when they own it from end to end, never expecting someone else to test their code or find their memory leaks.</p>
+
+<h3 id="potential-for-loose-coupling">Potential for loose coupling</h3>
+
+<p>While it doesn’t come for free, an MSA encourages loose coupling between services. It only takes a few coordinated deployments to stay motivated in this regard! One point of strong coupling common in a monolithic system is shared databases. Adopting microservices is a natural time to avoid perpetuating this pattern and therefore decrease coupling. Queues and other asynchronous workflows can also help tremendously.</p>
+
+<h2 id="conclusion-are-we-making-a-huge-mistake">Conclusion: Are We Making a Huge Mistake?</h2>
+
+<p>In conclusion, I do not believe that we as an industry are making a huge mistake in adopting microservices. Microservices clearly solve critical software development problems, yet also  present their own challenges and are not a silver bullet by any means. Best practices like service meshes and gateways help mitigate the weaker points of microservices, leading to a much improved architecture overall.</p>
+
+<h2 id="further-reading">Further Reading</h2>
+
+<ul>
+<li><a href="http://backendology.com/2018/07/30/top-software-books/">10 books for new software engineers</a>
+
+<ul>
+<li>Designing Data-Intensive Applications</li>
+<li>Building Microservices</li>
+</ul></li>
+</ul>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:1"><a href="https://www.infoq.com/news/2016/09/microservices-distributed-system">https://www.infoq.com/news/2016/09/microservices-distributed-system</a>
+ <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:2"><a href="https://en.wikipedia.org/wiki/Fallacies_of_distributed_computing">https://en.wikipedia.org/wiki/Fallacies_of_distributed_computing</a>
+ <a class="footnote-return" href="#fnref:2"><sup>[return]</sup></a></li>
+<li id="fn:3"><a href="https://en.wikipedia.org/wiki/Microservices">https://en.wikipedia.org/wiki/Microservices</a>
+ <a class="footnote-return" href="#fnref:3"><sup>[return]</sup></a></li>
+<li id="fn:4"><a href="https://en.wikipedia.org/wiki/Network_topology">https://en.wikipedia.org/wiki/Network_topology</a>
+ <a class="footnote-return" href="#fnref:4"><sup>[return]</sup></a></li>
+<li id="fn:5"><a href="https://en.wikipedia.org/wiki/Exponential_backoff">https://en.wikipedia.org/wiki/Exponential_backoff</a>
+ <a class="footnote-return" href="#fnref:5"><sup>[return]</sup></a></li>
+<li id="fn:6"><a href="https://www.infoq.com/news/2014/08/failing-microservices">https://www.infoq.com/news/2014/08/failing-microservices</a>
+ <a class="footnote-return" href="#fnref:6"><sup>[return]</sup></a></li>
+<li id="fn:7"><a href="https://en.wikipedia.org/wiki/Conway%27s_law">https://en.wikipedia.org/wiki/Conway%27s_law</a>
+ <a class="footnote-return" href="#fnref:7"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+
+  <h3>Metadata and Navigation</h3>
+  <span class="post-meta">
+  <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/architecture">architecture</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/microservices">microservices</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/distributed-systems">distributed-systems</a> 
+
+  <br />
+  <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous Post: <a href="http://backendology.com/2018/08/13/experience-using-hugo/">My Experience Using Hugo</a>
+
+  
+  </span>
+
+  <span class="post-sharing">
+  <p>Share this post!<br />
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fbackendology.com%2f2018%2f08%2f21%2fmicroservices-huge-mistake%2f" title="Share on Facebook"><i class="fa fa-facebook-square fa-2x"></i></a>
+  <a href="https://twitter.com/intent/tweet?url=http%3a%2f%2fbackendology.com%2f2018%2f08%2f21%2fmicroservices-huge-mistake%2f&text=Microservices%3a%20Are%20We%20Making%20a%20Huge%20Mistake%3f" title="Share on Twitter"><i class="fa fa-twitter-square fa-2x"></i></a>
+  <a href="https://plus.google.com/share?url=http%3a%2f%2fbackendology.com%2f2018%2f08%2f21%2fmicroservices-huge-mistake%2f" title="Share on Google Plus"><i class="fa fa-google-plus-square fa-2x"></i></a></p>
+  </span>
+</div>
+
+<div class="related">
+  <h3>Related Posts</h3>
+  <ul class="related-posts">
+  <li><a href="/2018/07/14/what-this-blog-is-all-about/">What This Blog is All About</a> <span class="post-date-list">July 14, 2018</span></li><li><a href="/2018/07/30/top-software-books/">Top 10 Books for New Software Engineers</a> <span class="post-date-list">July 30, 2018</span></li>
+  </ul>
+</div>      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+  </body>
+</html>

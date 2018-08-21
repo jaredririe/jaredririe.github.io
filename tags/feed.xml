@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 21 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://backendology.com/tags/feed.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Architecture</title>
       <link>http://backendology.com/tags/architecture/</link>
-      <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>http://backendology.com/tags/architecture/</guid>
       <description></description>
@@ -68,7 +68,7 @@
     <item>
       <title>Distributed Systems</title>
       <link>http://backendology.com/tags/distributed-systems/</link>
-      <pubDate>Sat, 14 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>http://backendology.com/tags/distributed-systems/</guid>
       <description></description>
@@ -113,7 +113,7 @@
     <item>
       <title>Microservices</title>
       <link>http://backendology.com/tags/microservices/</link>
-      <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>http://backendology.com/tags/microservices/</guid>
       <description></description>

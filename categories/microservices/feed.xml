@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Distributed Systems on Backendology</title>
-    <link>http://backendology.com/tags/distributed-systems/</link>
-    <description>Recent content in Distributed Systems on Backendology</description>
+    <title>Microservices on Backendology</title>
+    <link>http://backendology.com/categories/microservices/</link>
+    <description>Recent content in Microservices on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 21 Aug 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://backendology.com/tags/distributed-systems/feed.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://backendology.com/categories/microservices/feed.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -19,18 +19,6 @@
       <guid>http://backendology.com/2018/08/21/microservices-huge-mistake/</guid>
       <description>There is a clear trend in the software industry moving away from large, monolithic systems to fine-grained services known as &amp;ldquo;microservices.&amp;rdquo; While compelling, microservices introduce their own set of challenges and fallacies. This post considers the benefits and drawbacks of a microservices architecture (MSA) and contemplates the question: are we making a huge mistake in adopting this kind of architecture?
 Relationship to &amp;ldquo;distributed systems&amp;rdquo; First, let&amp;rsquo;s clear up some terminology that you may find confusing.</description>
-    </item>
-    
-    <item>
-      <title>What This Blog is All About</title>
-      <link>http://backendology.com/2018/07/14/what-this-blog-is-all-about/</link>
-      <pubDate>Sat, 14 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://backendology.com/2018/07/14/what-this-blog-is-all-about/</guid>
-      <description>&amp;ldquo;Backendology&amp;rdquo;?  There are only two hard things in Computer Science: cache invalidation and naming things (Phil Karlton).
- Or, my favorite variant:
- There are only two hard things in Computer Science: cache invalidation, naming things, and off by one errors (Unknown)
- Naming is hard. Backendology isn&amp;rsquo;t a real word. Like the programmer who decides to write a lengthy comment rather than coming up with a better name, I&amp;rsquo;ll try to explain what I intended when I named this blog Backendology.</description>
     </item>
     
   </channel>
