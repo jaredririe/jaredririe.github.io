@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Architecture on Backendology</title>
-    <link>http://backendology.com/tags/architecture/</link>
+    <link>http://backendology.com/categories/architecture/</link>
     <description>Recent content in Architecture on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 27 Aug 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://backendology.com/tags/architecture/feed.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="http://backendology.com/categories/architecture/feed.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -29,28 +29,6 @@ A caching anecdote One of the systems I built at Qualtrics could be described as
       <guid>http://backendology.com/2018/08/21/microservices-huge-mistake/</guid>
       <description>There is a clear trend in the software industry moving away from large, monolithic systems to fine-grained services known as &amp;ldquo;microservices.&amp;rdquo; While compelling, microservices introduce their own set of challenges and fallacies. This post considers the benefits and drawbacks of a microservices architecture (MSA) and contemplates the question: are we making a huge mistake in adopting this kind of architecture?
 Relationship to &amp;ldquo;distributed systems&amp;rdquo; First, let&amp;rsquo;s clear up some terminology that you may find confusing.</description>
-    </item>
-    
-    <item>
-      <title>Top 10 Books for New Software Engineers</title>
-      <link>http://backendology.com/2018/07/30/top-software-books/</link>
-      <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://backendology.com/2018/07/30/top-software-books/</guid>
-      <description>I&amp;rsquo;m excited to share my top ten list of books new Software Engineers should invest in reading! These books have proved foundational in helping me transition from student to developer and deepen my skills.
-First, a disclaimer: there are some great books missing from this list because I haven&amp;rsquo;t read them yet. I want this list to be as authentic as possible and therefore I will not recommend a book until I&amp;rsquo;ve read it cover to cover.</description>
-    </item>
-    
-    <item>
-      <title>What This Blog is All About</title>
-      <link>http://backendology.com/2018/07/14/what-this-blog-is-all-about/</link>
-      <pubDate>Sat, 14 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://backendology.com/2018/07/14/what-this-blog-is-all-about/</guid>
-      <description>&amp;ldquo;Backendology&amp;rdquo;?  There are only two hard things in Computer Science: cache invalidation and naming things (Phil Karlton).
- Or, my favorite variant:
- There are only two hard things in Computer Science: cache invalidation, naming things, and off by one errors (Unknown)
- Naming is hard. Backendology isn&amp;rsquo;t a real word. Like the programmer who decides to write a lengthy comment rather than coming up with a better name, I&amp;rsquo;ll try to explain what I intended when I named this blog Backendology.</description>
     </item>
     
   </channel>

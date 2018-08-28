@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 21 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://backendology.com/tags/feed.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Architecture</title>
       <link>http://backendology.com/tags/architecture/</link>
-      <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>http://backendology.com/tags/architecture/</guid>
       <description></description>
@@ -35,6 +35,15 @@
       <pubDate>Mon, 02 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>http://backendology.com/tags/byu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Caching</title>
+      <link>http://backendology.com/tags/caching/</link>
+      <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://backendology.com/tags/caching/</guid>
       <description></description>
     </item>
     
@@ -68,7 +77,7 @@
     <item>
       <title>Distributed Systems</title>
       <link>http://backendology.com/tags/distributed-systems/</link>
-      <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>http://backendology.com/tags/distributed-systems/</guid>
       <description></description>
@@ -113,7 +122,7 @@
     <item>
       <title>Microservices</title>
       <link>http://backendology.com/tags/microservices/</link>
-      <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>http://backendology.com/tags/microservices/</guid>
       <description></description>
@@ -122,7 +131,7 @@
     <item>
       <title>Nosql</title>
       <link>http://backendology.com/tags/nosql/</link>
-      <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>http://backendology.com/tags/nosql/</guid>
       <description></description>
@@ -134,15 +143,6 @@
       <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>http://backendology.com/tags/qualtrics/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Software</title>
-      <link>http://backendology.com/tags/software/</link>
-      <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://backendology.com/tags/software/</guid>
       <description></description>
     </item>
     

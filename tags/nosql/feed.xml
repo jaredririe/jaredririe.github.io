@@ -6,10 +6,20 @@
     <description>Recent content in Nosql on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://backendology.com/tags/nosql/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Multiple Layers of Caching</title>
+      <link>http://backendology.com/2018/08/27/multiple-layers-caching/</link>
+      <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://backendology.com/2018/08/27/multiple-layers-caching/</guid>
+      <description>Caching is one of my favorite topics in technology. I&amp;rsquo;ve been fortunate enough to approach this problem from both a hardware and software perspective. This blog post will cover some of the basics of caching, yet focus on the importance of having multiple layers of caching in a system. I think this is a key point worth emphasizing as I&amp;rsquo;ve seen it commonly misunderstood.
+A caching anecdote One of the systems I built at Qualtrics could be described as the &amp;ldquo;back of the backend&amp;rdquo; as it was a critical storage system that many services relied on, yet had no service dependencies itself.</description>
+    </item>
     
     <item>
       <title>Top 10 Books for New Software Engineers</title>
