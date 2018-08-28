@@ -53,13 +53,13 @@
   </url>
   
   <url>
-    <loc>http://backendology.com/categories/architecture/</loc>
+    <loc>http://backendology.com/tags/architecture/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/architecture/</loc>
+    <loc>http://backendology.com/categories/architecture/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -143,13 +143,13 @@
   </url>
   
   <url>
-    <loc>http://backendology.com/categories/golang/</loc>
+    <loc>http://backendology.com/tags/golang/</loc>
     <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/golang/</loc>
+    <loc>http://backendology.com/categories/golang/</loc>
     <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
