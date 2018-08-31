@@ -2,80 +2,80 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Backendology</title>
-    <link>http://backendology.com/post/</link>
+    <link>https://backendology.com/post/</link>
     <description>Recent content in Posts on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 27 Aug 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://backendology.com/post/feed.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://backendology.com/post/feed.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Multiple Layers of Caching</title>
-      <link>http://backendology.com/2018/08/27/multiple-layers-caching/</link>
+      <link>https://backendology.com/2018/08/27/multiple-layers-caching/</link>
       <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/2018/08/27/multiple-layers-caching/</guid>
+      <guid>https://backendology.com/2018/08/27/multiple-layers-caching/</guid>
       <description>Caching is one of my favorite topics in technology. I&amp;rsquo;ve been fortunate enough to approach this problem from both a hardware and software perspective. This blog post will cover some of the basics of caching, yet focus on the importance of having multiple layers of caching in a system. I think this is a key point worth emphasizing as I&amp;rsquo;ve seen it commonly misunderstood.
 A caching anecdote One of the systems I built at Qualtrics could be described as the &amp;ldquo;back of the backend&amp;rdquo; as it was a critical storage system that many services relied on, yet had no service dependencies itself.</description>
     </item>
     
     <item>
       <title>Microservices: Are We Making a Huge Mistake?</title>
-      <link>http://backendology.com/2018/08/21/microservices-huge-mistake/</link>
+      <link>https://backendology.com/2018/08/21/microservices-huge-mistake/</link>
       <pubDate>Tue, 21 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/2018/08/21/microservices-huge-mistake/</guid>
+      <guid>https://backendology.com/2018/08/21/microservices-huge-mistake/</guid>
       <description>There is a clear trend in the software industry moving away from large, monolithic systems to fine-grained services known as &amp;ldquo;microservices.&amp;rdquo; While compelling, microservices introduce their own set of challenges and fallacies. This post considers the benefits and drawbacks of a microservices architecture (MSA) and contemplates the question: are we making a huge mistake in adopting this kind of architecture?
 Relationship to &amp;ldquo;distributed systems&amp;rdquo; First, let&amp;rsquo;s clear up some terminology that you may find confusing.</description>
     </item>
     
     <item>
       <title>My Experience Using Hugo</title>
-      <link>http://backendology.com/2018/08/13/experience-using-hugo/</link>
+      <link>https://backendology.com/2018/08/13/experience-using-hugo/</link>
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/2018/08/13/experience-using-hugo/</guid>
+      <guid>https://backendology.com/2018/08/13/experience-using-hugo/</guid>
       <description>As my blog is still in its infancy, I have been exploring various blogging platforms and tools to find the ones that I would like to use moving forward. This post introduces Hugo, considers its alternatives, and walks through an example of setting up a Hugo blog and publishing a post.
 What is Hugo? Hugo is an open-source static site generator known for its performance and flexibility. Hugo was initially released in 2013 and has quickly grown in popularity.</description>
     </item>
     
     <item>
       <title>Lessons From Adopting Go at Qualtrics</title>
-      <link>http://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</link>
+      <link>https://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</link>
       <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</guid>
+      <guid>https://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</guid>
       <description>Back in September 2017, I teamed up with a coworker to give a presentation for the Utah Golang User Group. We chose to share the lessons we had learned as we adopted and scaled Go as one of the core programming languages at Qualtrics. Our intended audience was companies and developers who were interested in trying out Go and increasing its use within an organization. Many companies are considering Go because its popularity has only continued to rise (for good reason), so I&amp;rsquo;m excited to repost this content via my blog.</description>
     </item>
     
     <item>
       <title>Top 10 Books for New Software Engineers</title>
-      <link>http://backendology.com/2018/07/30/top-software-books/</link>
+      <link>https://backendology.com/2018/07/30/top-software-books/</link>
       <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/2018/07/30/top-software-books/</guid>
+      <guid>https://backendology.com/2018/07/30/top-software-books/</guid>
       <description>I&amp;rsquo;m excited to share my top ten list of books new Software Engineers should invest in reading! These books have proved foundational in helping me transition from student to developer and deepen my skills.
 First, a disclaimer: there are some great books missing from this list because I haven&amp;rsquo;t read them yet. I want this list to be as authentic as possible and therefore I will not recommend a book until I&amp;rsquo;ve read it cover to cover.</description>
     </item>
     
     <item>
       <title>Breaking Down Abstractions: Database Indexes</title>
-      <link>http://backendology.com/2018/07/23/database-indexes/</link>
+      <link>https://backendology.com/2018/07/23/database-indexes/</link>
       <pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/2018/07/23/database-indexes/</guid>
+      <guid>https://backendology.com/2018/07/23/database-indexes/</guid>
       <description>In the introduction to this blog, I mentioned that I love breaking down abstractions to understand what makes them tick. This blog post is the first of many that will break down a fascinating abstraction.
 Abstraction Database indexes provide the abstraction of performant queries with the cost of some overhead during writes and additional storage space. As most workflows are read-heavy, the overhead of indexes is almost always worthwhile.</description>
     </item>
     
     <item>
       <title>What This Blog is All About</title>
-      <link>http://backendology.com/2018/07/14/what-this-blog-is-all-about/</link>
+      <link>https://backendology.com/2018/07/14/what-this-blog-is-all-about/</link>
       <pubDate>Sat, 14 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/2018/07/14/what-this-blog-is-all-about/</guid>
+      <guid>https://backendology.com/2018/07/14/what-this-blog-is-all-about/</guid>
       <description>&amp;ldquo;Backendology&amp;rdquo;?  There are only two hard things in Computer Science: cache invalidation and naming things (Phil Karlton).
  Or, my favorite variant:
  There are only two hard things in Computer Science: cache invalidation, naming things, and off by one errors (Unknown)
@@ -84,10 +84,10 @@ Abstraction Database indexes provide the abstraction of performant queries with 
     
     <item>
       <title>Yet Another Software Blog</title>
-      <link>http://backendology.com/2018/07/02/yet-another-software-blog/</link>
+      <link>https://backendology.com/2018/07/02/yet-another-software-blog/</link>
       <pubDate>Mon, 02 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/2018/07/02/yet-another-software-blog/</guid>
+      <guid>https://backendology.com/2018/07/02/yet-another-software-blog/</guid>
       <description>Welcome! This is the first post of my blog. If you’re reading this, you’re either arriving right on the ground floor or somehow I kept up with my goal to have an updated blog and you&amp;rsquo;re reading an older post. Either way, I’ll consider you a founder. I hope that you can find value in the blog posts I have planned.
 Why does the world need another software-focused blog? While it&amp;rsquo;s true that we already have plenty of popular software blogs out there, like Martin Fowler’s or Coding Horror, I recently convinced myself that *every* software engineer should have a blog.</description>
     </item>

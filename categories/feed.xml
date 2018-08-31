@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Backendology</title>
-    <link>http://backendology.com/categories/</link>
+    <link>https://backendology.com/categories/</link>
     <description>Recent content in Categories on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 27 Aug 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://backendology.com/categories/feed.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://backendology.com/categories/feed.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Architecture</title>
-      <link>http://backendology.com/categories/architecture/</link>
+      <link>https://backendology.com/categories/architecture/</link>
       <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/categories/architecture/</guid>
+      <guid>https://backendology.com/categories/architecture/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Books</title>
-      <link>http://backendology.com/categories/books/</link>
+      <link>https://backendology.com/categories/books/</link>
       <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/categories/books/</guid>
+      <guid>https://backendology.com/categories/books/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Breaking Abstractions</title>
-      <link>http://backendology.com/categories/breaking-abstractions/</link>
+      <link>https://backendology.com/categories/breaking-abstractions/</link>
       <pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/categories/breaking-abstractions/</guid>
+      <guid>https://backendology.com/categories/breaking-abstractions/</guid>
       <description></description>
     </item>
     
     <item>
       <title>General</title>
-      <link>http://backendology.com/categories/general/</link>
+      <link>https://backendology.com/categories/general/</link>
       <pubDate>Sat, 14 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/categories/general/</guid>
+      <guid>https://backendology.com/categories/general/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Golang</title>
-      <link>http://backendology.com/categories/golang/</link>
+      <link>https://backendology.com/categories/golang/</link>
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/categories/golang/</guid>
+      <guid>https://backendology.com/categories/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Personal</title>
-      <link>http://backendology.com/categories/personal/</link>
+      <link>https://backendology.com/categories/personal/</link>
       <pubDate>Mon, 02 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/categories/personal/</guid>
+      <guid>https://backendology.com/categories/personal/</guid>
       <description></description>
     </item>
     

@@ -2,147 +2,147 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Backendology</title>
-    <link>http://backendology.com/tags/</link>
+    <link>https://backendology.com/tags/</link>
     <description>Recent content in Tags on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 27 Aug 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://backendology.com/tags/feed.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://backendology.com/tags/feed.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Architecture</title>
-      <link>http://backendology.com/tags/architecture/</link>
+      <link>https://backendology.com/tags/architecture/</link>
       <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/architecture/</guid>
+      <guid>https://backendology.com/tags/architecture/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Blogging</title>
-      <link>http://backendology.com/tags/blogging/</link>
+      <link>https://backendology.com/tags/blogging/</link>
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/blogging/</guid>
+      <guid>https://backendology.com/tags/blogging/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Byu</title>
-      <link>http://backendology.com/tags/byu/</link>
+      <link>https://backendology.com/tags/byu/</link>
       <pubDate>Mon, 02 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/byu/</guid>
+      <guid>https://backendology.com/tags/byu/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Caching</title>
-      <link>http://backendology.com/tags/caching/</link>
+      <link>https://backendology.com/tags/caching/</link>
       <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/caching/</guid>
+      <guid>https://backendology.com/tags/caching/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Coding Interview</title>
-      <link>http://backendology.com/tags/coding-interview/</link>
+      <link>https://backendology.com/tags/coding-interview/</link>
       <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/coding-interview/</guid>
+      <guid>https://backendology.com/tags/coding-interview/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Data Structures</title>
-      <link>http://backendology.com/tags/data-structures/</link>
+      <link>https://backendology.com/tags/data-structures/</link>
       <pubDate>Mon, 23 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/data-structures/</guid>
+      <guid>https://backendology.com/tags/data-structures/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Databases</title>
-      <link>http://backendology.com/tags/databases/</link>
+      <link>https://backendology.com/tags/databases/</link>
       <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/databases/</guid>
+      <guid>https://backendology.com/tags/databases/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Distributed Systems</title>
-      <link>http://backendology.com/tags/distributed-systems/</link>
+      <link>https://backendology.com/tags/distributed-systems/</link>
       <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/distributed-systems/</guid>
+      <guid>https://backendology.com/tags/distributed-systems/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Golang</title>
-      <link>http://backendology.com/tags/golang/</link>
+      <link>https://backendology.com/tags/golang/</link>
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/golang/</guid>
+      <guid>https://backendology.com/tags/golang/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Hugo</title>
-      <link>http://backendology.com/tags/hugo/</link>
+      <link>https://backendology.com/tags/hugo/</link>
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/hugo/</guid>
+      <guid>https://backendology.com/tags/hugo/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Javascript</title>
-      <link>http://backendology.com/tags/javascript/</link>
+      <link>https://backendology.com/tags/javascript/</link>
       <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/javascript/</guid>
+      <guid>https://backendology.com/tags/javascript/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Machine Learning</title>
-      <link>http://backendology.com/tags/machine-learning/</link>
+      <link>https://backendology.com/tags/machine-learning/</link>
       <pubDate>Mon, 30 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/machine-learning/</guid>
+      <guid>https://backendology.com/tags/machine-learning/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Microservices</title>
-      <link>http://backendology.com/tags/microservices/</link>
+      <link>https://backendology.com/tags/microservices/</link>
       <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/microservices/</guid>
+      <guid>https://backendology.com/tags/microservices/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Nosql</title>
-      <link>http://backendology.com/tags/nosql/</link>
+      <link>https://backendology.com/tags/nosql/</link>
       <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/nosql/</guid>
+      <guid>https://backendology.com/tags/nosql/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Qualtrics</title>
-      <link>http://backendology.com/tags/qualtrics/</link>
+      <link>https://backendology.com/tags/qualtrics/</link>
       <pubDate>Mon, 06 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/tags/qualtrics/</guid>
+      <guid>https://backendology.com/tags/qualtrics/</guid>
       <description></description>
     </item>
     

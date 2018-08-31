@@ -3,219 +3,224 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>http://backendology.com/about/</loc>
+    <loc>https://backendology.com/about/</loc>
     <lastmod>2018-07-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://backendology.com/2018/08/27/multiple-layers-caching/</loc>
+    <loc>https://backendology.com/archives/</loc>
+    <lastmod>2018-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://backendology.com/subscribe/</loc>
+    <lastmod>2018-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://backendology.com/2018/08/27/multiple-layers-caching/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://backendology.com/2018/08/21/microservices-huge-mistake/</loc>
+    <loc>https://backendology.com/2018/08/21/microservices-huge-mistake/</loc>
     <lastmod>2018-08-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://backendology.com/2018/08/13/experience-using-hugo/</loc>
+    <loc>https://backendology.com/2018/08/13/experience-using-hugo/</loc>
     <lastmod>2018-08-13T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</loc>
+    <loc>https://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</loc>
     <lastmod>2018-08-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://backendology.com/2018/07/30/top-software-books/</loc>
+    <loc>https://backendology.com/2018/07/30/top-software-books/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://backendology.com/2018/07/23/database-indexes/</loc>
+    <loc>https://backendology.com/2018/07/23/database-indexes/</loc>
     <lastmod>2018-07-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://backendology.com/2018/07/14/what-this-blog-is-all-about/</loc>
+    <loc>https://backendology.com/2018/07/14/what-this-blog-is-all-about/</loc>
     <lastmod>2018-07-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://backendology.com/2018/07/02/yet-another-software-blog/</loc>
+    <loc>https://backendology.com/2018/07/02/yet-another-software-blog/</loc>
     <lastmod>2018-07-02T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://backendology.com/archives/</loc>
-    <lastmod>2018-07-01T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://backendology.com/tags/architecture/</loc>
+    <loc>https://backendology.com/categories/architecture/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/categories/architecture/</loc>
+    <loc>https://backendology.com/tags/architecture/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/</loc>
+    <loc>https://backendology.com/</loc>
     <lastmod>2018-07-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/blogging/</loc>
+    <loc>https://backendology.com/tags/blogging/</loc>
     <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/categories/books/</loc>
+    <loc>https://backendology.com/categories/books/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/categories/breaking-abstractions/</loc>
+    <loc>https://backendology.com/categories/breaking-abstractions/</loc>
     <lastmod>2018-07-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/byu/</loc>
+    <loc>https://backendology.com/tags/byu/</loc>
     <lastmod>2018-07-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/caching/</loc>
+    <loc>https://backendology.com/tags/caching/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/categories/</loc>
+    <loc>https://backendology.com/categories/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/coding-interview/</loc>
+    <loc>https://backendology.com/tags/coding-interview/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/data-structures/</loc>
+    <loc>https://backendology.com/tags/data-structures/</loc>
     <lastmod>2018-07-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/databases/</loc>
+    <loc>https://backendology.com/tags/databases/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/distributed-systems/</loc>
+    <loc>https://backendology.com/tags/distributed-systems/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/fixed/</loc>
+    <loc>https://backendology.com/fixed/</loc>
     <lastmod>2018-07-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/categories/general/</loc>
+    <loc>https://backendology.com/categories/general/</loc>
     <lastmod>2018-07-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/golang/</loc>
+    <loc>https://backendology.com/categories/golang/</loc>
     <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/categories/golang/</loc>
+    <loc>https://backendology.com/tags/golang/</loc>
     <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/hugo/</loc>
+    <loc>https://backendology.com/tags/hugo/</loc>
     <lastmod>2018-08-13T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/javascript/</loc>
+    <loc>https://backendology.com/tags/javascript/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/machine-learning/</loc>
+    <loc>https://backendology.com/tags/machine-learning/</loc>
     <lastmod>2018-07-30T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/microservices/</loc>
+    <loc>https://backendology.com/tags/microservices/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/nosql/</loc>
+    <loc>https://backendology.com/tags/nosql/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/categories/personal/</loc>
+    <loc>https://backendology.com/categories/personal/</loc>
     <lastmod>2018-07-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/post/</loc>
+    <loc>https://backendology.com/post/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/qualtrics/</loc>
+    <loc>https://backendology.com/tags/qualtrics/</loc>
     <lastmod>2018-08-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/software/</loc>
+    <loc>https://backendology.com/tags/software/</loc>
     <lastmod>2018-08-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/sql/</loc>
+    <loc>https://backendology.com/tags/sql/</loc>
     <lastmod>2018-07-23T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>http://backendology.com/tags/</loc>
+    <loc>https://backendology.com/tags/</loc>
     <lastmod>2018-08-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>

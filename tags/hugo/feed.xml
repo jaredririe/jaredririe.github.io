@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Hugo on Backendology</title>
-    <link>http://backendology.com/tags/hugo/</link>
+    <link>https://backendology.com/tags/hugo/</link>
     <description>Recent content in Hugo on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 13 Aug 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://backendology.com/tags/hugo/feed.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://backendology.com/tags/hugo/feed.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>My Experience Using Hugo</title>
-      <link>http://backendology.com/2018/08/13/experience-using-hugo/</link>
+      <link>https://backendology.com/2018/08/13/experience-using-hugo/</link>
       <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://backendology.com/2018/08/13/experience-using-hugo/</guid>
+      <guid>https://backendology.com/2018/08/13/experience-using-hugo/</guid>
       <description>As my blog is still in its infancy, I have been exploring various blogging platforms and tools to find the ones that I would like to use moving forward. This post introduces Hugo, considers its alternatives, and walks through an example of setting up a Hugo blog and publishing a post.
 What is Hugo? Hugo is an open-source static site generator known for its performance and flexibility. Hugo was initially released in 2013 and has quickly grown in popularity.</description>
     </item>

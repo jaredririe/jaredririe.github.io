@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Backendology </title>
-    <link>http://backendology.com/</link>
+    <link>https://backendology.com/</link>
     <language>en-us</language>
     <author>Jared Ririe</author>
     <rights>(C) 2018</rights>
@@ -12,12 +12,16 @@
       
     
       
+    
+      
+    
+      
         <item>
           <title>Multiple Layers of Caching</title>
-          <link>http://backendology.com/2018/08/27/multiple-layers-caching/</link>
+          <link>https://backendology.com/2018/08/27/multiple-layers-caching/</link>
           <pubDate>Mon, 27 Aug 2018 00:00:00 UTC</pubDate>
           <author>Jared Ririe</author>
-          <guid>http://backendology.com/2018/08/27/multiple-layers-caching/</guid>
+          <guid>https://backendology.com/2018/08/27/multiple-layers-caching/</guid>
           <description>
 
 &lt;p&gt;Caching is one of my favorite topics in technology. I&amp;rsquo;ve been fortunate enough to approach this problem from both a hardware and software perspective. This blog post will cover some of the basics of caching, yet focus on the importance of having &lt;strong&gt;multiple layers&lt;/strong&gt; of caching in a system. I think this is a key point worth emphasizing as I&amp;rsquo;ve seen it commonly misunderstood.&lt;/p&gt;
@@ -26,7 +30,7 @@
 
 &lt;p&gt;One of the systems I built at Qualtrics could be described as the &amp;ldquo;back of the backend&amp;rdquo; as it was a critical storage system that many services relied on, yet had no service dependencies itself. In this position, it was subject to any and all misuse by its consumers. It suffered from what I grew to call the &lt;strong&gt;multiplier effect&lt;/strong&gt;, a condition where a single request (perhaps from a user clicking a button in a UI) caused a few hundred requests and for each one of those requests, issued several more requests, and so on, leading to potentially thousands of requests making it to the back of the backend. I recall determining that the cause of 17,000 requests to my service within a few minutes was caused by the click of an Export button.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/caching-multiplier-effect.png&#34; alt=&#34;Multiplier Effect&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/caching-multiplier-effect.png&#34; alt=&#34;Multiplier Effect&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Let&amp;rsquo;s talk about those 17,000 requests some more. If each request was unique and necessary for the result to be produced, then so be it. We should scale our services to handle the load. Maybe throw in some rate limiting so we can throttle the traffic at the cost of increased latency. As you can probably guess in the context of a blog post on caching, however, these 17,000 requests were for a mere handful of objects &lt;em&gt;that rarely change&lt;/em&gt;!&lt;/p&gt;
 
@@ -48,7 +52,7 @@
 
 &lt;p&gt;Example scenario: the client is pulling jobs off of a queue, doing some work, making requests to external services, and moving onto the next job. Each job starts with an allotted amount of memory and can’t reasonably cache things in that space.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/caching-worker.png&#34; alt=&#34;Stateless Worker Cache&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/caching-worker.png&#34; alt=&#34;Stateless Worker Cache&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Potential solution: make requests through a reverse proxy cache. This is a proxy layer with a cache that represents an external API. When a request is received, it determines whether a cached response is ready; if not, it makes the request to the external API and caches it for later. Not all requests will be cacheable, so this service acts as a best-effort caching layer that reserves the right to fall back on the &amp;ldquo;origin&amp;rdquo; external service.&lt;/p&gt;
 
@@ -70,7 +74,7 @@
 
 &lt;p&gt;The memory hierarchy organizes the various forms of computer storage (CPU caches, RAM, disks) according to response time. The registers in a processor are the fastest possible, usually requiring only a single CPU cycle to retrieve their contents. Next is the processor cache which itself has multiple levels (L0, L1, and so on). Access speed for L1 data cache is around 700 GB/s. Next in the hierarchy is main memory (RAM) with speeds of 10 GB/s. Then comes disk storage at 2000 MB/s. The bottom of the hierarchy varies depending on use case, but could be a cloud-based storage system or nearline storage which allows exabytes of data at an access speed of 160 MB/s.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/caching-memory-hierarchy.png&#34; alt=&#34;Memory Hierarchy&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/caching-memory-hierarchy.png&#34; alt=&#34;Memory Hierarchy&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Each storage system in the hierarchy can be thought of as a caching layer. Just like a computer system would be terribly slow and unusable without RAM, a distributed system without some layers of caching would likewise not perform optimally. What we&amp;rsquo;re seeing here is the benefit of data locality. A RAM cache is much faster than a disk-based cache, but cache memory is much faster than a RAM cache because it&amp;rsquo;s so close to the CPU! When we can get data close to the system that&amp;rsquo;s processing it, our throughput increases dramatically.&lt;/p&gt;
 
@@ -99,10 +103,10 @@
       
         <item>
           <title>Microservices: Are We Making a Huge Mistake?</title>
-          <link>http://backendology.com/2018/08/21/microservices-huge-mistake/</link>
+          <link>https://backendology.com/2018/08/21/microservices-huge-mistake/</link>
           <pubDate>Tue, 21 Aug 2018 00:00:00 UTC</pubDate>
           <author>Jared Ririe</author>
-          <guid>http://backendology.com/2018/08/21/microservices-huge-mistake/</guid>
+          <guid>https://backendology.com/2018/08/21/microservices-huge-mistake/</guid>
           <description>
 
 &lt;p&gt;There is a clear trend in the software industry moving away from large, monolithic systems to fine-grained services known as &amp;ldquo;microservices.&amp;rdquo; While compelling, microservices introduce their own set of challenges and fallacies. This post considers the benefits and drawbacks of a microservices architecture (MSA) and contemplates the question: are we making a huge mistake in adopting this kind of architecture?&lt;/p&gt;
@@ -170,11 +174,11 @@
 
 &lt;p&gt;The first few microservices which are built will likely require modernizations to the infrastructure to handle problems like service discovery and independent deployability. These improvements, though difficult, push the architecture in the right direction. Often, the first services which are implemented are carefully deliberated and their need is clear. An example of this from my company was a well-placed reverse proxy cache for a monolithic service. It was a clear and impressive win for our system&amp;rsquo;s scalability.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/microservices-reverse-proxy-cache.png&#34; alt=&#34;Reverse Proxy Cache&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/microservices-reverse-proxy-cache.png&#34; alt=&#34;Reverse Proxy Cache&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;As more microservices are added, however, &lt;strong&gt;the entanglement begins&lt;/strong&gt;, raising the cognitive load required to understand the details of how the system really works. The flow of requests through the system is challenging and convoluted.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/microservices-entanglement.png&#34; alt=&#34;Entanglement of Microservices&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/microservices-entanglement.png&#34; alt=&#34;Entanglement of Microservices&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The need for orchestration, service-to-service software load balancing, and improved fault tolerance becomes evident. The service mesh pattern is one response to the growing complexity of operating microservices at scale. This pattern places a layer of abstraction between a service and the network that presents a more idealized view. For example, instead of all applications handling their own retry logic, the service mesh layer can implement retries with exponential backoff&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34;&gt;5&lt;/a&gt;&lt;/sup&gt; by default.&lt;/p&gt;
 
@@ -200,7 +204,7 @@
 
 &lt;p&gt;Each microservices requires much of the same functionality, which requires all developers to have at least some understanding of things like logging, emitting metrics, creating dashboards, and communicating with other services. While some microservices will nail these aspects, others will have problems, and still others will be missing them entirely. In a monolith, the logging infrastructure only has to be set up once and all components can take advantage of it. This also means that there is a great deal of duplication among microservices, though this can be mitigated in part through shared libraries and gateway layers which provide common functionality.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/microservices-gateway-pattern.png&#34; alt=&#34;API Gateway&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/microservices-gateway-pattern.png&#34; alt=&#34;API Gateway&#34; /&gt;&lt;/p&gt;
 
 &lt;h2 id=&#34;benefits-of-microservices&#34;&gt;Benefits of microservices&lt;/h2&gt;
 
@@ -264,17 +268,17 @@
       
         <item>
           <title>My Experience Using Hugo</title>
-          <link>http://backendology.com/2018/08/13/experience-using-hugo/</link>
+          <link>https://backendology.com/2018/08/13/experience-using-hugo/</link>
           <pubDate>Mon, 13 Aug 2018 00:00:00 UTC</pubDate>
           <author>Jared Ririe</author>
-          <guid>http://backendology.com/2018/08/13/experience-using-hugo/</guid>
+          <guid>https://backendology.com/2018/08/13/experience-using-hugo/</guid>
           <description>
 
 &lt;p&gt;As my blog is still in its infancy, I have been exploring various blogging platforms and tools to find the ones that I would like to use moving forward. This post introduces Hugo, considers its alternatives, and walks through an example of setting up a Hugo blog and publishing a post.&lt;/p&gt;
 
 &lt;h2 id=&#34;what-is-hugo&#34;&gt;What is Hugo?&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/hugo.png&#34; alt=&#34;Hugo&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/hugo.png&#34; alt=&#34;Hugo&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt; is an open-source static site generator known for its performance and flexibility. Hugo was initially released in 2013 and has quickly grown in popularity. It is written in Go which is what pushed me to give it a shot.&lt;/p&gt;
 
@@ -437,13 +441,13 @@ slug: database-indexes
       
         <item>
           <title>Lessons From Adopting Go at Qualtrics</title>
-          <link>http://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</link>
+          <link>https://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</link>
           <pubDate>Mon, 06 Aug 2018 00:00:00 UTC</pubDate>
           <author>Jared Ririe</author>
-          <guid>http://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</guid>
+          <guid>https://backendology.com/2018/08/06/lessons-from-adopting-go-qualtrics/</guid>
           <description>
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/utgo-qualtrics.png&#34; alt=&#34;UTGO + Qualtrics&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/utgo-qualtrics.png&#34; alt=&#34;UTGO + Qualtrics&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Back in September 2017, I teamed up with a coworker to give a presentation for the &lt;a href=&#34;http://utahgolang.com/&#34;&gt;Utah Golang User Group&lt;/a&gt;. We chose to share the lessons we had learned as we adopted and scaled Go as one of the core programming languages at Qualtrics. Our intended audience was companies and developers who were interested in trying out Go and increasing its use within an organization. Many companies are considering Go because its popularity has only continued to rise (for good reason), so I&amp;rsquo;m excited to repost this content via my blog.&lt;/p&gt;
 
@@ -495,13 +499,13 @@ slug: database-indexes
       
         <item>
           <title>Top 10 Books for New Software Engineers</title>
-          <link>http://backendology.com/2018/07/30/top-software-books/</link>
+          <link>https://backendology.com/2018/07/30/top-software-books/</link>
           <pubDate>Mon, 30 Jul 2018 00:00:00 UTC</pubDate>
           <author>Jared Ririe</author>
-          <guid>http://backendology.com/2018/07/30/top-software-books/</guid>
+          <guid>https://backendology.com/2018/07/30/top-software-books/</guid>
           <description>
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/top-software-books.jpg&#34; alt=&#34;Top three software books&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/top-software-books.jpg&#34; alt=&#34;Top three software books&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;I&amp;rsquo;m excited to share my top ten list of books new Software Engineers should invest in reading! These books have proved foundational in helping me transition from student to developer and deepen my skills.&lt;/p&gt;
 
@@ -696,10 +700,10 @@ slug: database-indexes
       
         <item>
           <title>Breaking Down Abstractions: Database Indexes</title>
-          <link>http://backendology.com/2018/07/23/database-indexes/</link>
+          <link>https://backendology.com/2018/07/23/database-indexes/</link>
           <pubDate>Mon, 23 Jul 2018 00:00:00 UTC</pubDate>
           <author>Jared Ririe</author>
-          <guid>http://backendology.com/2018/07/23/database-indexes/</guid>
+          <guid>https://backendology.com/2018/07/23/database-indexes/</guid>
           <description>
 
 &lt;p&gt;In the introduction to this blog, I mentioned that I love breaking down abstractions to understand what makes them tick. This blog post is the first of many that will break down a fascinating abstraction.&lt;/p&gt;
@@ -806,7 +810,7 @@ slug: database-indexes
 
 &lt;p&gt;Binary search trees are binary trees that keep their keys in sorted order by enforcing the requirement that all left children of a node have values less than the node&amp;rsquo;s and all right children have values greater than the node&amp;rsquo;s.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/binary-search-tree.png&#34; alt=&#34;Binary Search Tree&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/binary-search-tree.png&#34; alt=&#34;Binary Search Tree&#34; /&gt;&lt;/p&gt;
 
 &lt;h4 id=&#34;b-tree&#34;&gt;B-tree&lt;/h4&gt;
 
@@ -814,7 +818,7 @@ slug: database-indexes
 &lt;p&gt;B-tree is a self-balancing tree data structure that keeps data sorted and allows searches, sequential access, insertions, and deletions in logarithmic time. The B-tree is a generalization of a binary search tree in that a node can have more than two children.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/balanced-nary-tree.png&#34; alt=&#34;B-Tree&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/balanced-nary-tree.png&#34; alt=&#34;B-Tree&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;B-trees have these properties:&lt;/p&gt;
 
@@ -835,7 +839,7 @@ slug: database-indexes
 
 &lt;p&gt;To use a B-tree as a database index, we must either store the entire table rows or hold pointers to the rows. Let&amp;rsquo;s take the pointer approach:&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/b-tree.png&#34; alt=&#34;B-Tree as Database Index&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/b-tree.png&#34; alt=&#34;B-Tree as Database Index&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Note that this B-tree has the properties outlined above:&lt;/p&gt;
 
@@ -864,7 +868,7 @@ slug: database-indexes
 &lt;p&gt;A B+ tree is an N-ary tree with a variable but often large number of children per node. &amp;hellip; A B+ tree can be viewed as a B-tree in which each node contains only keys (not key–value pairs), and to which an additional level is added at the bottom with linked leaves.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/b+-tree.png&#34; alt=&#34;B+ Tree as Database Index&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/b+-tree.png&#34; alt=&#34;B+ Tree as Database Index&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;B+ trees have these additional properties relative to a B-tree:&lt;/p&gt;
 
@@ -922,10 +926,10 @@ slug: database-indexes
       
         <item>
           <title>What This Blog is All About</title>
-          <link>http://backendology.com/2018/07/14/what-this-blog-is-all-about/</link>
+          <link>https://backendology.com/2018/07/14/what-this-blog-is-all-about/</link>
           <pubDate>Sat, 14 Jul 2018 00:00:00 UTC</pubDate>
           <author>Jared Ririe</author>
-          <guid>http://backendology.com/2018/07/14/what-this-blog-is-all-about/</guid>
+          <guid>https://backendology.com/2018/07/14/what-this-blog-is-all-about/</guid>
           <description>
 
 &lt;h2 id=&#34;backendology&#34;&gt;&amp;ldquo;Backendology&amp;rdquo;?&lt;/h2&gt;
@@ -994,7 +998,7 @@ slug: database-indexes
 
 &lt;p&gt;The backend is notably more stable than the frontend. The database terminology or &lt;a href=&#34;http://thesecretlivesofdata.com/raft/&#34;&gt;distributed consensus algorithm&lt;/a&gt; you learned a few years ago will still be relevant for a long time. Meanwhile, if you picked up AngularJS around the same time, you know it was soon eclipsed by Angular and then React and now maybe Vue.js.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/service-mesh-istio-google-trends.png&#34; alt=&#34;Google Trends for Service Mesh and Istio&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/service-mesh-istio-google-trends.png&#34; alt=&#34;Google Trends for Service Mesh and Istio&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;That said, the backend is still encapsulated in the ever-changing thing which is technology. “Service mesh” is one example of a backend idea that has only recently entered my vocabulary. It is a solution to dealing with the varied interactions between services in a network of microservices. &lt;a href=&#34;https://istio.io/docs/concepts/what-is-istio/overview/&#34;&gt;Istio&lt;/a&gt; is an example project I’ll cover in a later blog post. I plan to regularly write about new technologies of this nature.&lt;/p&gt;
 
@@ -1008,10 +1012,10 @@ slug: database-indexes
       
         <item>
           <title>Yet Another Software Blog</title>
-          <link>http://backendology.com/2018/07/02/yet-another-software-blog/</link>
+          <link>https://backendology.com/2018/07/02/yet-another-software-blog/</link>
           <pubDate>Mon, 02 Jul 2018 00:00:00 UTC</pubDate>
           <author>Jared Ririe</author>
-          <guid>http://backendology.com/2018/07/02/yet-another-software-blog/</guid>
+          <guid>https://backendology.com/2018/07/02/yet-another-software-blog/</guid>
           <description>
 
 &lt;p&gt;Welcome! This is the first post of my blog. If you’re reading this, you’re either arriving right on the ground floor or somehow I kept up with my goal to have an updated blog and you&amp;rsquo;re reading an older post. Either way, I’ll consider you a &lt;em&gt;founder&lt;/em&gt;. I hope that you can find value in the blog posts I have planned.&lt;/p&gt;
@@ -1026,15 +1030,13 @@ slug: database-indexes
 
 &lt;h2 id=&#34;a-little-about-me&#34;&gt;A little about me&lt;/h2&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://backendology.com/public/images/DSC_0186.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/DSC_0186.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;My name is Jared Ririe. I currently work as a Software Engineer at a great company, Qualtrics. It’s an engaging place to work and I get to tackle some genuinely interesting problems. It’s also small enough that I’ve been able to make a big impact despite being early in my career. The various projects I’ve worked on have taught me a lot about backend technologies, microservices, and distributed systems. I’m fortunate to work in this area as I’m truly passionate about it.&lt;/p&gt;
 
 &lt;p&gt;I graduated from Brigham Young University with a B.S. in Computer Engineering back in April 2016. Why CE and not CS? I wanted to understand how computers worked. I love low-level details and breaking down abstractions. I did always lean toward the software side of CE, however, and a part-time position at Qualtrics convinced me that software, not hardware, was my path forward.&lt;/p&gt;
 </description>
         </item>
-      
-    
       
     
 
