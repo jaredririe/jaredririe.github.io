@@ -26,8 +26,6 @@
 
 &lt;p&gt;As an update to my &lt;a href=&#34;https://backendology.com/2018/08/13/experience-using-hugo/&#34;&gt;previous blog post&lt;/a&gt; which compared blog and website creation options, I chose the static site generator Hugo for my blog. I have enjoyed working with it so far! While some aspects of Wordpress have been trivial to replace due to first-class support for them in Hugo, other features have required more work. In this post, I will explain my replacement for Wordpress&amp;rsquo;s newsletter (email list) functionality. My solution utilizes &lt;a href=&#34;https://tinyletter.com/&#34;&gt;TinyLetter&lt;/a&gt; and &lt;a href=&#34;https://zapier.com/apps/integrations&#34;&gt;Zapier&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;I suppose this is as good a time as any to encourage you to &lt;a href=&#34;https://tinyletter.com/jaredririe&#34;&gt;sign up for my newsletter&lt;/a&gt; to get updated when I write new posts!&lt;/p&gt;
-
 &lt;h2 id=&#34;tinyletter&#34;&gt;TinyLetter&lt;/h2&gt;
 
 &lt;h3 id=&#34;step-1-set-up-a-tinyletter-account&#34;&gt;Step 1: Set up a TinyLetter account&lt;/h3&gt;
