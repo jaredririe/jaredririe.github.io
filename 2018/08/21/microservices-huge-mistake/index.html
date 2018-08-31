@@ -97,6 +97,7 @@ if (!doNotTrack) {
 <div class="post">
   <h1 class="post-title">Microservices: Are We Making a Huge Mistake?</h1>
   <span class="post-date">August 21, 2018 &middot; Filed in <a href="/categories/architecture">Architecture</a></span>
+
   
 
 <p>There is a clear trend in the software industry moving away from large, monolithic systems to fine-grained services known as &ldquo;microservices.&rdquo; While compelling, microservices introduce their own set of challenges and fallacies. This post considers the benefits and drawbacks of a microservices architecture (MSA) and contemplates the question: are we making a huge mistake in adopting this kind of architecture?</p>
@@ -164,11 +165,11 @@ if (!doNotTrack) {
 
 <p>The first few microservices which are built will likely require modernizations to the infrastructure to handle problems like service discovery and independent deployability. These improvements, though difficult, push the architecture in the right direction. Often, the first services which are implemented are carefully deliberated and their need is clear. An example of this from my company was a well-placed reverse proxy cache for a monolithic service. It was a clear and impressive win for our system&rsquo;s scalability.</p>
 
-<p><img src="/public/images/microservices-reverse-proxy-cache.png" alt="Reverse Proxy Cache" /></p>
+<p><img src="/public/images/microservices-reverse-proxy-cache.png" width="100%" alt="Reverse Proxy Cache" /></p>
 
 <p>As more microservices are added, however, <strong>the entanglement begins</strong>, raising the cognitive load required to understand the details of how the system really works. The flow of requests through the system is challenging and convoluted.</p>
 
-<p><img src="/public/images/microservices-entanglement.png" alt="Entanglement of Microservices" /></p>
+<p><img src="/public/images/microservices-entanglement.png" width="100%" alt="Entanglement of Microservices" /></p>
 
 <p>The need for orchestration, service-to-service software load balancing, and improved fault tolerance becomes evident. The service mesh pattern is one response to the growing complexity of operating microservices at scale. This pattern places a layer of abstraction between a service and the network that presents a more idealized view. For example, instead of all applications handling their own retry logic, the service mesh layer can implement retries with exponential backoff<sup class="footnote-ref" id="fnref:5"><a href="#fn:5">5</a></sup> by default.</p>
 
@@ -194,7 +195,7 @@ if (!doNotTrack) {
 
 <p>Each microservices requires much of the same functionality, which requires all developers to have at least some understanding of things like logging, emitting metrics, creating dashboards, and communicating with other services. While some microservices will nail these aspects, others will have problems, and still others will be missing them entirely. In a monolith, the logging infrastructure only has to be set up once and all components can take advantage of it. This also means that there is a great deal of duplication among microservices, though this can be mitigated in part through shared libraries and gateway layers which provide common functionality.</p>
 
-<p><img src="/public/images/microservices-gateway-pattern.png" alt="API Gateway" /></p>
+<p><img src="/public/images/microservices-gateway-pattern.png" width="100%" alt="API Gateway" /></p>
 
 <h2 id="benefits-of-microservices">Benefits of microservices</h2>
 
@@ -251,7 +252,6 @@ if (!doNotTrack) {
  <a class="footnote-return" href="#fnref:7"><sup>[return]</sup></a></li>
 </ol>
 </div>
-
 
 
   <h3>Metadata and Navigation</h3>

@@ -97,6 +97,7 @@ if (!doNotTrack) {
 <div class="post">
   <h1 class="post-title">Breaking Down Abstractions: Database Indexes</h1>
   <span class="post-date">July 23, 2018 &middot; Filed in <a href="/categories/breaking%20abstractions">Breaking Abstractions</a></span>
+
   
 
 <p>In the introduction to this blog, I mentioned that I love breaking down abstractions to understand what makes them tick. This blog post is the first of many that will break down a fascinating abstraction.</p>
@@ -203,7 +204,7 @@ if (!doNotTrack) {
 
 <p>Binary search trees are binary trees that keep their keys in sorted order by enforcing the requirement that all left children of a node have values less than the node&rsquo;s and all right children have values greater than the node&rsquo;s.</p>
 
-<p><img src="/public/images/binary-search-tree.png" alt="Binary Search Tree" /></p>
+<p><img src="/public/images/binary-search-tree.png" width="100%" alt="Binary Search Tree" /></p>
 
 <h4 id="b-tree">B-tree</h4>
 
@@ -211,7 +212,7 @@ if (!doNotTrack) {
 <p>B-tree is a self-balancing tree data structure that keeps data sorted and allows searches, sequential access, insertions, and deletions in logarithmic time. The B-tree is a generalization of a binary search tree in that a node can have more than two children.<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></p>
 </blockquote>
 
-<p><img src="/public/images/balanced-nary-tree.png" alt="B-Tree" /></p>
+<p><img src="/public/images/balanced-nary-tree.png" width="100%" alt="B-Tree" /></p>
 
 <p>B-trees have these properties:</p>
 
@@ -232,7 +233,7 @@ if (!doNotTrack) {
 
 <p>To use a B-tree as a database index, we must either store the entire table rows or hold pointers to the rows. Let&rsquo;s take the pointer approach:</p>
 
-<p><img src="/public/images/b-tree.png" alt="B-Tree as Database Index" /></p>
+<p><img src="/public/images/b-tree.png" width="100%" alt="B-Tree as Database Index" /></p>
 
 <p>Note that this B-tree has the properties outlined above:</p>
 
@@ -261,7 +262,7 @@ if (!doNotTrack) {
 <p>A B+ tree is an N-ary tree with a variable but often large number of children per node. &hellip; A B+ tree can be viewed as a B-tree in which each node contains only keys (not key–value pairs), and to which an additional level is added at the bottom with linked leaves.<sup class="footnote-ref" id="fnref:3"><a href="#fn:3">3</a></sup></p>
 </blockquote>
 
-<p><img src="/public/images/b+-tree.png" alt="B+ Tree as Database Index" /></p>
+<p><img src="/public/images/b+-tree.png" width="100%" alt="B+ Tree as Database Index" /></p>
 
 <p>B+ trees have these additional properties relative to a B-tree:</p>
 
@@ -312,7 +313,6 @@ if (!doNotTrack) {
  <a class="footnote-return" href="#fnref:3"><sup>[return]</sup></a></li>
 </ol>
 </div>
-
 
 
   <h3>Metadata and Navigation</h3>

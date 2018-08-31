@@ -97,6 +97,7 @@ if (!doNotTrack) {
 <div class="post">
   <h1 class="post-title">Newsletter for Hugo Blog</h1>
   <span class="post-date">August 31, 2018 &middot; Filed in <a href="/categories/general">General</a></span>
+
   
 
 <p>As an update to my <a href="https://backendology.com/2018/08/13/experience-using-hugo/">previous blog post</a> which compared blog and website creation options, I chose the static site generator Hugo for my blog. I have enjoyed working with it so far! While some aspects of Wordpress have been trivial to replace due to first-class support for them in Hugo, other features have required more work. In this post, I will explain my replacement for Wordpress&rsquo;s newsletter (email list) functionality. My solution utilizes <a href="https://tinyletter.com/">TinyLetter</a> and <a href="https://zapier.com/apps/integrations">Zapier</a>.</p>
@@ -107,7 +108,7 @@ if (!doNotTrack) {
 
 <h3 id="step-1-set-up-a-tinyletter-account">Step 1: Set up a TinyLetter account</h3>
 
-<p><img src="/public/images/newsletter-01.png" alt="Step 1" /></p>
+<p><img src="/public/images/newsletter-01.png" width="100%" alt="Step 1" /></p>
 
 <p>TinyLetter is a personal newsletter service created by the same people who make MailChimp.</p>
 
@@ -121,7 +122,7 @@ if (!doNotTrack) {
 
 <h3 id="step-2-configure-your-newsletter">Step 2: Configure your newsletter</h3>
 
-<p><img src="/public/images/newsletter-02.png" alt="Step 2" /></p>
+<p><img src="/public/images/newsletter-02.png" width="100%" alt="Step 2" /></p>
 
 <p>Configure your newsletter with a title and description. These will appear on a subscriber page your readers will use to enter their email addresses. <a href="https://tinyletter.com/jaredririe">Here</a> is what mine looks like.</p>
 
@@ -137,19 +138,19 @@ if (!doNotTrack) {
 
 <h3 id="step-3-set-up-a-zapier-account">Step 3: Set up a Zapier account</h3>
 
-<p><img src="/public/images/newsletter-03.png" alt="Step 3" /></p>
+<p><img src="/public/images/newsletter-03.png" width="100%" alt="Step 3" /></p>
 
 <p>Sign up for a free Zapier account <a href="https://zapier.com/apps/integrations">here</a>.</p>
 
 <h3 id="step-4-create-a-new-zap">Step 4: Create a new Zap</h3>
 
-<p><img src="/public/images/newsletter-04.png" alt="Step 4" /></p>
+<p><img src="/public/images/newsletter-04.png" width="100%" alt="Step 4" /></p>
 
 <h3 id="step-5-configure-the-trigger-to-be-an-rss-feed">Step 5: Configure the trigger to be an RSS feed</h3>
 
-<p><img src="/public/images/newsletter-05.png" alt="Step 5a" /></p>
+<p><img src="/public/images/newsletter-05.png" width="100%" alt="Step 5a" /></p>
 
-<p><img src="/public/images/newsletter-06.png" alt="Step 5b" /></p>
+<p><img src="/public/images/newsletter-06.png" width="100%" alt="Step 5b" /></p>
 
 <p>Your blog should have a publicly exposed RSS feed for this to work. <a href="https://backendology.com/feed.xml">Here&rsquo;s mine</a> to see what it might look like.</p>
 
@@ -157,21 +158,21 @@ if (!doNotTrack) {
 
 <p>This zap will be quite simple and have a single action, to send an outbound email; the implication of this is that I&rsquo;ll send a newsletter about each new blog post. You may want your zap to be a bit more complicated. For example, let&rsquo;s assume that you write a few posts each month, but would only like to send an email once a month with a <em>digest</em> of your posts. To get this working, your first action would be to &ldquo;Append Entry and Schedule Digest&rdquo; and your second action would send the outbound email.</p>
 
-<p><img src="/public/images/newsletter-07.png" alt="Step 6a" /></p>
+<p><img src="/public/images/newsletter-07.png" width="100%" alt="Step 6a" /></p>
 
-<p><img src="/public/images/newsletter-08.png" alt="Step 6b" /></p>
+<p><img src="/public/images/newsletter-08.png" width="100%" alt="Step 6b" /></p>
 
 <p>Remember your TinyLetter email address from step 2? This is where you&rsquo;ll use it. Put it in the &ldquo;To&rdquo; field. Then, chose what will go in the subject line. I chose to have the name of my blog (Backendology) followed by the title of the post. Zapier pulls this from the RSS feed.</p>
 
 <h3 id="step-7-format-your-email-based-on-the-contents-of-the-rss-feed">Step 7: Format your email based on the contents of the RSS feed</h3>
 
-<p><img src="/public/images/newsletter-09.png" alt="Step 7" /></p>
+<p><img src="/public/images/newsletter-09.png" width="100%" alt="Step 7" /></p>
 
 <p>Format your email as you see fit. I have the title, the link, and the raw HTML content of my blog post. The HTML will render nicely in the email and give it a similar appearance to your actual blog post.</p>
 
 <h3 id="step-8-enable-your-zap">Step 8: Enable your Zap</h3>
 
-<p><img src="/public/images/newsletter-10.png" alt="Step 8" /></p>
+<p><img src="/public/images/newsletter-10.png" width="100%" alt="Step 8" /></p>
 
 <p>Zaps are disabled by default, so make sure to enable yours. Once enabled, it will automatically check your RSS feed every five minutes.</p>
 
@@ -179,7 +180,7 @@ if (!doNotTrack) {
 
 <h3 id="step-9-send-a-test-email-and-verify-the-result">Step 9: Send a test email and verify the result</h3>
 
-<p><img src="/public/images/newsletter-11.png" alt="Step 9" /></p>
+<p><img src="/public/images/newsletter-11.png" width="100%" alt="Step 9" /></p>
 
 <p>Zapier allows you to run a test of your zap. This is helpful as you can verify that it properly sends the email and then TinyLetter takes over and gets the email to all of your subscribers (likely just yourself at this point). Did the email come through as you hoped?</p>
 
@@ -187,7 +188,7 @@ if (!doNotTrack) {
 
 <h3 id="step-10-link-to-your-tinyletter-subscriber-page">Step 10: Link to your TinyLetter subscriber page</h3>
 
-<p><img src="/public/images/newsletter-12.png" alt="Step 10" /></p>
+<p><img src="/public/images/newsletter-12.png" width="100%" alt="Step 10" /></p>
 
 <p>Finally, link to your subscriber page on your blog in a place your readers will find it! I created a new <a href="https://backendology.com/subscribe/">fixed page on my blog</a> for this purpose and a link to that page on every post:</p>
 
@@ -212,7 +213,6 @@ if (!doNotTrack) {
  <a class="footnote-return" href="#fnref:2"><sup>[return]</sup></a></li>
 </ol>
 </div>
-
 
 
   <h3>Metadata and Navigation</h3>
