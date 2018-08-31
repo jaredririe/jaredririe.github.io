@@ -6,10 +6,19 @@
     <description>Recent content in General on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 14 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 31 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://backendology.com/categories/general/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Newsletter for Hugo Blog</title>
+      <link>https://backendology.com/2018/08/31/hugo-newsletter/</link>
+      <pubDate>Fri, 31 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://backendology.com/2018/08/31/hugo-newsletter/</guid>
+      <description>As an update to my previous blog post which compared blog and website creation options, I chose the static site generator Hugo for my blog. I have enjoyed working with it so far! While some aspects of Wordpress have been trivial to replace due to first-class support for them in Hugo, other features have required more work. In this post, I will explain my replacement for Wordpress&amp;rsquo;s newsletter (email list) functionality.</description>
+    </item>
     
     <item>
       <title>What This Blog is All About</title>
