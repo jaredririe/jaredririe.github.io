@@ -17,6 +17,270 @@
     
       
         <item>
+          <title>Introduction to Distributed Systems Course</title>
+          <link>https://backendology.com/2018/09/19/distributed-systems-course-introduction/</link>
+          <pubDate>Wed, 19 Sep 2018 00:00:00 UTC</pubDate>
+          <author>Jared Ririe</author>
+          <guid>https://backendology.com/2018/09/19/distributed-systems-course-introduction/</guid>
+          <description>
+
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/distributed-systems-in-the-wild.png&#34; width=&#34;100%&#34; alt=&#34;Distributed Systems in the Wild&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;In my &lt;a href=&#34;https://backendology.com/2018/09/10/distributed-systems-course-reading-list/&#34;&gt;previous blog post&lt;/a&gt;, I created a detailed reading list of the distributed systems content I deemed most important and interesting. This post is the next step towards designing a comprehensive course in distributed systems: creating an introductory course.&lt;/p&gt;
+
+&lt;p&gt;Why not simply start at the top of the reading list and work down? I think any good introduction to this topic should provide a sampling of the various concepts and encourage experimentation and hands on learning. I also organized my reading list such that the &amp;ldquo;Distributed systems in the wild&amp;rdquo; section is one of the later sections, but I believe that failing to cover some real systems in an introductory course is a lost opportunity. Students and practitioners often have experience interacting with the user-facing parts of systems like Kafka, Memcache, or Cassandra. Some have a basic understanding of proprietary systems at Google like BigTable or Spanner. Satisfying the curiosity to learn how these systems work under the hood can fuel the harder parts of learning distributed systems, such as grappling with Paxos.&lt;/p&gt;
+
+&lt;p&gt;Speaking of Paxos, it was designed first but the newcomer Raft is intended to be much easier to learn and implement. For this reason, I think an introductory course doesn&amp;rsquo;t need to dive into the details of Paxos. A high-level understanding is sufficient. Implementing Raft, on the other hand, is a surmountable challenge and worth the effort.&lt;/p&gt;
+
+&lt;p&gt;Without further ado, here is my course, &lt;em&gt;Introduction to Distributed Systems&lt;/em&gt;!&lt;/p&gt;
+
+&lt;h2 id=&#34;course&#34;&gt;Course&lt;/h2&gt;
+
+&lt;h3 id=&#34;unit-1-the-problem&#34;&gt;Unit 1: The Problem&lt;/h3&gt;
+
+&lt;p&gt;This unit frames the problem presented by distributed systems. It explains why they are challenging to build correctly, as well as their building blocks, failure modes, and fallacies.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Building blocks&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this chapter from the book &lt;em&gt;The Architecture of Open Source Applications&lt;/em&gt;: &lt;a href=&#34;http://www.aosabook.org/en/distsys.html&#34;&gt;Scalable Web Architecture and Distributed Systems&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Core problems&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read this blog post and list the challenges: &lt;a href=&#34;https://www.somethingsimilar.com/2013/01/14/notes-on-distributed-systems-for-young-bloods/&#34;&gt;Notes on Distributed Systems for Young Bloods&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;https://www.microsoft.com/en-us/research/publication/time-clocks-ordering-events-distributed-system/?from=http%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fum%2Fpeople%2Flamport%2Fpubs%2Ftime-clocks.pdf&#34;&gt;Time, Clocks, and the Ordering of Events in a Distributed System (Lamport 1978)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;http://www.cs.cornell.edu/courses/cs614/2004sp/papers/LSP82.pdf&#34;&gt;The Byzantine Generals Problem (Lamport 1982)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Failure modes&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read these resources on failure modes: &lt;a href=&#34;http://alvaro-videla.com/2013/12/failure-modes-in-distributed-systems.html&#34;&gt;Failure Modes in Distributed Systems&lt;/a&gt;, &lt;a href=&#34;https://en.wikipedia.org/wiki/Failure_semantics&#34;&gt;Wikipedia: Failure Semantics&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/distributed-systems-8-fallacies.png&#34; width=&#34;100%&#34; alt=&#34;Eight Fallacies of Distributed Systems&#34; /&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Fallacies&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this article: &lt;a href=&#34;https://www.rgoarchitects.com/Files/fallacies.pdf&#34;&gt;Fallacies of Distributed Computing Explained&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;(Optional) Scan through this clever slide deck: &lt;a href=&#34;https://drive.google.com/file/d/15nxAaVXZwNFnJNVvgtKonNbzxNgTUCxP/view&#34;&gt;Why Are Distributed Systems So Hard?&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;unit-2-distributed-filesystems&#34;&gt;Unit 2: Distributed Filesystems&lt;/h3&gt;
+
+&lt;p&gt;Filesystems are often taught early on as they are the foundation of other distributed systems. Unlike databases which are designed for direct use by applications, filesystems are designed for system to system use.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/google-storage-stack.png&#34; width=&#34;100%&#34; alt=&#34;Google&#39;s Storage Stack&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The above image is from the book &lt;em&gt;Site Reliability Engineering: How Google Runs Production Systems&lt;/em&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt; and shows Google&amp;rsquo;s storage stack. The successor to the Google File System is known as Colossus. It provides a filesystem foundation (as well as replication and encryption) to database-like systems such as Spanner and Bigtable. Colossus is built atop D (for Disk) which is a fileserver.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Filesystems&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;https://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf&#34;&gt;The Google File System (2003)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Using &lt;a href=&#34;https://queue.acm.org/detail.cfm?id=1594206&#34;&gt;this interview about the evolution of GFS&lt;/a&gt;, answer these questions: how did GFS hold up over time? In what ways would they have changed the design after several years of use?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Real world examples: MapReduce and Bigtable&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;https://pdos.csail.mit.edu/6.824/papers/mapreduce.pdf&#34;&gt;MapReduce (2004)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;http://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf&#34;&gt;Bigtable: A Distributed Storage System for Structured Data (2006)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Use &lt;a href=&#34;http://highscalability.com/blog/2010/9/11/googles-colossus-makes-search-real-time-by-dumping-mapreduce.html&#34;&gt;this blog post&lt;/a&gt; to answer this question: why did Google eventually move away from GFS and MapReduce?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hands on learning: MapReduce&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Complete this lab: &lt;a href=&#34;https://pdos.csail.mit.edu/6.824/labs/lab-1.html&#34;&gt;MIT 6.824 Lab 1: MapReduce&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;In this lab you&amp;rsquo;ll build a MapReduce library as an introduction to programming in Go and to building fault tolerant distributed systems. In the first part you will write a simple MapReduce program. In the second part you will write a Master that hands out tasks to MapReduce workers, and handles failures of workers. The interface to the library and the approach to fault tolerance is similar to the one described in the original MapReduce paper.&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;unit-3-gossip-protocols&#34;&gt;Unit 3: Gossip Protocols&lt;/h3&gt;
+
+&lt;p&gt;Gossip protocols have many important use cases in distributed systems, such as detecting node failure, spreading configuration data, and sharing state among multiple nodes in a cluster. They can elegantly solve problems with relaxed consistency requirements where a distributed consensus algorithm (like Paxos) or a centralized database would be impractical or unwise.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Gossip protocol&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize these introductory resources: &lt;a href=&#34;https://en.wikipedia.org/wiki/Gossip_protocol&#34;&gt;Wikipedia: Gossip protocol&lt;/a&gt;, &lt;a href=&#34;http://highscalability.com/blog/2011/11/14/using-gossip-protocols-for-failure-detection-monitoring-mess.html&#34;&gt;Using Gossip Protocols For Failure Detection, Monitoring, Messaging And Other Good Things&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Answer this question: when is a gossip-based solution better than a centralized database or distributed consensus algorithm?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SWIM&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;http://www.cs.cornell.edu/info/projects/spinglass/public_pdfs/swim.pdf&#34;&gt;SWIM: Scalable Weakly-consistent Infection-style Process Group Membership Protocol&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Real world example: hashicorp/memberlist&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Study this codebase: &lt;a href=&#34;https://github.com/hashicorp/memberlist&#34;&gt;hashicorp/memberlist&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;The use cases for such a library are far-reaching: all distributed systems require membership, and memberlist is a re-usable solution to managing cluster membership and node failure detection.&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Based on the SWIM protocol with some adaptions&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Study how the distributed bitmap index utilizes the memberlist library: &lt;a href=&#34;https://github.com/pilosa/pilosa/blob/10eea2db4cca35dd6b173377edf36790a5f164e6/gossip/gossip.go&#34;&gt;Usage in Pilosa&amp;rsquo;s codebase&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hands on learning: global counter&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Implement a global counter which uses hashicorp/memberlist; use these resources:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/nphase/go-clustering-example/blob/master/final/main.go&#34;&gt;github.com/nphase/go-clustering-example&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/asim/memberlist&#34;&gt;github.com/asim/memberlist&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;unit-4-solving-distributed-consensus-with-raft&#34;&gt;Unit 4: Solving Distributed Consensus with Raft&lt;/h3&gt;
+
+&lt;p&gt;Distributed consensus is a another fundamental problem in distributed systems. Put simply, it&amp;rsquo;s the problem of a getting multiple nodes to agree on the current state of something&amp;ndash;like the current leader of a clustered database where all writes should be forwarded. Protocols that solve consensus must additionally handle failure of contributing nodes, forcing fault tolerance.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Consensus&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize the basic idea of consensus, including the properties it must satisfy: &lt;a href=&#34;https://en.wikipedia.org/wiki/Consensus_(computer_science)&#34;&gt;Wikipedia: Consensus&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;http://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf&#34;&gt;Impossibility of Distributed Consensus with One Faulty Process (1985)&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;One of the most important results in distributed systems theory was published in April 1985 by Fischer, Lynch and Patterson. Their short paper &amp;lsquo;Impossibility of Distributed Consensus with One Faulty Process&amp;rsquo;, which eventually won the Dijkstra award given to the most influential papers in distributed computing, definitively placed an upper bound on what it is possible to achieve with distributed processes in an asynchronous environment.&amp;rdquo; (&lt;a href=&#34;https://www.the-paper-trail.org/post/2008-08-13-a-brief-tour-of-flp-impossibility/&#34;&gt;A Brief Tour of FLP Impossibility&lt;/a&gt;)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Raft&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;https://pdos.csail.mit.edu/6.824/papers/raft-extended.pdf&#34;&gt;In Search of an Understandable Consensus Algorithm (Extended Version)&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;Raft is a consensus algorithm for managing a replicated log. It produces a result equivalent to (multi-)Paxos, and it is as efficient as Paxos, but its structure is different from Paxos; this makes Raft more understandable than Paxos and also provides a better foundation for building practical systems.&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Use this visualization to create pseudocode of the algorithm: &lt;a href=&#34;http://thesecretlivesofdata.com/raft/&#34;&gt;Visualization of Raft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Compare and contrast Raft and Paxos, as well as Two-phase commit&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/distributed-systems-raft-state-diagram.png&#34; width=&#34;100%&#34; alt=&#34;Raft State Diagram&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Real world examples: Consul and etcd&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Study Consul&amp;rsquo;s use of Raft: &lt;a href=&#34;https://www.consul.io/docs/internals/consensus.html&#34;&gt;Consul: Raft Protocol Overview&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Study etcd&amp;rsquo;s use of Raft: &lt;a href=&#34;https://github.com/etcd-io/etcd&#34;&gt;github.com/etcd-io/etcd&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Answer this question: why do Consul&amp;rsquo;s and etcd&amp;rsquo;s use cases require distributed consensus?&lt;/li&gt;
+&lt;li&gt;Read Chapter 23 of Google&amp;rsquo;s book, &lt;a href=&#34;https://landing.google.com/sre/&#34;&gt;&lt;em&gt;Site Reliability Engineering: How Google Runs Production Systems&lt;/em&gt;&lt;/a&gt;, and explain why consensus leads to improved reliability: &lt;a href=&#34;https://landing.google.com/sre/book/chapters/managing-critical-state.html&#34;&gt;Managing Critical State: Distributed Consensus for Reliability&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hands on learning: Raft&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Complete this lab: &lt;a href=&#34;https://pdos.csail.mit.edu/6.824/labs/lab-raft.html&#34;&gt;MIT 6.824 Lab 2: Raft&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;In this lab you&amp;rsquo;ll implement Raft, a replicated state machine protocol. In the next lab you&amp;rsquo;ll build a key/value service on top of Raft. Then you will shard your service over multiple replicated state machines for higher performance.&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;unit-5-consistency-and-availability&#34;&gt;Unit 5: Consistency and Availability&lt;/h3&gt;
+
+&lt;p&gt;Consistency and availability are two system characteristics known to be in conflict. This unit discusses these two characteristics and how to make practical decisions in systems. It discusses the terminology of consistency, the CAP theorem, distributed transactions, and eventual consistency.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/consistency-models.png&#34; width=&#34;100%&#34; alt=&#34;Consistencey Models&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Consistency terminology&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Extract consistency terminology from this diagram: &lt;a href=&#34;http://jepsen.io/consistency&#34;&gt;Consistency Models&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Read and summarize this article, which argues that consistency is not one of strong or eventual, but rather a set of guarantees that may or may not be met: &lt;a href=&#34;https://www.microsoft.com/en-us/research/publication/replicated-data-consistency-explained-through-baseball/?from=http%3A%2F%2Fresearch.microsoft.com%2Fpubs%2F157411%2Fconsistencyandbaseballreport.pdf&#34;&gt;Replicated Data Consistency Explained Through Baseball&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CAP Theorem&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;https://arxiv.org/abs/1509.05393&#34;&gt;A Critique of the CAP Theorem&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;In this paper we survey some of the confusion about the meaning of CAP, including inconsistencies and ambiguities in its definitions, and we highlight some problems in its formalization. CAP is often interpreted as proof that eventually consistent databases have better availability properties than strongly consistent databases; although there is some truth in this, we show that more careful reasoning is required. These problems cast doubt on the utility of CAP as a tool for reasoning about trade-offs in practical systems.&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;Also see this auxiliary blog post by the author, &lt;a href=&#34;https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html&#34;&gt;Please stop calling databases CP or AP&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Answer this question: is the CAP theorem useful in practice?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Transactions&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;http://www.bailis.org/papers/hat-vldb2014.pdf&#34;&gt;Highly Available Transactions: Virtues and Limitations&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;In this work, we consider the problem of providing Highly Available Transactions (HATs): transactional guarantees that do not suffer unavailability during system partitions or incur high network latency.&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;https://www.ics.uci.edu/~cs223/papers/cidr07p15.pdf&#34;&gt;Life beyond Distributed Transactions&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;This paper explores and names some of the practical approaches used in the implementations of large-scale mission-critical applications in a world which rejects distributed transactions.&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Eventual consistency&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;https://arxiv.org/abs/0909.1788&#34;&gt;Building on Quicksand&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;Emerging patterns of eventual consistency and probabilistic execution may soon yield a way for applications to express requirements for a &amp;ldquo;looser&amp;rdquo; form of consistency while providing availability in the face of ever larger failures.&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Answer this question: when is eventual consistency appropriate and when is it potentially dangerous?&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Real world examples: Dynamo and Spanner&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;http://www.read.seas.harvard.edu/~kohler/class/cs239-w08/decandia07dynamo.pdf&#34;&gt;Dynamo: Amazon&amp;rsquo;s Highly Available Key-value Store (2007)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Read and summarize this paper: &lt;a href=&#34;https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf&#34;&gt;Spanner: Google&amp;rsquo;s Globally-Distributed Database (2012)&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;The lack of transactions in Bigtable led to frequent complaints from users, so Google made distributed transactions central to Spanner&amp;rsquo;s design. Based on its experience with Bigtable, Google argues that it is better to have application programmers deal with performance problems due to overuse of transactions as bottlenecks arise, rather than always coding around the lack of transactions.&amp;rdquo;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;Also factor in this Google publication that connects Spanner to the CAP theorem: &lt;a href=&#34;https://research.google.com/pubs/pub45855.html?hl=pl&#34;&gt;Spanner, TrueTime &amp;amp; The CAP Theorem&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hands on learning: Fault-tolerant Key/Value Service&lt;/strong&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Complete this lab: &lt;a href=&#34;https://pdos.csail.mit.edu/6.824/labs/lab-kvraft.html&#34;&gt;MIT 6.824 Lab 3: Fault-tolerant Key/Value Service&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;In this lab you will build a fault-tolerant key/value storage service using your Raft library from lab 2. You key/value service will be a replicated state machine, consisting of several key/value servers that use Raft to maintain replication. Your key/value service should continue to process client requests as long as a majority of the servers are alive and can communicate, in spite of other failures or network partitions.&amp;rdquo;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;&lt;a href=&#34;https://drive.google.com/file/d/15nxAaVXZwNFnJNVvgtKonNbzxNgTUCxP/view&#34;&gt;https://drive.google.com/file/d/15nxAaVXZwNFnJNVvgtKonNbzxNgTUCxP/view&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;&lt;a href=&#34;https://landing.google.com/sre/book/chapters/production-environment.html&#34;&gt;https://landing.google.com/sre/book/chapters/production-environment.html&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;&lt;a href=&#34;https://en.wikipedia.org/wiki/Spanner_(database&#34;&gt;https://en.wikipedia.org/wiki/Spanner_(database&lt;/a&gt;)
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
           <title>Designing a Comprehensive Course in Distributed Systems: Reading List</title>
           <link>https://backendology.com/2018/09/10/distributed-systems-course-reading-list/</link>
           <pubDate>Mon, 10 Sep 2018 00:00:00 UTC</pubDate>

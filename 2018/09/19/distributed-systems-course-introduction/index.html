@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"><head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123885643-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Introduction to Distributed Systems Course - Backendology - A study of backend web development by Jared Ririe</title>
+
+  
+  <meta name="author" content="Jared Ririe">
+  <meta property="og:site_name" content="Backendology">
+  
+  <meta property="og:description" content="Introduction to Distributed Systems Course - Backendology - A study of backend web development by Jared Ririe">
+  <meta property="og:title" content="Introduction to Distributed Systems Course - Backendology - A study of backend web development by Jared Ririe">
+  
+  <meta property="og:type" content="article">
+  <meta name="keywords" content="Databases, Architecture, Microservices, Distributed Systems, Coding Interview, Data Structures, Machine Learning, NoSQL, SQL, Golang, JavaScript, Software, Blogging, Hugo">
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+  <link rel="stylesheet" href="/public/font-awesome/css/font-awesome.min.css">
+
+  
+  <link rel="canonical" href="https://backendology.com/2018/09/19/distributed-systems-course-introduction/">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+
+  
+  
+</head>
+<body class="theme-base-0d">
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A detailed study of the concepts and technologies related to backend web development</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item " href="/">Home</a>
+    <a class="sidebar-nav-item" href="/about/">About</a>
+    <a class="sidebar-nav-item" href="/archives/">All Posts</a>
+    <a class="sidebar-nav-item" href="/categories/">Categories</a>
+    <a class="sidebar-nav-item" href="/tags/">Tags</a>
+    <a class="sidebar-nav-item" href="/subscribe/">Subscribe</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      <a href="https://github.com/jaredririe"><i class="fa fa-github fa-3x"></i></a>
+      <a href="https://www.linkedin.com/in/jaredririe"><i class="fa fa-linkedin-square fa-3x"></i></a>
+      <a href="https://twitter.com/jaredririe"><i class="fa fa-twitter fa-3x"></i></a>
+      <a href="/feed.xml"><i class="fa fa-rss fa-3x"></i></a>
+    </p>
+  </div>
+
+  <div class="sidebar-item">
+    <p>&copy; 2018. All rights reserved.</p>
+  </div>
+</div>
+
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Backendology</a>
+            <small>A study of backend web development by Jared Ririe</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+<div class="post">
+  <h1 class="post-title">Introduction to Distributed Systems Course</h1>
+  <span class="post-date">September 19, 2018 &middot; Filed in <a href="/categories/distributed-systems">Distributed Systems</a></span>
+
+  
+
+<p><img src="/public/images/distributed-systems-in-the-wild.png" width="100%" alt="Distributed Systems in the Wild" /></p>
+
+<p>In my <a href="https://backendology.com/2018/09/10/distributed-systems-course-reading-list/">previous blog post</a>, I created a detailed reading list of the distributed systems content I deemed most important and interesting. This post is the next step towards designing a comprehensive course in distributed systems: creating an introductory course.</p>
+
+<p>Why not simply start at the top of the reading list and work down? I think any good introduction to this topic should provide a sampling of the various concepts and encourage experimentation and hands on learning. I also organized my reading list such that the &ldquo;Distributed systems in the wild&rdquo; section is one of the later sections, but I believe that failing to cover some real systems in an introductory course is a lost opportunity. Students and practitioners often have experience interacting with the user-facing parts of systems like Kafka, Memcache, or Cassandra. Some have a basic understanding of proprietary systems at Google like BigTable or Spanner. Satisfying the curiosity to learn how these systems work under the hood can fuel the harder parts of learning distributed systems, such as grappling with Paxos.</p>
+
+<p>Speaking of Paxos, it was designed first but the newcomer Raft is intended to be much easier to learn and implement. For this reason, I think an introductory course doesn&rsquo;t need to dive into the details of Paxos. A high-level understanding is sufficient. Implementing Raft, on the other hand, is a surmountable challenge and worth the effort.</p>
+
+<p>Without further ado, here is my course, <em>Introduction to Distributed Systems</em>!</p>
+
+<h2 id="course">Course</h2>
+
+<h3 id="unit-1-the-problem">Unit 1: The Problem</h3>
+
+<p>This unit frames the problem presented by distributed systems. It explains why they are challenging to build correctly, as well as their building blocks, failure modes, and fallacies.</p>
+
+<ul>
+<li><strong>Building blocks</strong>
+
+<ul>
+<li>Read and summarize this chapter from the book <em>The Architecture of Open Source Applications</em>: <a href="http://www.aosabook.org/en/distsys.html">Scalable Web Architecture and Distributed Systems</a></li>
+</ul></li>
+<li><strong>Core problems</strong>
+
+<ul>
+<li>Read this blog post and list the challenges: <a href="https://www.somethingsimilar.com/2013/01/14/notes-on-distributed-systems-for-young-bloods/">Notes on Distributed Systems for Young Bloods</a></li>
+<li>Read and summarize this paper: <a href="https://www.microsoft.com/en-us/research/publication/time-clocks-ordering-events-distributed-system/?from=http%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fum%2Fpeople%2Flamport%2Fpubs%2Ftime-clocks.pdf">Time, Clocks, and the Ordering of Events in a Distributed System (Lamport 1978)</a></li>
+<li>Read and summarize this paper: <a href="http://www.cs.cornell.edu/courses/cs614/2004sp/papers/LSP82.pdf">The Byzantine Generals Problem (Lamport 1982)</a></li>
+</ul></li>
+<li><strong>Failure modes</strong>
+
+<ul>
+<li>Read these resources on failure modes: <a href="http://alvaro-videla.com/2013/12/failure-modes-in-distributed-systems.html">Failure Modes in Distributed Systems</a>, <a href="https://en.wikipedia.org/wiki/Failure_semantics">Wikipedia: Failure Semantics</a></li>
+</ul></li>
+</ul>
+
+<p><img src="/public/images/distributed-systems-8-fallacies.png" width="100%" alt="Eight Fallacies of Distributed Systems" /><sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup></p>
+
+<ul>
+<li><strong>Fallacies</strong>
+
+<ul>
+<li>Read and summarize this article: <a href="https://www.rgoarchitects.com/Files/fallacies.pdf">Fallacies of Distributed Computing Explained</a></li>
+<li>(Optional) Scan through this clever slide deck: <a href="https://drive.google.com/file/d/15nxAaVXZwNFnJNVvgtKonNbzxNgTUCxP/view">Why Are Distributed Systems So Hard?</a></li>
+</ul></li>
+</ul>
+
+<h3 id="unit-2-distributed-filesystems">Unit 2: Distributed Filesystems</h3>
+
+<p>Filesystems are often taught early on as they are the foundation of other distributed systems. Unlike databases which are designed for direct use by applications, filesystems are designed for system to system use.</p>
+
+<p><img src="/public/images/google-storage-stack.png" width="100%" alt="Google's Storage Stack" /></p>
+
+<p>The above image is from the book <em>Site Reliability Engineering: How Google Runs Production Systems</em><sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup> and shows Google&rsquo;s storage stack. The successor to the Google File System is known as Colossus. It provides a filesystem foundation (as well as replication and encryption) to database-like systems such as Spanner and Bigtable. Colossus is built atop D (for Disk) which is a fileserver.</p>
+
+<ul>
+<li><strong>Filesystems</strong>
+
+<ul>
+<li>Read and summarize this paper: <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/gfs-sosp2003.pdf">The Google File System (2003)</a></li>
+<li>Using <a href="https://queue.acm.org/detail.cfm?id=1594206">this interview about the evolution of GFS</a>, answer these questions: how did GFS hold up over time? In what ways would they have changed the design after several years of use?</li>
+</ul></li>
+<li><strong>Real world examples: MapReduce and Bigtable</strong>
+
+<ul>
+<li>Read and summarize this paper: <a href="https://pdos.csail.mit.edu/6.824/papers/mapreduce.pdf">MapReduce (2004)</a></li>
+<li>Read and summarize this paper: <a href="http://static.googleusercontent.com/media/research.google.com/en//archive/bigtable-osdi06.pdf">Bigtable: A Distributed Storage System for Structured Data (2006)</a></li>
+<li>Use <a href="http://highscalability.com/blog/2010/9/11/googles-colossus-makes-search-real-time-by-dumping-mapreduce.html">this blog post</a> to answer this question: why did Google eventually move away from GFS and MapReduce?</li>
+</ul></li>
+<li><strong>Hands on learning: MapReduce</strong>
+
+<ul>
+<li>Complete this lab: <a href="https://pdos.csail.mit.edu/6.824/labs/lab-1.html">MIT 6.824 Lab 1: MapReduce</a>
+
+<ul>
+<li>&ldquo;In this lab you&rsquo;ll build a MapReduce library as an introduction to programming in Go and to building fault tolerant distributed systems. In the first part you will write a simple MapReduce program. In the second part you will write a Master that hands out tasks to MapReduce workers, and handles failures of workers. The interface to the library and the approach to fault tolerance is similar to the one described in the original MapReduce paper.&rdquo;</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="unit-3-gossip-protocols">Unit 3: Gossip Protocols</h3>
+
+<p>Gossip protocols have many important use cases in distributed systems, such as detecting node failure, spreading configuration data, and sharing state among multiple nodes in a cluster. They can elegantly solve problems with relaxed consistency requirements where a distributed consensus algorithm (like Paxos) or a centralized database would be impractical or unwise.</p>
+
+<ul>
+<li><strong>Gossip protocol</strong>
+
+<ul>
+<li>Read and summarize these introductory resources: <a href="https://en.wikipedia.org/wiki/Gossip_protocol">Wikipedia: Gossip protocol</a>, <a href="http://highscalability.com/blog/2011/11/14/using-gossip-protocols-for-failure-detection-monitoring-mess.html">Using Gossip Protocols For Failure Detection, Monitoring, Messaging And Other Good Things</a></li>
+<li>Answer this question: when is a gossip-based solution better than a centralized database or distributed consensus algorithm?</li>
+</ul></li>
+<li><strong>SWIM</strong>
+
+<ul>
+<li>Read and summarize this paper: <a href="http://www.cs.cornell.edu/info/projects/spinglass/public_pdfs/swim.pdf">SWIM: Scalable Weakly-consistent Infection-style Process Group Membership Protocol</a></li>
+</ul></li>
+<li><strong>Real world example: hashicorp/memberlist</strong>
+
+<ul>
+<li>Study this codebase: <a href="https://github.com/hashicorp/memberlist">hashicorp/memberlist</a>
+
+<ul>
+<li>&ldquo;The use cases for such a library are far-reaching: all distributed systems require membership, and memberlist is a re-usable solution to managing cluster membership and node failure detection.&rdquo;</li>
+<li>Based on the SWIM protocol with some adaptions</li>
+</ul></li>
+<li>Study how the distributed bitmap index utilizes the memberlist library: <a href="https://github.com/pilosa/pilosa/blob/10eea2db4cca35dd6b173377edf36790a5f164e6/gossip/gossip.go">Usage in Pilosa&rsquo;s codebase</a></li>
+</ul></li>
+<li><strong>Hands on learning: global counter</strong>
+
+<ul>
+<li>Implement a global counter which uses hashicorp/memberlist; use these resources:
+
+<ul>
+<li><a href="https://github.com/nphase/go-clustering-example/blob/master/final/main.go">github.com/nphase/go-clustering-example</a></li>
+<li><a href="https://github.com/asim/memberlist">github.com/asim/memberlist</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="unit-4-solving-distributed-consensus-with-raft">Unit 4: Solving Distributed Consensus with Raft</h3>
+
+<p>Distributed consensus is a another fundamental problem in distributed systems. Put simply, it&rsquo;s the problem of a getting multiple nodes to agree on the current state of something&ndash;like the current leader of a clustered database where all writes should be forwarded. Protocols that solve consensus must additionally handle failure of contributing nodes, forcing fault tolerance.</p>
+
+<ul>
+<li><strong>Consensus</strong>
+
+<ul>
+<li>Read and summarize the basic idea of consensus, including the properties it must satisfy: <a href="https://en.wikipedia.org/wiki/Consensus_(computer_science)">Wikipedia: Consensus</a></li>
+<li>Read and summarize this paper: <a href="http://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf">Impossibility of Distributed Consensus with One Faulty Process (1985)</a>
+
+<ul>
+<li>&ldquo;One of the most important results in distributed systems theory was published in April 1985 by Fischer, Lynch and Patterson. Their short paper &lsquo;Impossibility of Distributed Consensus with One Faulty Process&rsquo;, which eventually won the Dijkstra award given to the most influential papers in distributed computing, definitively placed an upper bound on what it is possible to achieve with distributed processes in an asynchronous environment.&rdquo; (<a href="https://www.the-paper-trail.org/post/2008-08-13-a-brief-tour-of-flp-impossibility/">A Brief Tour of FLP Impossibility</a>)</li>
+</ul></li>
+</ul></li>
+<li><strong>Raft</strong>
+
+<ul>
+<li>Read and summarize this paper: <a href="https://pdos.csail.mit.edu/6.824/papers/raft-extended.pdf">In Search of an Understandable Consensus Algorithm (Extended Version)</a>
+
+<ul>
+<li>&ldquo;Raft is a consensus algorithm for managing a replicated log. It produces a result equivalent to (multi-)Paxos, and it is as efficient as Paxos, but its structure is different from Paxos; this makes Raft more understandable than Paxos and also provides a better foundation for building practical systems.&rdquo;</li>
+</ul></li>
+<li>Use this visualization to create pseudocode of the algorithm: <a href="http://thesecretlivesofdata.com/raft/">Visualization of Raft</a></li>
+<li>Compare and contrast Raft and Paxos, as well as Two-phase commit</li>
+</ul></li>
+</ul>
+
+<p><img src="/public/images/distributed-systems-raft-state-diagram.png" width="100%" alt="Raft State Diagram" /></p>
+
+<ul>
+<li><strong>Real world examples: Consul and etcd</strong>
+
+<ul>
+<li>Study Consul&rsquo;s use of Raft: <a href="https://www.consul.io/docs/internals/consensus.html">Consul: Raft Protocol Overview</a></li>
+<li>Study etcd&rsquo;s use of Raft: <a href="https://github.com/etcd-io/etcd">github.com/etcd-io/etcd</a></li>
+<li>Answer this question: why do Consul&rsquo;s and etcd&rsquo;s use cases require distributed consensus?</li>
+<li>Read Chapter 23 of Google&rsquo;s book, <a href="https://landing.google.com/sre/"><em>Site Reliability Engineering: How Google Runs Production Systems</em></a>, and explain why consensus leads to improved reliability: <a href="https://landing.google.com/sre/book/chapters/managing-critical-state.html">Managing Critical State: Distributed Consensus for Reliability</a></li>
+</ul></li>
+<li><strong>Hands on learning: Raft</strong>
+
+<ul>
+<li>Complete this lab: <a href="https://pdos.csail.mit.edu/6.824/labs/lab-raft.html">MIT 6.824 Lab 2: Raft</a>
+
+<ul>
+<li>&ldquo;In this lab you&rsquo;ll implement Raft, a replicated state machine protocol. In the next lab you&rsquo;ll build a key/value service on top of Raft. Then you will shard your service over multiple replicated state machines for higher performance.&rdquo;</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="unit-5-consistency-and-availability">Unit 5: Consistency and Availability</h3>
+
+<p>Consistency and availability are two system characteristics known to be in conflict. This unit discusses these two characteristics and how to make practical decisions in systems. It discusses the terminology of consistency, the CAP theorem, distributed transactions, and eventual consistency.</p>
+
+<p><img src="/public/images/consistency-models.png" width="100%" alt="Consistencey Models" /></p>
+
+<ul>
+<li><strong>Consistency terminology</strong>
+
+<ul>
+<li>Extract consistency terminology from this diagram: <a href="http://jepsen.io/consistency">Consistency Models</a></li>
+<li>Read and summarize this article, which argues that consistency is not one of strong or eventual, but rather a set of guarantees that may or may not be met: <a href="https://www.microsoft.com/en-us/research/publication/replicated-data-consistency-explained-through-baseball/?from=http%3A%2F%2Fresearch.microsoft.com%2Fpubs%2F157411%2Fconsistencyandbaseballreport.pdf">Replicated Data Consistency Explained Through Baseball</a></li>
+</ul></li>
+<li><strong>CAP Theorem</strong>
+
+<ul>
+<li>Read and summarize this paper: <a href="https://arxiv.org/abs/1509.05393">A Critique of the CAP Theorem</a>
+
+<ul>
+<li>&ldquo;In this paper we survey some of the confusion about the meaning of CAP, including inconsistencies and ambiguities in its definitions, and we highlight some problems in its formalization. CAP is often interpreted as proof that eventually consistent databases have better availability properties than strongly consistent databases; although there is some truth in this, we show that more careful reasoning is required. These problems cast doubt on the utility of CAP as a tool for reasoning about trade-offs in practical systems.&rdquo;</li>
+<li>Also see this auxiliary blog post by the author, <a href="https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html">Please stop calling databases CP or AP</a></li>
+</ul></li>
+<li>Answer this question: is the CAP theorem useful in practice?</li>
+</ul></li>
+<li><strong>Transactions</strong>
+
+<ul>
+<li>Read and summarize this paper: <a href="http://www.bailis.org/papers/hat-vldb2014.pdf">Highly Available Transactions: Virtues and Limitations</a>
+
+<ul>
+<li>&ldquo;In this work, we consider the problem of providing Highly Available Transactions (HATs): transactional guarantees that do not suffer unavailability during system partitions or incur high network latency.&rdquo;</li>
+</ul></li>
+<li>Read and summarize this paper: <a href="https://www.ics.uci.edu/~cs223/papers/cidr07p15.pdf">Life beyond Distributed Transactions</a>
+
+<ul>
+<li>&ldquo;This paper explores and names some of the practical approaches used in the implementations of large-scale mission-critical applications in a world which rejects distributed transactions.&rdquo;</li>
+</ul></li>
+</ul></li>
+<li><strong>Eventual consistency</strong>
+
+<ul>
+<li>Read and summarize this paper: <a href="https://arxiv.org/abs/0909.1788">Building on Quicksand</a>
+
+<ul>
+<li>&ldquo;Emerging patterns of eventual consistency and probabilistic execution may soon yield a way for applications to express requirements for a &ldquo;looser&rdquo; form of consistency while providing availability in the face of ever larger failures.&rdquo;</li>
+</ul></li>
+<li>Answer this question: when is eventual consistency appropriate and when is it potentially dangerous?</li>
+</ul></li>
+<li><strong>Real world examples: Dynamo and Spanner</strong>
+
+<ul>
+<li>Read and summarize this paper: <a href="http://www.read.seas.harvard.edu/~kohler/class/cs239-w08/decandia07dynamo.pdf">Dynamo: Amazon&rsquo;s Highly Available Key-value Store (2007)</a></li>
+<li>Read and summarize this paper: <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/spanner-osdi2012.pdf">Spanner: Google&rsquo;s Globally-Distributed Database (2012)</a>
+
+<ul>
+<li>&ldquo;The lack of transactions in Bigtable led to frequent complaints from users, so Google made distributed transactions central to Spanner&rsquo;s design. Based on its experience with Bigtable, Google argues that it is better to have application programmers deal with performance problems due to overuse of transactions as bottlenecks arise, rather than always coding around the lack of transactions.&rdquo;<sup class="footnote-ref" id="fnref:3"><a href="#fn:3">3</a></sup></li>
+<li>Also factor in this Google publication that connects Spanner to the CAP theorem: <a href="https://research.google.com/pubs/pub45855.html?hl=pl">Spanner, TrueTime &amp; The CAP Theorem</a></li>
+</ul></li>
+</ul></li>
+<li><strong>Hands on learning: Fault-tolerant Key/Value Service</strong>
+
+<ul>
+<li>Complete this lab: <a href="https://pdos.csail.mit.edu/6.824/labs/lab-kvraft.html">MIT 6.824 Lab 3: Fault-tolerant Key/Value Service</a>
+
+<ul>
+<li>&ldquo;In this lab you will build a fault-tolerant key/value storage service using your Raft library from lab 2. You key/value service will be a replicated state machine, consisting of several key/value servers that use Raft to maintain replication. Your key/value service should continue to process client requests as long as a majority of the servers are alive and can communicate, in spite of other failures or network partitions.&rdquo;</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:1"><a href="https://drive.google.com/file/d/15nxAaVXZwNFnJNVvgtKonNbzxNgTUCxP/view">https://drive.google.com/file/d/15nxAaVXZwNFnJNVvgtKonNbzxNgTUCxP/view</a>
+ <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:2"><a href="https://landing.google.com/sre/book/chapters/production-environment.html">https://landing.google.com/sre/book/chapters/production-environment.html</a>
+ <a class="footnote-return" href="#fnref:2"><sup>[return]</sup></a></li>
+<li id="fn:3"><a href="https://en.wikipedia.org/wiki/Spanner_(database">https://en.wikipedia.org/wiki/Spanner_(database</a>)
+ <a class="footnote-return" href="#fnref:3"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+
+  <h3>Metadata and Navigation</h3>
+  <span class="post-meta">
+  <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/research-papers">research-papers</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/architecture">architecture</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/microservices">microservices</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/nosql">nosql</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/databases">databases</a> 
+
+  <br />
+  <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous Post: <a href="https://backendology.com/2018/09/10/distributed-systems-course-reading-list/">Designing a Comprehensive Course in Distributed Systems: Reading List</a>
+
+  
+  </span>
+
+  <h3>Subscribe</h3>
+  <p><a href="/subscribe">Subscribe via my newsletter or RSS feed</a></p>
+
+  <span class="post-sharing">
+    <h3>Share this post!</h3>
+
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fbackendology.com%2f2018%2f09%2f19%2fdistributed-systems-course-introduction%2f" title="Share on Facebook"><i class="fa fa-facebook-square fa-2x"></i></a>
+    <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fbackendology.com%2f2018%2f09%2f19%2fdistributed-systems-course-introduction%2f&text=Introduction%20to%20Distributed%20Systems%20Course" title="Share on Twitter"><i class="fa fa-twitter-square fa-2x"></i></a>
+    <a href="https://plus.google.com/share?url=https%3a%2f%2fbackendology.com%2f2018%2f09%2f19%2fdistributed-systems-course-introduction%2f" title="Share on Google Plus"><i class="fa fa-google-plus-square fa-2x"></i></a></p>
+  </span>
+</div>
+
+<div class="related">
+  <h3>Related Posts</h3>
+  <ul class="related-posts">
+  <li><a href="/2018/09/10/distributed-systems-course-reading-list/">Designing a Comprehensive Course in Distributed Systems: Reading List</a> <span class="post-date-list">September 10, 2018</span></li><li><a href="/2018/07/30/top-software-books/">Top 10 Books for New Software Engineers</a> <span class="post-date-list">July 30, 2018</span></li><li><a href="/2018/07/14/what-this-blog-is-all-about/">What This Blog is All About</a> <span class="post-date-list">July 14, 2018</span></li>
+  </ul>
+</div>      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+  </body>
+</html>
