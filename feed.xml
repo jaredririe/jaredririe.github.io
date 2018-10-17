@@ -17,6 +17,492 @@
     
       
         <item>
+          <title>Building Blocks of Distributed Systems</title>
+          <link>https://backendology.com/2018/10/08/distributed-systems-building-blocks/</link>
+          <pubDate>Mon, 08 Oct 2018 00:00:00 UTC</pubDate>
+          <author>Jared Ririe</author>
+          <guid>https://backendology.com/2018/10/08/distributed-systems-building-blocks/</guid>
+          <description>
+
+&lt;p&gt;This blog post is based a chapter from &lt;a href=&#34;http://www.aosabook.org/en/index.html&#34;&gt;&lt;em&gt;The Architecture of Open Source Applications&lt;/em&gt;&lt;/a&gt; titled &amp;ldquo;&lt;a href=&#34;http://www.aosabook.org/en/distsys.html&#34;&gt;Scalable Web Architecture and Distributed Systems&lt;/a&gt;.&amp;rdquo;&lt;/p&gt;
+
+&lt;h2 id=&#34;the-architecture-of-open-source-applications&#34;&gt;&lt;em&gt;The Architecture of Open Source Applications&lt;/em&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/building-blocks-architecture-open-source.png&#34; width=&#34;100%&#34; alt=&#34;The Architecture of Open Source Applications cover&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Before getting into the details of the chapter, the book itself deserves some introduction. Its opening pages make the compelling point that architects in the traditional sense are exposed to and study thousands of real buildings, but software architects rarely make a similar investment, leading to repeated mistakes:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Architects look at thousands of buildings during their training, and study critiques of those buildings written by masters. In contrast, most software developers only ever get to know a handful of large programs well—usually programs they wrote themselves—and never study the great programs of history. As a result, they repeat one another&amp;rsquo;s mistakes rather than building on one another&amp;rsquo;s successes.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Each chapter is written by experienced software developers who impart knowledge of a particular system or design. Some other chapters include &lt;a href=&#34;http://www.aosabook.org/en/nginx.html&#34;&gt;nginx&lt;/a&gt;, &lt;a href=&#34;http://www.aosabook.org/en/ffreleng.html&#34;&gt;Firefox Release Engineering&lt;/a&gt;, and &lt;a href=&#34;http://www.aosabook.org/en/git.html&#34;&gt;Git&lt;/a&gt;. The chapter covered in this post primarily uses an image hosting application to explain the principles and building blocks of scalable distributed systems.&lt;/p&gt;
+
+&lt;h2 id=&#34;building-blocks&#34;&gt;Building blocks&lt;/h2&gt;
+
+&lt;p&gt;After explaining the general principles, the author asserts that the most challenging aspect of building web distributed systems is scaling access to the data. While application servers are designed to be stateless and embody a &lt;a href=&#34;https://en.wikipedia.org/wiki/Shared-nothing_architecture&#34;&gt;shared-nothing architecture&lt;/a&gt;, &amp;ldquo;the heavy lifting is pushed down the stack to the database server and supporting services.&amp;rdquo; The data access layer is &amp;ldquo;where the real scaling and performance challenges come into play.&amp;rdquo;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;Caches, proxies, indexes, load balancers, and queues are the building blocks of a scalable data access layer. Rather than covering the entire chapter, I will focus the remainder of this post on these building blocks.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#caches&#34;&gt;Caches&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#proxies&#34;&gt;Proxies&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#indexes&#34;&gt;Indexes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#load-balancers&#34;&gt;Load Balancers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#queues&#34;&gt;Queues&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;caches&#34;&gt;Caches&lt;/h3&gt;
+
+&lt;p&gt;Caches are ubiquitous in computing. Their ability to scale read access in a system is clear. They &amp;ldquo;take advantage of the locality of reference principle: recently requested data is likely to be requested again.&amp;rdquo;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;p&gt;In a &lt;a href=&#34;https://backendology.com/2018/08/27/multiple-layers-caching/&#34;&gt;previous blog post&lt;/a&gt;, I wrote at length about the importance of having multiple layers of caching, including client-side caching. The author of this chapter reached a similar conclusion:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Caches can exist at all levels in architecture, but are often found at the level nearest to the front end, where they are implemented to return data quickly without taxing downstream levels.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;When clients avoid &amp;ldquo;taxing downstream levels&amp;rdquo;, they enable more growth in the system without the need to scale out. For example, assuming linear scaling and equally taxing requests, if clients implement caching that reduces their usage of the backend by 50%, then the backend can handle twice as many clients without purchasing more resources.&lt;/p&gt;
+
+&lt;p&gt;The chapter&amp;rsquo;s coverage of caching augments my previous post with a helpful discussion of cache placement.&lt;/p&gt;
+
+&lt;h4 id=&#34;cache-placement&#34;&gt;Cache placement&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Request Node&lt;/em&gt;: collocate the cache with the node that requests the data
+
+&lt;ul&gt;
+&lt;li&gt;Pros
+
+&lt;ul&gt;
+&lt;li&gt;Each time a request is made, the node can quickly return cached data if it exists, avoiding any network hops&lt;/li&gt;
+&lt;li&gt;Often in-memory and very fast&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Cons
+
+&lt;ul&gt;
+&lt;li&gt;When you have multiple request nodes that are load balanced, you may have to cache the same item on all the nodes&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/building-blocks-request-cache.png&#34; width=&#34;100%&#34; alt=&#34;Request Node Cache&#34; /&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:3&#34;&gt;&lt;a href=&#34;#fn:3&#34;&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Global Cache&lt;/em&gt;: central cache used by all request nodes
+
+&lt;ul&gt;
+&lt;li&gt;Pros
+
+&lt;ul&gt;
+&lt;li&gt;A given item will only be cached only once&lt;/li&gt;
+&lt;li&gt;Multiple requests for an item can be &lt;em&gt;collapsed&lt;/em&gt; into one request to the backend&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Cons
+
+&lt;ul&gt;
+&lt;li&gt;Easy to overwhelm a single cache as the number of clients and requests increase&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Types
+
+&lt;ul&gt;
+&lt;li&gt;Reverse proxy cache: cache is responsible for retrieval on cache miss (more common, handles its own eviction)&lt;/li&gt;
+&lt;li&gt;Cache as a service: request nodes are responsible for retrieval on cache miss (typically used when the request nodes understand the eviction strategy or hot spots better than the cache)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/building-blocks-reverse-proxy-cache.png&#34; width=&#34;100%&#34; alt=&#34;Reverse Proxy Cache&#34; /&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:4&#34;&gt;&lt;a href=&#34;#fn:4&#34;&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;em&gt;Distributed Cache&lt;/em&gt;: each of the nodes that make up the cache own part of the cached data; divided using a &lt;a href=&#34;https://en.wikipedia.org/wiki/Consistent_hashing&#34;&gt;consistent hashing function&lt;/a&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Pros
+
+&lt;ul&gt;
+&lt;li&gt;Cache space and load capacity can be increased by scaling out (increasing the number of nodes)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Cons
+
+&lt;ul&gt;
+&lt;li&gt;Node failure must be handled or intentionally ignored&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;proxies&#34;&gt;Proxies&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;At a basic level, a proxy server is an intermediate piece of hardware/software that receives requests from clients and relays them to the backend origin servers. Typically, proxies are used to filter requests, log requests, or sometimes transform requests (by adding/removing headers, encrypting/decrypting, or compression).&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Proxies are a deceptively simple building block in an architecture: their very nature is to be lightweight, nearly invisible components yet they can provide incredible value to a system by reducing load on the backend servers, providing a convenient location for caching layers, and funneling traffic appropriately.&lt;/p&gt;
+
+&lt;h4 id=&#34;collapsed-forwarding&#34;&gt;Collapsed forwarding&lt;/h4&gt;
+
+&lt;p&gt;Collapsed forwarding is an example of a technique that proxies can employ to decrease load on a downstream server. In this technique, similar requests are &lt;em&gt;collapsed&lt;/em&gt; into a single request that is made to the downstream server; the result of this request is then written to all similar requests, thus reducing the number of requests made.&lt;/p&gt;
+
+&lt;p&gt;A simple example of collapsed forwarding is &lt;strong&gt;deduplication&lt;/strong&gt;. If a resource X is requested 100 times, the proxy can make a single request to retrieve X from the downstream server and then write the same response body to the other 99 requests for X.&lt;/p&gt;
+
+&lt;p&gt;This is particularly helpful for the downstream server when resource X is large in size. Let&amp;rsquo;s assume a 5 MB payload that must be read into memory (rather than streamed). Without deduplication, the hundred requests would require the server to wastefully read 5 * 99 = 495 MB into memory. The deduplication step in the proxy can smooth over spikes and reduce the memory usage dramatically.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s implement a simple proxy and server in Go with collapsed forwarding!&lt;/p&gt;
+
+&lt;p&gt;Our implementation of collapsed forwarding will batch together requests for the same URL. Every five seconds, our &lt;code&gt;requestBatcher&lt;/code&gt; will flush its batches of requests by handling one request from each batch and giving the same result to the rest of the requests in that batch.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;requestBatcher&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;][]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;handler&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HandlerFunc&lt;/span&gt;
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Mutex&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;close&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt;{}
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;type&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt; {
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseWriter&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Request&lt;/span&gt;
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;done&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt;{}
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;requestBatcher&lt;/code&gt; will store the batches of requests as a map from string (URL) to a slice of requests. The &lt;code&gt;handler&lt;/code&gt; will indicate how the requests should be handled. We&amp;rsquo;ll protect our map with a mutex &lt;code&gt;mu&lt;/code&gt; and have a &lt;code&gt;close&lt;/code&gt; channel for a clean shutdown.&lt;/p&gt;
+
+&lt;p&gt;A &lt;code&gt;request&lt;/code&gt; is everything we need to process the request, the original request &lt;code&gt;r&lt;/code&gt; and the writer &lt;code&gt;w&lt;/code&gt; for writing the response. We&amp;rsquo;ll also have a &lt;code&gt;done&lt;/code&gt; channel that will allow the flush step to tell the goroutine handling the request that the request has been handled.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newRequestBatcher&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;handler&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HandlerFunc&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;requestBatcher&lt;/span&gt; {
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;requestBatcher&lt;/span&gt;{
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt;:   make(&lt;span style=&#34;color:#66d9ef&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;][]&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;),
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;handler&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;handler&lt;/span&gt;,
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;:      &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sync&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Mutex&lt;/span&gt;{},
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;close&lt;/span&gt;:   make(&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt;{}),
+    }
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;() {
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; {
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;ticker&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;time&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewTicker&lt;/span&gt;(&lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;time&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Second&lt;/span&gt;)
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;select&lt;/span&gt; {
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ticker&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;C&lt;/span&gt;:
+                &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Flush&lt;/span&gt;()
+            &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;close&lt;/span&gt;:
+                &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+            }
+        }
+    }()
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The constructor for the &lt;code&gt;requestBatcher&lt;/code&gt; will initialize all the variables and kick off a goroutine that calls &lt;code&gt;Flush&lt;/code&gt; every five seconds. For a real production proxy, five seconds is likely far too long. It will give us enough time to see that our batching logic is working, however.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;requestBatcher&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Append&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;key&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;string&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;) {
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Lock&lt;/span&gt;()
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Unlock&lt;/span&gt;()
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;key&lt;/span&gt;] = append(&lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt;[&lt;span style=&#34;color:#a6e22e&#34;&gt;key&lt;/span&gt;], &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;)
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;Append&lt;/code&gt; appends the given request to the slice of requests under the given key.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; (&lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;requestBatcher&lt;/span&gt;) &lt;span style=&#34;color:#a6e22e&#34;&gt;Flush&lt;/span&gt;() {
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Lock&lt;/span&gt;()
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;mu&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Unlock&lt;/span&gt;()
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;key&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;range&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt; {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Printf&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;%d batched requests under key %q\n&amp;#34;&lt;/span&gt;,
+            len(&lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt;), &lt;span style=&#34;color:#a6e22e&#34;&gt;key&lt;/span&gt;)
+
+        &lt;span style=&#34;color:#75715e&#34;&gt;// handle one candidate request
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;candidateRequest&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt;[&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;]
+
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;httptest&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewRecorder&lt;/span&gt;()
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;handler&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ServeHTTP&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;candidateRequest&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;)
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;responseBody&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Body&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Bytes&lt;/span&gt;()
+
+        &lt;span style=&#34;color:#75715e&#34;&gt;// write the same result to all requests in this batch
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;_&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;range&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt; {
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Body&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Close&lt;/span&gt;()
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;WriteHeader&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Result&lt;/span&gt;().&lt;span style=&#34;color:#a6e22e&#34;&gt;StatusCode&lt;/span&gt;)
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Write&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;responseBody&lt;/span&gt;)
+
+            &lt;span style=&#34;color:#75715e&#34;&gt;// let the goroutine for this request know that
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#75715e&#34;&gt;// it has been handled
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;            &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;done&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt;{}{}
+        }
+
+        &lt;span style=&#34;color:#75715e&#34;&gt;// delete the batch
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        delete(&lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;batch&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;key&lt;/span&gt;)
+    }
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;code&gt;Flush&lt;/code&gt; handles one request from each batch of requests and writes the same result to all requests in the batch. Finally, it deletes the batch of requests so we can start fresh after each flush.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;() {
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newRequestBatcher&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;proxyRequest&lt;/span&gt;)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;proxy&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newProxy&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;server&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newServer&lt;/span&gt;()
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;defer&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;() {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;proxy&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Close&lt;/span&gt;()  &lt;span style=&#34;color:#75715e&#34;&gt;// stop accepting new requests at the proxy layer
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Close&lt;/span&gt;()     &lt;span style=&#34;color:#75715e&#34;&gt;// close and flush out any pending requests
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a6e22e&#34;&gt;server&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Close&lt;/span&gt;() &lt;span style=&#34;color:#75715e&#34;&gt;// stop the server
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    }()
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;// run until interrupted
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;stop&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; make(&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;os&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Signal&lt;/span&gt;)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;signal&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Notify&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;stop&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;os&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Interrupt&lt;/span&gt;)
+    &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;stop&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newProxy&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;requestBatcher&lt;/span&gt;) &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Server&lt;/span&gt; {
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;proxy&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Server&lt;/span&gt;{
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;Addr&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;:8080&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;Handler&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HandlerFunc&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseWriter&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Request&lt;/span&gt;) {
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[proxy]&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;URL&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;String&lt;/span&gt;())
+
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; make(&lt;span style=&#34;color:#66d9ef&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;struct&lt;/span&gt;{})
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;rc&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Append&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;URL&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;String&lt;/span&gt;(), &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;{
+                &lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;:    &lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;,
+                &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;:    &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;,
+                &lt;span style=&#34;color:#a6e22e&#34;&gt;done&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt;,
+            })
+
+            &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ch&lt;/span&gt;
+        }),
+    }
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;// start the proxy
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;() {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[proxy] running on port&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;proxy&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Addr&lt;/span&gt;)
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;proxy&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ListenAndServe&lt;/span&gt;())
+    }()
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;proxy&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;newServer&lt;/span&gt;() &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Server&lt;/span&gt; {
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;server&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Server&lt;/span&gt;{
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;Addr&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;:8081&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;Handler&lt;/span&gt;: &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;HandlerFunc&lt;/span&gt;(&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseWriter&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Request&lt;/span&gt;) {
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[server]&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;URL&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;String&lt;/span&gt;())
+            &lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Write&lt;/span&gt;([]byte(&lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;URL&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;String&lt;/span&gt;()))
+        }),
+    }
+
+    &lt;span style=&#34;color:#75715e&#34;&gt;// start the server
+&lt;/span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt;() {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;[server] running on port&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;server&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Addr&lt;/span&gt;)
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;server&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ListenAndServe&lt;/span&gt;())
+    }()
+
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;server&lt;/span&gt;
+}
+
+&lt;span style=&#34;color:#66d9ef&#34;&gt;func&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;proxyRequest&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseWriter&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Request&lt;/span&gt;) {
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;u&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;url&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;URL&lt;/span&gt;{
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;Scheme&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;http&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;Host&lt;/span&gt;:   &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;localhost:8081&amp;#34;&lt;/span&gt;,
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;Path&lt;/span&gt;:   &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;URL&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Path&lt;/span&gt;,
+    }
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;NewRequest&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Method&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;u&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;String&lt;/span&gt;(), &lt;span style=&#34;color:#a6e22e&#34;&gt;r&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Body&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+    }
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;response&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;DefaultClient&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Do&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;request&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+    }
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;bytes&lt;/span&gt;, &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ioutil&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ReadAll&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;response&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Body&lt;/span&gt;)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt; {
+        &lt;span style=&#34;color:#a6e22e&#34;&gt;fmt&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Println&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;err&lt;/span&gt;)
+        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt;
+    }
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;response&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Body&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Close&lt;/span&gt;()
+
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;WriteHeader&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;response&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;StatusCode&lt;/span&gt;)
+    &lt;span style=&#34;color:#a6e22e&#34;&gt;w&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;Write&lt;/span&gt;(&lt;span style=&#34;color:#a6e22e&#34;&gt;bytes&lt;/span&gt;)
+}&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Our main function does the work of creating a new &lt;code&gt;requestBatcher&lt;/code&gt;, standing up our simple proxy and server, and waiting for an interrupt.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The proxy runs on &lt;code&gt;localhost:8080&lt;/code&gt; and will handle requests by Appending them to the batch of requests and waiting on the &lt;code&gt;done&lt;/code&gt; channel for completion. If we didn&amp;rsquo;t wait for this channel, the request&amp;rsquo;s goroutine would exit and leave the response unwritten.&lt;/li&gt;
+&lt;li&gt;The server runs on &lt;code&gt;localhost:8081&lt;/code&gt;. It&amp;rsquo;s pretty straightforward: it handles requests by writing the response to be the URL of the request, like an echo server.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;proxyRequest&lt;/code&gt; is the handler that we pass to &lt;code&gt;newRequestBatcher&lt;/code&gt;. It tells the batcher what it should do with requests when flushing them. In this case, we&amp;rsquo;re indicating that requests should be made to the server at &lt;code&gt;localhost:8081&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The entirety of this code is &lt;a href=&#34;https://github.com/jaredririe/backendology/tree/master/code/collapsed-forwarding&#34;&gt;available on GitHub&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;If we make several requests to the proxy in the background, like so:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ curl localhost:8080/test &amp;amp;
+$ curl localhost:8080/test &amp;amp;
+$ curl localhost:8080/test2 &amp;amp;
+$ curl localhost:8080/test &amp;amp;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The application logs each request, finds two sets of batched requests, and makes a single request to the server for each batch:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;proxy&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; /test
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;proxy&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; /test
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;proxy&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; /test2
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;proxy&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; /test
+&lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt; batched requests under key &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/test&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;server&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; /test
+&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; batched requests under key &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/test2&amp;#34;&lt;/span&gt;
+&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;server&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; /test2&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h4 id=&#34;reverse-proxy-cache&#34;&gt;Reverse proxy cache&lt;/h4&gt;
+
+&lt;p&gt;A reverse proxy cache, as the name implies, is the combination of a proxy and cache. Requests are made to a proxy in front of an &lt;strong&gt;origin server&lt;/strong&gt; which performs best-effort caching. It always reserves the right to fall back on the origin for a definitive response, which is a convenient property that makes failure scenarios relatively straightforward.&lt;/p&gt;
+
+&lt;p&gt;A less straightforward problem is handling cache eviction. Let&amp;rsquo;s consider a few options:&lt;/p&gt;
+
+&lt;h5 id=&#34;automatic-expiration-after-a-ttl&#34;&gt;Automatic expiration after a TTL&lt;/h5&gt;
+
+&lt;p&gt;This option works well with in-memory caches that are intended to protect against spikes of requests. The data isn&amp;rsquo;t cached very long, so its usefulness can be limited, however.&lt;/p&gt;
+
+&lt;h5 id=&#34;intercept-modifications-and-handle-evictions&#34;&gt;Intercept modifications and handle evictions&lt;/h5&gt;
+
+&lt;p&gt;If all modifications to the underlying data go through the proxy layer, the cached data can be evicted as needed.&lt;/p&gt;
+
+&lt;h5 id=&#34;only-cache-immutable-data&#34;&gt;Only cache immutable data&lt;/h5&gt;
+
+&lt;p&gt;In cases where modifications cannot be intercepted or the cached data is a computed result, more advanced techniques must be used. One such technique is to only cache unchanging, immutable data that never becomes stale or needs eviction. While this may seem impractical, it&amp;rsquo;s usually not.&lt;/p&gt;
+
+&lt;p&gt;Let&amp;rsquo;s say that you want to cache the result of running a query against some data. If you run the query today, you get five rows of data back. If you run it tomorrow, you get seven because new data arrived. The query result is therefore &lt;strong&gt;mutable&lt;/strong&gt;. How can we make it immutable? What we&amp;rsquo;ll do is store the data under a cache key computed like so:&lt;code&gt;hash(resource identifier, hash(query string), timestamp)&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;resource identifier&lt;/strong&gt;: the ID that references the data, like a customerId or datasetId within a customer&amp;rsquo;s account&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;query string&lt;/strong&gt;: the string that identifies the query, perhaps provided as a query parameter in the request&amp;rsquo;s URL or a JSON representation in the request&amp;rsquo;s body&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;timestamp&lt;/strong&gt;: the last updated time of the data stored under the resource identifier&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Assuming the table like the following, if we make a query for all data stored under A, we&amp;rsquo;ll cache the response (&lt;code&gt;[1, 2, 3]&lt;/code&gt;) under the cache key &lt;code&gt;hash(A, hash(query string), 1539322037479)&lt;/code&gt;. Then subsequent requests will only be cache hits if the data has not changed.&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;ID&lt;/th&gt;
+&lt;th&gt;LastUpdated&lt;/th&gt;
+&lt;th&gt;Data&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;A&lt;/td&gt;
+&lt;td&gt;1539322037479&lt;/td&gt;
+&lt;td&gt;[1, 2, 3]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;B&lt;/td&gt;
+&lt;td&gt;1538431688314&lt;/td&gt;
+&lt;td&gt;[8, 2, 3, 1]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;C&lt;/td&gt;
+&lt;td&gt;1537899135166&lt;/td&gt;
+&lt;td&gt;[1, 10, 1]&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;D&lt;/td&gt;
+&lt;td&gt;1538116563215&lt;/td&gt;
+&lt;td&gt;[10, 9, 8, 7]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Using this technique works best when the consumer provides a &lt;code&gt;LastUpdated&lt;/code&gt; value as part of their request. Preferably they retrieved this value once and use it across multiple queries (to populate a dashboard, for example). If &lt;code&gt;LastUpdated&lt;/code&gt; is not passed in on the request, the proxy can quickly retrieve it in the consumer&amp;rsquo;s behalf and use it to check the cache. Usually it&amp;rsquo;s much easier to get the &lt;code&gt;LastUpdated&lt;/code&gt; value than compute a (potentially complex) query, so the caching layer still provides a lot of value.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;indexes&#34;&gt;Indexes&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Using an index to access your data quickly is a well-known strategy for optimizing data access performance; probably the most well known when it comes to databases. An index makes the trade-offs of increased storage overhead and slower writes (since you must both write the data and update the index) for the benefit of faster reads. &amp;hellip; Just as to a traditional relational data store, you can also apply this concept to larger data sets.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;When most developers hear the word &amp;ldquo;indexes&amp;rdquo;, they immediately jump to database indexes. At least this is the case for me. While I find databases indexes to be an interesting topic (to the point that I wrote a &lt;a href=&#34;https://backendology.com/2018/07/23/database-indexes/&#34;&gt;blog post which describes how database indexes work at a low level&lt;/a&gt;), this chapter&amp;rsquo;s explanation helped broaden my thinking around indexes beyond databases.&lt;/p&gt;
+
+&lt;p&gt;Indexes are helpful in the data access layers above the database. Consider a system which is backed by multiple database clusters. Creating an index that maps keys to the database responsible for those keys would eliminate the need to query multiple databases.&lt;/p&gt;
+
+&lt;h4 id=&#34;multiple-layers-of-indexes&#34;&gt;Multiple layers of indexes&lt;/h4&gt;
+
+&lt;p&gt;Once the correct cluster has been identified, another index layer may identify the node within the cluster, and so on. This leads to the point that often creating &lt;strong&gt;multiple layers of indexes&lt;/strong&gt; is worth the increased write latency. This figure from the chapter illustrates how multiple indexes can guide reads to the correct data:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://backendology.com/public/images/building-blocks-multiple-layers-indexes.png&#34; width=&#34;100%&#34; alt=&#34;Multiple Layers of Indexes&#34; /&gt;&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:5&#34;&gt;&lt;a href=&#34;#fn:5&#34;&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;views&#34;&gt;Views&lt;/h4&gt;
+
+&lt;p&gt;Indexes also allow the same underlying data to be organized differently without resorting to copying through the use of &lt;strong&gt;views&lt;/strong&gt;:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Indexes can also be used to create several different views of the same data. For large data sets, this is a great way to define different filters and sorts without resorting to creating many additional copies of the data.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h3 id=&#34;load-balancers&#34;&gt;Load balancers&lt;/h3&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Load balancers are a principal part of any architecture, as their role is to distribute load across a set of nodes responsible for servicing requests. This allows multiple nodes to transparently service the same function in a system.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:2&#34;&gt;&lt;a href=&#34;#fn:2&#34;&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Like caches, load balancers are placed in many strategic places throughout an architecture. They are also implemented in a variety of ways. There are several comparisons to be aware of in this space:&lt;/p&gt;
+
+&lt;h4 id=&#34;software-and-hardware&#34;&gt;Software and hardware&lt;/h4&gt;
+
+&lt;p&gt;Load balancers can be implemented either in software or hardware. A common commercial hardware offering is &lt;a href=&#34;https://www.f5.com/&#34;&gt;F5&lt;/a&gt; while &lt;a href=&#34;http://www.haproxy.org/&#34;&gt;HAProxy&lt;/a&gt; is best known on the software side.&lt;/p&gt;
+
+&lt;h4 id=&#34;layer-4-and-layer-7&#34;&gt;Layer 4 and Layer 7&lt;/h4&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Load balancers are generally grouped into two categories: Layer 4 and Layer 7. Layer 4 load balancers act upon data found in network and transport layer protocols (IP, TCP, FTP, UDP). Layer 7 load balancers distribute requests based upon data found in application layer protocols such as HTTP.&lt;sup class=&#34;footnote-ref&#34; id=&#34;fnref:6&#34;&gt;&lt;a href=&#34;#fn:6&#34;&gt;6&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h4 id=&#34;north-south-and-east-west&#34;&gt;North-south and east-west&lt;/h4&gt;
+
+&lt;p&gt;&lt;strong&gt;North-south traffic&lt;/strong&gt; is client to server traffic that originates outside of the datacenter (e.g. traffic routed through edge firewalls and routers). &lt;strong&gt;East-west traffic&lt;/strong&gt; is server to server traffic that originates internal to a datacenter (e.g. traffic over a LAN connection between microservices in a Microservices Architecture).&lt;/p&gt;
+
+&lt;p&gt;Many businesses stand up a hardware load balancer at the edge of their datacenters and then use software load balancing for communication within each datacenter. These additional layers of software load balancing avoid the need to return back to the edge of the network to distribute load to a downstream service.&lt;/p&gt;
+
+&lt;h4 id=&#34;client-side-server-side-and-service-mesh&#34;&gt;Client-side, server-side, and service mesh&lt;/h4&gt;
+
+&lt;p&gt;Traditional load balancing strategies encourage either the client or the server to take responsibility for load balancing. The client might ensure that it properly sends traffic to a server in a distributed manner. A server, on the other hand, could protect itself with a reverse proxy layer that offers load balancing.&lt;/p&gt;
+
+&lt;p&gt;When both clients and servers are part of the same service mesh, they need not directly involve themselves in load balancing. Instead, calls from the client to the server can be transparently load balanced at the cost of some additional latency for a service mesh to distributed the load. Service meshes like &lt;a href=&#34;https://istio.io/&#34;&gt;Istio&lt;/a&gt; are gaining traction as they can provide load balancing, automatic retries, and other helpful features without direct participation from the involved services.&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&#34;queues&#34;&gt;Queues&lt;/h3&gt;
+
+&lt;p&gt;Unlike proxies and load balancers which augment an existing architecture and &lt;em&gt;scale reads&lt;/em&gt;, queues have a more dramatic impact on the data flow of the architecture and &lt;em&gt;scale writes&lt;/em&gt;. Queues have this impact by forcing the introduction of &lt;strong&gt;asynchronous processing&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;While a synchronous system tightly couples a request to its immediate response, an asynchronous system separates the two. This is achieved by having clients provide a work request to the queue which is not immediately processed while the clients waits. &amp;ldquo;While the client is waiting for an asynchronous request to be completed it is free to perform other work, even making asynchronous requests of other services.&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;In a synchronous system where clients are actively waiting for responses, service outages and intermittent failures are exposed directly to clients. High availability is difficult to provide, especially when the underlying database(s) are under high load and requests time out. Due to the asynchronous nature of queues, they can provide protection from failed requests. This takes away the stress of ensuring that every single request succeeds at the cost of great engineering effort. Retry logic is also much easier to implement in asynchronous processing, avoiding the need for &amp;ldquo;complicated and often inconsistent client-side error handling.&amp;rdquo;&lt;/p&gt;
+
+&lt;p&gt;This added protection from a lack of availability in a downstream service and improved retry logic makes a strong argument for the introduction of more queues into an architecture. The client of a queue can often be unaware that a downstream service was temporarily unavailable.&lt;/p&gt;
+&lt;div class=&#34;footnotes&#34;&gt;
+
+&lt;hr /&gt;
+
+&lt;ol&gt;
+&lt;li id=&#34;fn:1&#34;&gt;&lt;a href=&#34;http://www.aosabook.org/en/index.html&#34;&gt;http://www.aosabook.org/en/index.html&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:2&#34;&gt;&lt;a href=&#34;http://www.aosabook.org/en/distsys.html&#34;&gt;http://www.aosabook.org/en/distsys.html&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:2&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:3&#34;&gt;&lt;a href=&#34;http://www.aosabook.org/en/distsys.html#fig.distsys.9&#34;&gt;http://www.aosabook.org/en/distsys.html#fig.distsys.9&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:3&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:4&#34;&gt;&lt;a href=&#34;http://www.aosabook.org/en/distsys.html#fig.distsys.10&#34;&gt;http://www.aosabook.org/en/distsys.html#fig.distsys.10&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:4&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:5&#34;&gt;&lt;a href=&#34;http://www.aosabook.org/en/distsys.html#fig.distsys.17&#34;&gt;http://www.aosabook.org/en/distsys.html#fig.distsys.17&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:5&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#34;fn:6&#34;&gt;&lt;a href=&#34;https://www.f5.com/services/resources/glossary/load-balancer&#34;&gt;https://www.f5.com/services/resources/glossary/load-balancer&lt;/a&gt;
+ &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:6&#34;&gt;&lt;sup&gt;[return]&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
           <title>Introduction to Distributed Systems Course</title>
           <link>https://backendology.com/2018/09/19/distributed-systems-course-introduction/</link>
           <pubDate>Wed, 19 Sep 2018 00:00:00 UTC</pubDate>

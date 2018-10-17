@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"><head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123885643-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Building Blocks of Distributed Systems - Backendology - A study of backend web development by Jared Ririe</title>
+
+  
+  <meta name="author" content="Jared Ririe">
+  <meta property="og:site_name" content="Backendology">
+  
+  <meta property="og:description" content="Building Blocks of Distributed Systems - Backendology - A study of backend web development by Jared Ririe">
+  <meta property="og:title" content="Building Blocks of Distributed Systems - Backendology - A study of backend web development by Jared Ririe">
+  
+  <meta property="og:type" content="article">
+  <meta name="keywords" content="Databases, Architecture, Microservices, Distributed Systems, Coding Interview, Data Structures, Machine Learning, NoSQL, SQL, Golang, JavaScript, Software, Blogging, Hugo">
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+  <link rel="stylesheet" href="/public/font-awesome/css/font-awesome.min.css">
+
+  
+  <link rel="canonical" href="https://backendology.com/2018/10/08/distributed-systems-building-blocks/">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+
+  
+  
+</head>
+<body class="theme-base-0d">
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A detailed study of the concepts and technologies related to backend web development</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item " href="/">Home</a>
+    <a class="sidebar-nav-item" href="/about/">About</a>
+    <a class="sidebar-nav-item" href="/archives/">All Posts</a>
+    <a class="sidebar-nav-item" href="/categories/">Categories</a>
+    <a class="sidebar-nav-item" href="/tags/">Tags</a>
+    <a class="sidebar-nav-item" href="/subscribe/">Subscribe</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      <a href="https://github.com/jaredririe"><i class="fa fa-github fa-3x"></i></a>
+      <a href="https://www.linkedin.com/in/jaredririe"><i class="fa fa-linkedin-square fa-3x"></i></a>
+      <a href="https://twitter.com/jaredririe"><i class="fa fa-twitter fa-3x"></i></a>
+      <a href="/feed.xml"><i class="fa fa-rss fa-3x"></i></a>
+    </p>
+  </div>
+
+  <div class="sidebar-item">
+    <p>&copy; 2018. All rights reserved.</p>
+  </div>
+</div>
+
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Backendology</a>
+            <small>A study of backend web development by Jared Ririe</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+<div class="post">
+  <h1 class="post-title">Building Blocks of Distributed Systems</h1>
+  <span class="post-date">October 8, 2018 &middot; Filed in <a href="/categories/architecture">Architecture</a></span>
+
+  
+
+<p>This blog post is based a chapter from <a href="http://www.aosabook.org/en/index.html"><em>The Architecture of Open Source Applications</em></a> titled &ldquo;<a href="http://www.aosabook.org/en/distsys.html">Scalable Web Architecture and Distributed Systems</a>.&rdquo;</p>
+
+<h2 id="the-architecture-of-open-source-applications"><em>The Architecture of Open Source Applications</em></h2>
+
+<p><img src="/public/images/building-blocks-architecture-open-source.png" width="100%" alt="The Architecture of Open Source Applications cover" /></p>
+
+<p>Before getting into the details of the chapter, the book itself deserves some introduction. Its opening pages make the compelling point that architects in the traditional sense are exposed to and study thousands of real buildings, but software architects rarely make a similar investment, leading to repeated mistakes:</p>
+
+<blockquote>
+<p>Architects look at thousands of buildings during their training, and study critiques of those buildings written by masters. In contrast, most software developers only ever get to know a handful of large programs well—usually programs they wrote themselves—and never study the great programs of history. As a result, they repeat one another&rsquo;s mistakes rather than building on one another&rsquo;s successes.<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup></p>
+</blockquote>
+
+<p>Each chapter is written by experienced software developers who impart knowledge of a particular system or design. Some other chapters include <a href="http://www.aosabook.org/en/nginx.html">nginx</a>, <a href="http://www.aosabook.org/en/ffreleng.html">Firefox Release Engineering</a>, and <a href="http://www.aosabook.org/en/git.html">Git</a>. The chapter covered in this post primarily uses an image hosting application to explain the principles and building blocks of scalable distributed systems.</p>
+
+<h2 id="building-blocks">Building blocks</h2>
+
+<p>After explaining the general principles, the author asserts that the most challenging aspect of building web distributed systems is scaling access to the data. While application servers are designed to be stateless and embody a <a href="https://en.wikipedia.org/wiki/Shared-nothing_architecture">shared-nothing architecture</a>, &ldquo;the heavy lifting is pushed down the stack to the database server and supporting services.&rdquo; The data access layer is &ldquo;where the real scaling and performance challenges come into play.&rdquo;<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></p>
+
+<p>Caches, proxies, indexes, load balancers, and queues are the building blocks of a scalable data access layer. Rather than covering the entire chapter, I will focus the remainder of this post on these building blocks.</p>
+
+<ul>
+<li><a href="#caches">Caches</a></li>
+<li><a href="#proxies">Proxies</a></li>
+<li><a href="#indexes">Indexes</a></li>
+<li><a href="#load-balancers">Load Balancers</a></li>
+<li><a href="#queues">Queues</a></li>
+</ul>
+
+<hr />
+
+<h3 id="caches">Caches</h3>
+
+<p>Caches are ubiquitous in computing. Their ability to scale read access in a system is clear. They &ldquo;take advantage of the locality of reference principle: recently requested data is likely to be requested again.&rdquo;<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></p>
+
+<p>In a <a href="https://backendology.com/2018/08/27/multiple-layers-caching/">previous blog post</a>, I wrote at length about the importance of having multiple layers of caching, including client-side caching. The author of this chapter reached a similar conclusion:</p>
+
+<blockquote>
+<p>Caches can exist at all levels in architecture, but are often found at the level nearest to the front end, where they are implemented to return data quickly without taxing downstream levels.<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></p>
+</blockquote>
+
+<p>When clients avoid &ldquo;taxing downstream levels&rdquo;, they enable more growth in the system without the need to scale out. For example, assuming linear scaling and equally taxing requests, if clients implement caching that reduces their usage of the backend by 50%, then the backend can handle twice as many clients without purchasing more resources.</p>
+
+<p>The chapter&rsquo;s coverage of caching augments my previous post with a helpful discussion of cache placement.</p>
+
+<h4 id="cache-placement">Cache placement</h4>
+
+<ul>
+<li><em>Request Node</em>: collocate the cache with the node that requests the data
+
+<ul>
+<li>Pros
+
+<ul>
+<li>Each time a request is made, the node can quickly return cached data if it exists, avoiding any network hops</li>
+<li>Often in-memory and very fast</li>
+</ul></li>
+<li>Cons
+
+<ul>
+<li>When you have multiple request nodes that are load balanced, you may have to cache the same item on all the nodes</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p><img src="/public/images/building-blocks-request-cache.png" width="100%" alt="Request Node Cache" /><sup class="footnote-ref" id="fnref:3"><a href="#fn:3">3</a></sup></p>
+
+<ul>
+<li><em>Global Cache</em>: central cache used by all request nodes
+
+<ul>
+<li>Pros
+
+<ul>
+<li>A given item will only be cached only once</li>
+<li>Multiple requests for an item can be <em>collapsed</em> into one request to the backend</li>
+</ul></li>
+<li>Cons
+
+<ul>
+<li>Easy to overwhelm a single cache as the number of clients and requests increase</li>
+</ul></li>
+<li>Types
+
+<ul>
+<li>Reverse proxy cache: cache is responsible for retrieval on cache miss (more common, handles its own eviction)</li>
+<li>Cache as a service: request nodes are responsible for retrieval on cache miss (typically used when the request nodes understand the eviction strategy or hot spots better than the cache)</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p><img src="/public/images/building-blocks-reverse-proxy-cache.png" width="100%" alt="Reverse Proxy Cache" /><sup class="footnote-ref" id="fnref:4"><a href="#fn:4">4</a></sup></p>
+
+<ul>
+<li><em>Distributed Cache</em>: each of the nodes that make up the cache own part of the cached data; divided using a <a href="https://en.wikipedia.org/wiki/Consistent_hashing">consistent hashing function</a>
+
+<ul>
+<li>Pros
+
+<ul>
+<li>Cache space and load capacity can be increased by scaling out (increasing the number of nodes)</li>
+</ul></li>
+<li>Cons
+
+<ul>
+<li>Node failure must be handled or intentionally ignored</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<hr />
+
+<h3 id="proxies">Proxies</h3>
+
+<blockquote>
+<p>At a basic level, a proxy server is an intermediate piece of hardware/software that receives requests from clients and relays them to the backend origin servers. Typically, proxies are used to filter requests, log requests, or sometimes transform requests (by adding/removing headers, encrypting/decrypting, or compression).<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></p>
+</blockquote>
+
+<p>Proxies are a deceptively simple building block in an architecture: their very nature is to be lightweight, nearly invisible components yet they can provide incredible value to a system by reducing load on the backend servers, providing a convenient location for caching layers, and funneling traffic appropriately.</p>
+
+<h4 id="collapsed-forwarding">Collapsed forwarding</h4>
+
+<p>Collapsed forwarding is an example of a technique that proxies can employ to decrease load on a downstream server. In this technique, similar requests are <em>collapsed</em> into a single request that is made to the downstream server; the result of this request is then written to all similar requests, thus reducing the number of requests made.</p>
+
+<p>A simple example of collapsed forwarding is <strong>deduplication</strong>. If a resource X is requested 100 times, the proxy can make a single request to retrieve X from the downstream server and then write the same response body to the other 99 requests for X.</p>
+
+<p>This is particularly helpful for the downstream server when resource X is large in size. Let&rsquo;s assume a 5 MB payload that must be read into memory (rather than streamed). Without deduplication, the hundred requests would require the server to wastefully read 5 * 99 = 495 MB into memory. The deduplication step in the proxy can smooth over spikes and reduce the memory usage dramatically.</p>
+
+<p>Let&rsquo;s implement a simple proxy and server in Go with collapsed forwarding!</p>
+
+<p>Our implementation of collapsed forwarding will batch together requests for the same URL. Every five seconds, our <code>requestBatcher</code> will flush its batches of requests by handling one request from each batch and giving the same result to the rest of the requests in that batch.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">requestBatcher</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">batch</span>   <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#f92672">*</span><span style="color:#a6e22e">request</span>
+    <span style="color:#a6e22e">handler</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>
+
+    <span style="color:#a6e22e">mu</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
+    <span style="color:#a6e22e">close</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{}
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">request</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">w</span>    <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>
+    <span style="color:#a6e22e">r</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>
+    <span style="color:#a6e22e">done</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{}
+}</code></pre></div>
+<p><code>requestBatcher</code> will store the batches of requests as a map from string (URL) to a slice of requests. The <code>handler</code> will indicate how the requests should be handled. We&rsquo;ll protect our map with a mutex <code>mu</code> and have a <code>close</code> channel for a clean shutdown.</p>
+
+<p>A <code>request</code> is everything we need to process the request, the original request <code>r</code> and the writer <code>w</code> for writing the response. We&rsquo;ll also have a <code>done</code> channel that will allow the flush step to tell the goroutine handling the request that the request has been handled.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newRequestBatcher</span>(<span style="color:#a6e22e">handler</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">requestBatcher</span> {
+    <span style="color:#a6e22e">rc</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">requestBatcher</span>{
+        <span style="color:#a6e22e">batch</span>:   make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>][]<span style="color:#f92672">*</span><span style="color:#a6e22e">request</span>),
+        <span style="color:#a6e22e">handler</span>: <span style="color:#a6e22e">handler</span>,
+        <span style="color:#a6e22e">mu</span>:      <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>{},
+        <span style="color:#a6e22e">close</span>:   make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{}),
+    }
+
+    <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+        <span style="color:#66d9ef">for</span> {
+            <span style="color:#a6e22e">ticker</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">NewTicker</span>(<span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>)
+            <span style="color:#66d9ef">select</span> {
+            <span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ticker</span>.<span style="color:#a6e22e">C</span>:
+                <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">Flush</span>()
+            <span style="color:#66d9ef">case</span> <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">close</span>:
+                <span style="color:#66d9ef">return</span>
+            }
+        }
+    }()
+
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">rc</span>
+}</code></pre></div>
+<p>The constructor for the <code>requestBatcher</code> will initialize all the variables and kick off a goroutine that calls <code>Flush</code> every five seconds. For a real production proxy, five seconds is likely far too long. It will give us enough time to see that our batching logic is working, however.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">rc</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">requestBatcher</span>) <span style="color:#a6e22e">Append</span>(<span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">request</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">request</span>) {
+    <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Lock</span>()
+    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Unlock</span>()
+
+    <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">batch</span>[<span style="color:#a6e22e">key</span>] = append(<span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">batch</span>[<span style="color:#a6e22e">key</span>], <span style="color:#a6e22e">request</span>)
+}</code></pre></div>
+<p><code>Append</code> appends the given request to the slice of requests under the given key.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">rc</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">requestBatcher</span>) <span style="color:#a6e22e">Flush</span>() {
+    <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Lock</span>()
+    <span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">mu</span>.<span style="color:#a6e22e">Unlock</span>()
+
+    <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">key</span>, <span style="color:#a6e22e">batch</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">batch</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%d batched requests under key %q\n&#34;</span>,
+            len(<span style="color:#a6e22e">batch</span>), <span style="color:#a6e22e">key</span>)
+
+        <span style="color:#75715e">// handle one candidate request
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">candidateRequest</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">batch</span>[<span style="color:#ae81ff">0</span>]
+
+        <span style="color:#a6e22e">w</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">httptest</span>.<span style="color:#a6e22e">NewRecorder</span>()
+        <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">ServeHTTP</span>(<span style="color:#a6e22e">w</span>, <span style="color:#a6e22e">candidateRequest</span>.<span style="color:#a6e22e">r</span>)
+        <span style="color:#a6e22e">responseBody</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Bytes</span>()
+
+        <span style="color:#75715e">// write the same result to all requests in this batch
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">request</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">batch</span> {
+            <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+            <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Result</span>().<span style="color:#a6e22e">StatusCode</span>)
+            <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">responseBody</span>)
+
+            <span style="color:#75715e">// let the goroutine for this request know that
+</span><span style="color:#75715e"></span>            <span style="color:#75715e">// it has been handled
+</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">done</span> <span style="color:#f92672">&lt;-</span> <span style="color:#66d9ef">struct</span>{}{}
+        }
+
+        <span style="color:#75715e">// delete the batch
+</span><span style="color:#75715e"></span>        delete(<span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">batch</span>, <span style="color:#a6e22e">key</span>)
+    }
+}</code></pre></div>
+<p><code>Flush</code> handles one request from each batch of requests and writes the same result to all requests in the batch. Finally, it deletes the batch of requests so we can start fresh after each flush.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#a6e22e">rc</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newRequestBatcher</span>(<span style="color:#a6e22e">proxyRequest</span>)
+    <span style="color:#a6e22e">proxy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newProxy</span>(<span style="color:#a6e22e">rc</span>)
+    <span style="color:#a6e22e">server</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newServer</span>()
+
+    <span style="color:#66d9ef">defer</span> <span style="color:#66d9ef">func</span>() {
+        <span style="color:#a6e22e">proxy</span>.<span style="color:#a6e22e">Close</span>()  <span style="color:#75715e">// stop accepting new requests at the proxy layer
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">Close</span>()     <span style="color:#75715e">// close and flush out any pending requests
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">Close</span>() <span style="color:#75715e">// stop the server
+</span><span style="color:#75715e"></span>    }()
+
+    <span style="color:#75715e">// run until interrupted
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">stop</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Signal</span>)
+    <span style="color:#a6e22e">signal</span>.<span style="color:#a6e22e">Notify</span>(<span style="color:#a6e22e">stop</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Interrupt</span>)
+    <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">stop</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newProxy</span>(<span style="color:#a6e22e">rc</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">requestBatcher</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Server</span> {
+    <span style="color:#a6e22e">proxy</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Server</span>{
+        <span style="color:#a6e22e">Addr</span>: <span style="color:#e6db74">&#34;:8080&#34;</span>,
+        <span style="color:#a6e22e">Handler</span>: <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+            <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;[proxy]&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">URL</span>.<span style="color:#a6e22e">String</span>())
+
+            <span style="color:#a6e22e">ch</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{})
+            <span style="color:#a6e22e">rc</span>.<span style="color:#a6e22e">Append</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">URL</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">request</span>{
+                <span style="color:#a6e22e">w</span>:    <span style="color:#a6e22e">w</span>,
+                <span style="color:#a6e22e">r</span>:    <span style="color:#a6e22e">r</span>,
+                <span style="color:#a6e22e">done</span>: <span style="color:#a6e22e">ch</span>,
+            })
+
+            <span style="color:#f92672">&lt;-</span><span style="color:#a6e22e">ch</span>
+        }),
+    }
+
+    <span style="color:#75715e">// start the proxy
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;[proxy] running on port&#34;</span>, <span style="color:#a6e22e">proxy</span>.<span style="color:#a6e22e">Addr</span>)
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">proxy</span>.<span style="color:#a6e22e">ListenAndServe</span>())
+    }()
+
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">proxy</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">newServer</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Server</span> {
+    <span style="color:#a6e22e">server</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Server</span>{
+        <span style="color:#a6e22e">Addr</span>: <span style="color:#e6db74">&#34;:8081&#34;</span>,
+        <span style="color:#a6e22e">Handler</span>: <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">HandlerFunc</span>(<span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+            <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;[server]&#34;</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">URL</span>.<span style="color:#a6e22e">String</span>())
+            <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>([]byte(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">URL</span>.<span style="color:#a6e22e">String</span>()))
+        }),
+    }
+
+    <span style="color:#75715e">// start the server
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#e6db74">&#34;[server] running on port&#34;</span>, <span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">Addr</span>)
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">server</span>.<span style="color:#a6e22e">ListenAndServe</span>())
+    }()
+
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">server</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">proxyRequest</span>(<span style="color:#a6e22e">w</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ResponseWriter</span>, <span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">Request</span>) {
+    <span style="color:#a6e22e">u</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">url</span>.<span style="color:#a6e22e">URL</span>{
+        <span style="color:#a6e22e">Scheme</span>: <span style="color:#e6db74">&#34;http&#34;</span>,
+        <span style="color:#a6e22e">Host</span>:   <span style="color:#e6db74">&#34;localhost:8081&#34;</span>,
+        <span style="color:#a6e22e">Path</span>:   <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">URL</span>.<span style="color:#a6e22e">Path</span>,
+    }
+
+    <span style="color:#a6e22e">request</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">NewRequest</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Method</span>, <span style="color:#a6e22e">u</span>.<span style="color:#a6e22e">String</span>(), <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Body</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+        <span style="color:#66d9ef">return</span>
+    }
+
+    <span style="color:#a6e22e">response</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">DefaultClient</span>.<span style="color:#a6e22e">Do</span>(<span style="color:#a6e22e">request</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+        <span style="color:#66d9ef">return</span>
+    }
+
+    <span style="color:#a6e22e">bytes</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadAll</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Body</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">err</span>)
+        <span style="color:#66d9ef">return</span>
+    }
+    <span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Close</span>()
+
+    <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">WriteHeader</span>(<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">StatusCode</span>)
+    <span style="color:#a6e22e">w</span>.<span style="color:#a6e22e">Write</span>(<span style="color:#a6e22e">bytes</span>)
+}</code></pre></div>
+<p>Our main function does the work of creating a new <code>requestBatcher</code>, standing up our simple proxy and server, and waiting for an interrupt.</p>
+
+<ul>
+<li>The proxy runs on <code>localhost:8080</code> and will handle requests by Appending them to the batch of requests and waiting on the <code>done</code> channel for completion. If we didn&rsquo;t wait for this channel, the request&rsquo;s goroutine would exit and leave the response unwritten.</li>
+<li>The server runs on <code>localhost:8081</code>. It&rsquo;s pretty straightforward: it handles requests by writing the response to be the URL of the request, like an echo server.</li>
+<li><code>proxyRequest</code> is the handler that we pass to <code>newRequestBatcher</code>. It tells the batcher what it should do with requests when flushing them. In this case, we&rsquo;re indicating that requests should be made to the server at <code>localhost:8081</code>.</li>
+</ul>
+
+<p>The entirety of this code is <a href="https://github.com/jaredririe/backendology/tree/master/code/collapsed-forwarding">available on GitHub</a>.</p>
+
+<p>If we make several requests to the proxy in the background, like so:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl localhost:8080/test &amp;
+$ curl localhost:8080/test &amp;
+$ curl localhost:8080/test2 &amp;
+$ curl localhost:8080/test &amp;</code></pre></div>
+<p>The application logs each request, finds two sets of batched requests, and makes a single request to the server for each batch:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#f92672">[</span>proxy<span style="color:#f92672">]</span> /test
+<span style="color:#f92672">[</span>proxy<span style="color:#f92672">]</span> /test
+<span style="color:#f92672">[</span>proxy<span style="color:#f92672">]</span> /test2
+<span style="color:#f92672">[</span>proxy<span style="color:#f92672">]</span> /test
+<span style="color:#ae81ff">3</span> batched requests under key <span style="color:#e6db74">&#34;/test&#34;</span>
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span> /test
+<span style="color:#ae81ff">1</span> batched requests under key <span style="color:#e6db74">&#34;/test2&#34;</span>
+<span style="color:#f92672">[</span>server<span style="color:#f92672">]</span> /test2</code></pre></div>
+<h4 id="reverse-proxy-cache">Reverse proxy cache</h4>
+
+<p>A reverse proxy cache, as the name implies, is the combination of a proxy and cache. Requests are made to a proxy in front of an <strong>origin server</strong> which performs best-effort caching. It always reserves the right to fall back on the origin for a definitive response, which is a convenient property that makes failure scenarios relatively straightforward.</p>
+
+<p>A less straightforward problem is handling cache eviction. Let&rsquo;s consider a few options:</p>
+
+<h5 id="automatic-expiration-after-a-ttl">Automatic expiration after a TTL</h5>
+
+<p>This option works well with in-memory caches that are intended to protect against spikes of requests. The data isn&rsquo;t cached very long, so its usefulness can be limited, however.</p>
+
+<h5 id="intercept-modifications-and-handle-evictions">Intercept modifications and handle evictions</h5>
+
+<p>If all modifications to the underlying data go through the proxy layer, the cached data can be evicted as needed.</p>
+
+<h5 id="only-cache-immutable-data">Only cache immutable data</h5>
+
+<p>In cases where modifications cannot be intercepted or the cached data is a computed result, more advanced techniques must be used. One such technique is to only cache unchanging, immutable data that never becomes stale or needs eviction. While this may seem impractical, it&rsquo;s usually not.</p>
+
+<p>Let&rsquo;s say that you want to cache the result of running a query against some data. If you run the query today, you get five rows of data back. If you run it tomorrow, you get seven because new data arrived. The query result is therefore <strong>mutable</strong>. How can we make it immutable? What we&rsquo;ll do is store the data under a cache key computed like so:<code>hash(resource identifier, hash(query string), timestamp)</code></p>
+
+<ul>
+<li><strong>resource identifier</strong>: the ID that references the data, like a customerId or datasetId within a customer&rsquo;s account</li>
+<li><strong>query string</strong>: the string that identifies the query, perhaps provided as a query parameter in the request&rsquo;s URL or a JSON representation in the request&rsquo;s body</li>
+<li><strong>timestamp</strong>: the last updated time of the data stored under the resource identifier</li>
+</ul>
+
+<p>Assuming the table like the following, if we make a query for all data stored under A, we&rsquo;ll cache the response (<code>[1, 2, 3]</code>) under the cache key <code>hash(A, hash(query string), 1539322037479)</code>. Then subsequent requests will only be cache hits if the data has not changed.</p>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>LastUpdated</th>
+<th>Data</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>A</td>
+<td>1539322037479</td>
+<td>[1, 2, 3]</td>
+</tr>
+
+<tr>
+<td>B</td>
+<td>1538431688314</td>
+<td>[8, 2, 3, 1]</td>
+</tr>
+
+<tr>
+<td>C</td>
+<td>1537899135166</td>
+<td>[1, 10, 1]</td>
+</tr>
+
+<tr>
+<td>D</td>
+<td>1538116563215</td>
+<td>[10, 9, 8, 7]</td>
+</tr>
+</tbody>
+</table>
+
+<p>Using this technique works best when the consumer provides a <code>LastUpdated</code> value as part of their request. Preferably they retrieved this value once and use it across multiple queries (to populate a dashboard, for example). If <code>LastUpdated</code> is not passed in on the request, the proxy can quickly retrieve it in the consumer&rsquo;s behalf and use it to check the cache. Usually it&rsquo;s much easier to get the <code>LastUpdated</code> value than compute a (potentially complex) query, so the caching layer still provides a lot of value.</p>
+
+<hr />
+
+<h3 id="indexes">Indexes</h3>
+
+<blockquote>
+<p>Using an index to access your data quickly is a well-known strategy for optimizing data access performance; probably the most well known when it comes to databases. An index makes the trade-offs of increased storage overhead and slower writes (since you must both write the data and update the index) for the benefit of faster reads. &hellip; Just as to a traditional relational data store, you can also apply this concept to larger data sets.<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></p>
+</blockquote>
+
+<p>When most developers hear the word &ldquo;indexes&rdquo;, they immediately jump to database indexes. At least this is the case for me. While I find databases indexes to be an interesting topic (to the point that I wrote a <a href="https://backendology.com/2018/07/23/database-indexes/">blog post which describes how database indexes work at a low level</a>), this chapter&rsquo;s explanation helped broaden my thinking around indexes beyond databases.</p>
+
+<p>Indexes are helpful in the data access layers above the database. Consider a system which is backed by multiple database clusters. Creating an index that maps keys to the database responsible for those keys would eliminate the need to query multiple databases.</p>
+
+<h4 id="multiple-layers-of-indexes">Multiple layers of indexes</h4>
+
+<p>Once the correct cluster has been identified, another index layer may identify the node within the cluster, and so on. This leads to the point that often creating <strong>multiple layers of indexes</strong> is worth the increased write latency. This figure from the chapter illustrates how multiple indexes can guide reads to the correct data:</p>
+
+<p><img src="/public/images/building-blocks-multiple-layers-indexes.png" width="100%" alt="Multiple Layers of Indexes" /><sup class="footnote-ref" id="fnref:5"><a href="#fn:5">5</a></sup></p>
+
+<h4 id="views">Views</h4>
+
+<p>Indexes also allow the same underlying data to be organized differently without resorting to copying through the use of <strong>views</strong>:</p>
+
+<blockquote>
+<p>Indexes can also be used to create several different views of the same data. For large data sets, this is a great way to define different filters and sorts without resorting to creating many additional copies of the data.</p>
+</blockquote>
+
+<h3 id="load-balancers">Load balancers</h3>
+
+<blockquote>
+<p>Load balancers are a principal part of any architecture, as their role is to distribute load across a set of nodes responsible for servicing requests. This allows multiple nodes to transparently service the same function in a system.<sup class="footnote-ref" id="fnref:2"><a href="#fn:2">2</a></sup></p>
+</blockquote>
+
+<p>Like caches, load balancers are placed in many strategic places throughout an architecture. They are also implemented in a variety of ways. There are several comparisons to be aware of in this space:</p>
+
+<h4 id="software-and-hardware">Software and hardware</h4>
+
+<p>Load balancers can be implemented either in software or hardware. A common commercial hardware offering is <a href="https://www.f5.com/">F5</a> while <a href="http://www.haproxy.org/">HAProxy</a> is best known on the software side.</p>
+
+<h4 id="layer-4-and-layer-7">Layer 4 and Layer 7</h4>
+
+<blockquote>
+<p>Load balancers are generally grouped into two categories: Layer 4 and Layer 7. Layer 4 load balancers act upon data found in network and transport layer protocols (IP, TCP, FTP, UDP). Layer 7 load balancers distribute requests based upon data found in application layer protocols such as HTTP.<sup class="footnote-ref" id="fnref:6"><a href="#fn:6">6</a></sup></p>
+</blockquote>
+
+<h4 id="north-south-and-east-west">North-south and east-west</h4>
+
+<p><strong>North-south traffic</strong> is client to server traffic that originates outside of the datacenter (e.g. traffic routed through edge firewalls and routers). <strong>East-west traffic</strong> is server to server traffic that originates internal to a datacenter (e.g. traffic over a LAN connection between microservices in a Microservices Architecture).</p>
+
+<p>Many businesses stand up a hardware load balancer at the edge of their datacenters and then use software load balancing for communication within each datacenter. These additional layers of software load balancing avoid the need to return back to the edge of the network to distribute load to a downstream service.</p>
+
+<h4 id="client-side-server-side-and-service-mesh">Client-side, server-side, and service mesh</h4>
+
+<p>Traditional load balancing strategies encourage either the client or the server to take responsibility for load balancing. The client might ensure that it properly sends traffic to a server in a distributed manner. A server, on the other hand, could protect itself with a reverse proxy layer that offers load balancing.</p>
+
+<p>When both clients and servers are part of the same service mesh, they need not directly involve themselves in load balancing. Instead, calls from the client to the server can be transparently load balanced at the cost of some additional latency for a service mesh to distributed the load. Service meshes like <a href="https://istio.io/">Istio</a> are gaining traction as they can provide load balancing, automatic retries, and other helpful features without direct participation from the involved services.</p>
+
+<hr />
+
+<h3 id="queues">Queues</h3>
+
+<p>Unlike proxies and load balancers which augment an existing architecture and <em>scale reads</em>, queues have a more dramatic impact on the data flow of the architecture and <em>scale writes</em>. Queues have this impact by forcing the introduction of <strong>asynchronous processing</strong>.</p>
+
+<p>While a synchronous system tightly couples a request to its immediate response, an asynchronous system separates the two. This is achieved by having clients provide a work request to the queue which is not immediately processed while the clients waits. &ldquo;While the client is waiting for an asynchronous request to be completed it is free to perform other work, even making asynchronous requests of other services.&rdquo;</p>
+
+<p>In a synchronous system where clients are actively waiting for responses, service outages and intermittent failures are exposed directly to clients. High availability is difficult to provide, especially when the underlying database(s) are under high load and requests time out. Due to the asynchronous nature of queues, they can provide protection from failed requests. This takes away the stress of ensuring that every single request succeeds at the cost of great engineering effort. Retry logic is also much easier to implement in asynchronous processing, avoiding the need for &ldquo;complicated and often inconsistent client-side error handling.&rdquo;</p>
+
+<p>This added protection from a lack of availability in a downstream service and improved retry logic makes a strong argument for the introduction of more queues into an architecture. The client of a queue can often be unaware that a downstream service was temporarily unavailable.</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:1"><a href="http://www.aosabook.org/en/index.html">http://www.aosabook.org/en/index.html</a>
+ <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:2"><a href="http://www.aosabook.org/en/distsys.html">http://www.aosabook.org/en/distsys.html</a>
+ <a class="footnote-return" href="#fnref:2"><sup>[return]</sup></a></li>
+<li id="fn:3"><a href="http://www.aosabook.org/en/distsys.html#fig.distsys.9">http://www.aosabook.org/en/distsys.html#fig.distsys.9</a>
+ <a class="footnote-return" href="#fnref:3"><sup>[return]</sup></a></li>
+<li id="fn:4"><a href="http://www.aosabook.org/en/distsys.html#fig.distsys.10">http://www.aosabook.org/en/distsys.html#fig.distsys.10</a>
+ <a class="footnote-return" href="#fnref:4"><sup>[return]</sup></a></li>
+<li id="fn:5"><a href="http://www.aosabook.org/en/distsys.html#fig.distsys.17">http://www.aosabook.org/en/distsys.html#fig.distsys.17</a>
+ <a class="footnote-return" href="#fnref:5"><sup>[return]</sup></a></li>
+<li id="fn:6"><a href="https://www.f5.com/services/resources/glossary/load-balancer">https://www.f5.com/services/resources/glossary/load-balancer</a>
+ <a class="footnote-return" href="#fnref:6"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+
+  <h3>Metadata and Navigation</h3>
+  <span class="post-meta">
+  <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/architecture">architecture</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/caching">caching</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/microservices">microservices</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/golang">golang</a> 
+
+  <br />
+  <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous Post: <a href="https://backendology.com/2018/09/19/distributed-systems-course-introduction/">Introduction to Distributed Systems Course</a>
+
+  
+  </span>
+
+  <h3>Subscribe</h3>
+  <p><a href="/subscribe">Subscribe via my newsletter or RSS feed</a></p>
+
+  <span class="post-sharing">
+    <h3>Share this post!</h3>
+
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fbackendology.com%2f2018%2f10%2f08%2fdistributed-systems-building-blocks%2f" title="Share on Facebook"><i class="fa fa-facebook-square fa-2x"></i></a>
+    <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fbackendology.com%2f2018%2f10%2f08%2fdistributed-systems-building-blocks%2f&text=Building%20Blocks%20of%20Distributed%20Systems" title="Share on Twitter"><i class="fa fa-twitter-square fa-2x"></i></a>
+    <a href="https://plus.google.com/share?url=https%3a%2f%2fbackendology.com%2f2018%2f10%2f08%2fdistributed-systems-building-blocks%2f" title="Share on Google Plus"><i class="fa fa-google-plus-square fa-2x"></i></a></p>
+  </span>
+</div>
+
+<div class="related">
+  <h3>Related Posts</h3>
+  <ul class="related-posts">
+  <li><a href="/2018/08/27/multiple-layers-caching/">Multiple Layers of Caching</a> <span class="post-date-list">August 27, 2018</span></li><li><a href="/2018/07/30/top-software-books/">Top 10 Books for New Software Engineers</a> <span class="post-date-list">July 30, 2018</span></li><li><a href="/2018/07/14/what-this-blog-is-all-about/">What This Blog is All About</a> <span class="post-date-list">July 14, 2018</span></li>
+  </ul>
+</div>      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+  </body>
+</html>

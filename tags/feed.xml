@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 19 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://backendology.com/tags/feed.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Architecture</title>
       <link>https://backendology.com/tags/architecture/</link>
-      <pubDate>Wed, 19 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 08 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://backendology.com/tags/architecture/</guid>
       <description></description>
@@ -41,7 +41,7 @@
     <item>
       <title>Caching</title>
       <link>https://backendology.com/tags/caching/</link>
-      <pubDate>Mon, 27 Aug 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 08 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://backendology.com/tags/caching/</guid>
       <description></description>
@@ -77,7 +77,7 @@
     <item>
       <title>Golang</title>
       <link>https://backendology.com/tags/golang/</link>
-      <pubDate>Mon, 13 Aug 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 08 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://backendology.com/tags/golang/</guid>
       <description></description>
@@ -113,7 +113,7 @@
     <item>
       <title>Microservices</title>
       <link>https://backendology.com/tags/microservices/</link>
-      <pubDate>Wed, 19 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 08 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://backendology.com/tags/microservices/</guid>
       <description></description>

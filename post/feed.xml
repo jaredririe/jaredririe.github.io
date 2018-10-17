@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 19 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 08 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://backendology.com/post/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Building Blocks of Distributed Systems</title>
+      <link>https://backendology.com/2018/10/08/distributed-systems-building-blocks/</link>
+      <pubDate>Mon, 08 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://backendology.com/2018/10/08/distributed-systems-building-blocks/</guid>
+      <description>This blog post is based a chapter from The Architecture of Open Source Applications titled &amp;ldquo;Scalable Web Architecture and Distributed Systems.&amp;rdquo;
+The Architecture of Open Source Applications Before getting into the details of the chapter, the book itself deserves some introduction. Its opening pages make the compelling point that architects in the traditional sense are exposed to and study thousands of real buildings, but software architects rarely make a similar investment, leading to repeated mistakes:</description>
+    </item>
     
     <item>
       <title>Introduction to Distributed Systems Course</title>
