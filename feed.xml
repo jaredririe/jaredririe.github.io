@@ -166,7 +166,7 @@
 &lt;ul&gt;
 &lt;li&gt;&amp;ldquo;Raft is a consensus algorithm for managing a replicated log. It produces a result equivalent to (multi-)Paxos, and it is as efficient as Paxos, but its structure is different from Paxos; this makes Raft more understandable than Paxos and also provides a better foundation for building practical systems.&amp;rdquo;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;Use this visualization to create pseudocode of the algorithm: &lt;a href=&#34;http://thesecretlivesofdata.com/raft/&#34;&gt;Visualization of Raft&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Use these visualizations to create pseudocode of the algorithm: &lt;a href=&#34;http://thesecretlivesofdata.com/raft/&#34;&gt;Visualization of Raft&lt;/a&gt;, &lt;a href=&#34;https://runway.systems/?model=github.com/ongardie/runway-model-raft&#34;&gt;Runway Raft Model&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Compare and contrast Raft and Paxos, as well as Two-phase commit&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
