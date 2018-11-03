@@ -6,10 +6,20 @@
     <description>Recent content in Microservices on Backendology</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 27 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://backendology.com/tags/microservices/feed.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Amazon Alexa Skill using a Go AWS Lambda Function</title>
+      <link>https://backendology.com/2018/10/27/alexa-skill-lambda-golang/</link>
+      <pubDate>Sat, 27 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://backendology.com/2018/10/27/alexa-skill-lambda-golang/</guid>
+      <description>Amazon is currently running a promotion in which developers who publish a new skill to the Alexa Skills Store receive the new Echo Dot. While I do not own any Amazon devices, I decided to participate to get an interesting product, learn more about developing voice-based applications, and write my first AWS Lambda function in Go.
+Before I dive into the implementation, I think Amazon deserves some praise for this promotion.</description>
+    </item>
     
     <item>
       <title>Building Blocks of Distributed Systems</title>

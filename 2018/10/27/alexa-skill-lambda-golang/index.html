@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us"><head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-123885643-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Amazon Alexa Skill using a Go AWS Lambda Function - Backendology - A study of backend web development by Jared Ririe</title>
+
+  
+  <meta name="author" content="Jared Ririe">
+  <meta property="og:site_name" content="Backendology">
+  
+  <meta property="og:description" content="Amazon Alexa Skill using a Go AWS Lambda Function - Backendology - A study of backend web development by Jared Ririe">
+  <meta property="og:title" content="Amazon Alexa Skill using a Go AWS Lambda Function - Backendology - A study of backend web development by Jared Ririe">
+  
+  <meta property="og:type" content="article">
+  <meta name="keywords" content="Databases, Architecture, Microservices, Distributed Systems, Coding Interview, Data Structures, Machine Learning, NoSQL, SQL, Golang, JavaScript, Software, Blogging, Hugo">
+
+  
+  <link rel="stylesheet" href="/css/poole.css">
+  <link rel="stylesheet" href="/css/syntax.css">
+  <link rel="stylesheet" href="/css/lanyon.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Serif:400,400italic,700|PT+Sans:400">
+  <link rel="stylesheet" href="/public/font-awesome/css/font-awesome.min.css">
+
+  
+  <link rel="canonical" href="https://backendology.com/2018/10/27/alexa-skill-lambda-golang/">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
+
+  
+  
+</head>
+<body class="theme-base-0d">
+<input type="checkbox" class="sidebar-checkbox" id="sidebar-checkbox">
+
+
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-item">
+    <p>A detailed study of the concepts and technologies related to backend web development</p>
+  </div>
+
+  <nav class="sidebar-nav">
+    <a class="sidebar-nav-item " href="/">Home</a>
+    <a class="sidebar-nav-item" href="/about/">About</a>
+    <a class="sidebar-nav-item" href="/archives/">All Posts</a>
+    <a class="sidebar-nav-item" href="/categories/">Categories</a>
+    <a class="sidebar-nav-item" href="/tags/">Tags</a>
+    <a class="sidebar-nav-item" href="/subscribe/">Subscribe</a>
+  </nav>
+
+  <div class="sidebar-item">
+    <p>
+      <a href="https://github.com/jaredririe"><i class="fa fa-github fa-3x"></i></a>
+      <a href="https://www.linkedin.com/in/jaredririe"><i class="fa fa-linkedin-square fa-3x"></i></a>
+      <a href="https://twitter.com/jaredririe"><i class="fa fa-twitter fa-3x"></i></a>
+      <a href="/feed.xml"><i class="fa fa-rss fa-3x"></i></a>
+    </p>
+  </div>
+
+  <div class="sidebar-item">
+    <p>&copy; 2018. All rights reserved.</p>
+  </div>
+</div>
+
+    <div class="wrap">
+      <div class="masthead">
+        <div class="container">
+          <h3 class="masthead-title">
+            <a href="/" title="Home">Backendology</a>
+            <small>A study of backend web development by Jared Ririe</small>
+          </h3>
+        </div>
+      </div>
+
+      <div class="container content">
+<div class="post">
+  <h1 class="post-title">Amazon Alexa Skill using a Go AWS Lambda Function</h1>
+  <span class="post-date">October 27, 2018 &middot; Filed in <a href="/categories/golang">Golang</a></span>
+
+  
+
+<p><img src="/public/images/alexa-logo.png" width="100%" alt="Alexa logo" /></p>
+
+<p>Amazon is currently <a href="https://www.digitaltrends.com/home/amazon-alexa-skill-promotion-for-free-dot/">running a promotion</a> in which developers who publish a new skill to the Alexa Skills Store receive the new Echo Dot. While I do not own any Amazon devices, I decided to participate to get an interesting product, learn more about developing voice-based applications, and write my first AWS Lambda function in Go.</p>
+
+<p>Before I dive into the implementation, I think Amazon deserves some praise for this promotion. It&rsquo;s a win-win that more companies could learn from. Getting to the point of publishing a skill requires participants to go through the entire development process:</p>
+
+<ul>
+<li>Set up an Amazon Developer and Amazon Web Services accounts</li>
+<li>Learn Alexa terminology like invocations and intents</li>
+<li>Configure the skill in the Alexa Developer Console</li>
+<li>Write an AWS Lambda function that understands how to parse Alexa&rsquo;s requests and generate valid responses</li>
+<li>Submit the skill for review (with a customer-ready description and icon)</li>
+</ul>
+
+<p>With a little incentive, Amazon surely received an impressive number of novel skills submitted to their store because of this promotion, making their product better and more comprehensive. Amazon is also managing to get at least a few hours of work for the cost it takes them to make an Echo Dot. Meanwhile, developers get an interesting side project, diverse development experience, and a consumer product that can run the skills they write. Very cool!</p>
+
+<h2 id="alexa-skill-apple-guide">Alexa skill: Apple Guide</h2>
+
+<p>The simple skill I wrote for the purpose of the promotion is called <strong>Apple Guide (Unofficial)</strong>. It offers a convenient way to check whether it&rsquo;s a good time to buy a new Apple product. Through a real-time look at the <a href="https://buyersguide.macrumors.com/">MacRumors Buyer&rsquo;s Guide</a>, this skill allows Alexa to tell you which of four states an Apple product is in: {updated, neutral, caution, and outdated}. A product in the <em>caution</em> state, for example, has not been updated for quite some time, so it may be wise to be patient and wait for a new update. The status <em>updated</em>, on the other hand, means that the Apple product was just updated and you&rsquo;re safe to go ahead with the purchase.</p>
+
+<p>To create my skill, I followed two tutorials. The first, <a href="https://medium.com/crowdbotics/how-to-build-a-custom-amazon-alexa-skill-step-by-step-my-favorite-chess-player-dcc0edae53fb">&ldquo;How To Build A Custom Amazon Alexa Skill, Step-By-Step: My Favorite Chess Player&rdquo;</a>, shows you how how to create a skill from beginning to end. I highly recommend following this kind of tutorial to get a skill working as it&rsquo;s crucial to have a high-level overview to know what all the steps you&rsquo;ll need to take, what configuration is possible, etc.</p>
+
+<p>The first tutorial gives a great high-level overview, but the AWS Lambda function is written in Python and is not explained in much detail. As I wanted to write my Lambda function in Go, I supplemented with this second tutorial, <a href="https://medium.com/@amalec/alexa-skills-with-go-54db0c21e758">&ldquo;Alexa Skills with Go&rdquo;</a> which covers the following topics:</p>
+
+<ul>
+<li>Automating deployment of Go-based AWS Lambda functions</li>
+<li>Handling a variety of Alexa Skill request attributes</li>
+<li>Creating and returning Alexa Skill responses</li>
+<li>Deploying code to AWS Lambda without manually zipping the binary created by Go</li>
+</ul>
+
+<h2 id="configuring-the-alexa-skill-interface">Configuring the Alexa skill interface</h2>
+
+<p>An Alexa skill is not entirely written in code. Configuration, tests, and distribution are done in the <a href="https://developer.amazon.com/alexa/console/ask">Alexa Developer Console</a>. The console is where you create the <strong>skill interface</strong> whereas the code is where you create the <strong>skill service</strong>:</p>
+
+<blockquote>
+<p>The Alexa skill consists of two main components: the skill interface and the skill service.</p>
+
+<p>The skill interface processes the user’s speech requests and then maps them to intents within the interaction model.</p>
+
+<p>The skill service determines what actions to take in response to the JSON encoded event received from the skill interface. Upon reaching a decision the skill service returns a JSON encoded response to the skill interface for further processing. After processing, the speech response is sent back to the user through the Echo.<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup></p>
+</blockquote>
+
+<h3 id="invocation">Invocation</h3>
+
+<p>The invocation name is the phrase users speak to trigger a particular skill. Keeping it simple and understandable by Alexa is critical&ndash;a skill that&rsquo;s hard to launch will never be used.</p>
+
+<p>My initial invocation name was &ldquo;Apple Buyer&rsquo;s Guide&rdquo; and turned out to have two major problems. First, it refers to the brand Apple too directly, implying this was an official skill or sponsored by Apple. Second, &ldquo;Buyer&rsquo;s&rdquo; proved difficult for Alexa to understand which led to a frustrating experience interacting with the skill. &ldquo;Unoffical Apple Guide&rdquo; resolved both of these problems.</p>
+
+<p>I&rsquo;m not particularly fond of having &ldquo;unofficial&rdquo; in the title and invocation name, but Amazon&rsquo;s brand policy proved to be very strict. I ventured &ldquo;Picking Apples&rdquo; though that was also rejected.</p>
+
+<p><a href="https://developer.amazon.com/docs/custom-skills/understanding-how-users-invoke-custom-skills.html">Here</a> is Amazon&rsquo;s documentation on invocation.</p>
+
+<h3 id="intents">Intents</h3>
+
+<p><img src="/public/images/alexa-skill-intents.png" width="100%" alt="Alexa skill intents" /></p>
+
+<p>Intents capture what the user <em>intends</em> to do, such as ask for help, interact with the skill, or exit the skill. Amazon takes care of the defaults (help, cancel, etc.) but requires configuration for the unique aspects of your skill.</p>
+
+<p>In my case, I needed to define an intent to ask for a product recommendation. Each intent has at least one utterance (word or phrase) the user speaks to invoke the intent. My utterances included:</p>
+
+<ul>
+<li>should I buy the {product}</li>
+<li>is now a good time to buy the {product}</li>
+<li>Apple {product}</li>
+</ul>
+
+<p>Where <code>{product}</code> is a defined slot for the part of the phrase that is variable. In the skill service, I extract the contents of this slot to know which product the user is asking about:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">product</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Intent</span>.<span style="color:#a6e22e">Slots</span>[<span style="color:#e6db74">&#34;product&#34;</span>].<span style="color:#a6e22e">Value</span></code></pre></div>
+<h3 id="endpoint">Endpoint</h3>
+
+<p>The endpoint is where you define the web location of the skill service. There are two options: an AWS Lambda function or an HTTPS service. I chose to write a Lambda function.</p>
+
+<h2 id="writing-the-aws-lambda-function-the-skill-service">Writing the AWS Lambda Function (the skill service)</h2>
+
+<h3 id="aws-lambda">AWS Lambda</h3>
+
+<p><img src="/public/images/alexa-skill-aws-lambda.png" width="100%" alt="AWS Lambda" /></p>
+
+<p>AWS Lambda is part of the <a href="https://en.wikipedia.org/wiki/Serverless_computing">serverless computing movement</a> which abstracts things like server management and allocation away from developers of event handling code. Rather than standing up a server and running an always-listening web application, you simply write some code (the &ldquo;lambda function&rdquo;) which runs in response to an event. The code ends up running on some AWS server, just not a server that you manage directly.</p>
+
+<p>Implementing a Lambda function in Go is straightforward. Write a main function that calls <code>lambda.Start(handler)</code> where <code>handler</code> is the name of a function that matches one of <a href="https://github.com/aws/aws-lambda-go/blob/master/lambda/entry.go#L27-L35">several signatures</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+    <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">lambda</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">handler</span>)
+}</code></pre></div>
+<p>In my case, the handler accepts an Alexa request and returns an Alexa response.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handler</span>(<span style="color:#a6e22e">request</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Response</span>, <span style="color:#66d9ef">error</span>) {<span style="color:#f92672">...</span>}</code></pre></div>
+<p>Once you&rsquo;ve written your handler, you simply compile a Linux binary, zip it, and upload it to the Lambda Management Console. Set the Runtime to <code>Go 1.x</code> and Handler to the name of the binary in the zip file. I wrote a quick bash script to automate creating and zipping the binary:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">set -x
+
+rm -rf alexa-apple-guide.zip
+GOOS<span style="color:#f92672">=</span>linux go build -o alexa-apple-guide -a -ldflags <span style="color:#e6db74">&#34;-w -s -extldflags \&#34;-static\&#34;&#34;</span> -installsuffix cgo
+zip -r alexa-apple-guide.zip alexa-apple-guide</code></pre></div>
+<p>The article I mentioned earlier, <a href="https://medium.com/@amalec/alexa-skills-with-go-54db0c21e758">&ldquo;Alexa Skills with Go&rdquo;</a>, takes this further by automating the step to upload the zip file to AWS.</p>
+
+<h3 id="lambda-handler">Lambda handler</h3>
+
+<p>My handler inspects the Alexa request type and responds accordingly. The request could either be launching the skill, providing some intent, or closing the session.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handler</span>(<span style="color:#a6e22e">request</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Response</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Response</span>
+
+    <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Type</span> {
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">LaunchRequestType</span>:
+        <span style="color:#a6e22e">response</span> = <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">NewResponse</span>(
+            <span style="color:#e6db74">&#34;Apple Guide (Unofficial)&#34;</span>,
+            <span style="color:#e6db74">&#34;Welcome to the Unofficial Apple Guide. You can ask me whether it&#39;s a good time to buy a particular Apple product. For example, you could ask &#39;is now a good time to buy the iMac?&#39;&#34;</span>,
+            <span style="color:#66d9ef">false</span>,
+        )
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">IntentRequestType</span>:
+        <span style="color:#a6e22e">response</span> = <span style="color:#a6e22e">dispatchIntents</span>(<span style="color:#a6e22e">request</span>)
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">SessionEndedRequestType</span>:
+    }
+
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">response</span>, <span style="color:#66d9ef">nil</span>
+}</code></pre></div>
+<p>If it&rsquo;s an intent request, I need to inspect the body to know what the user is intending to do, such as ask for help (<code>alexa.HelpIntent</code>) or ask for a product recommendation (<code>&quot;productRecommendation</code>).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">dispatchIntents</span>(<span style="color:#a6e22e">request</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Request</span>) <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Response</span> {
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">response</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Response</span>
+
+    <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Intent</span>.<span style="color:#a6e22e">Name</span> {
+    <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;productRecommendation&#34;</span>:
+        <span style="color:#a6e22e">response</span> = <span style="color:#a6e22e">handleRecommendation</span>(<span style="color:#a6e22e">request</span>)
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">HelpIntent</span>:
+        <span style="color:#a6e22e">response</span> = <span style="color:#a6e22e">handleHelp</span>()
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">CancelIntent</span>, <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">NoIntent</span>, <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">StopIntent</span>:
+        <span style="color:#a6e22e">response</span> = <span style="color:#a6e22e">handleStop</span>()
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">FallbackIntent</span>:
+        <span style="color:#a6e22e">response</span> = <span style="color:#a6e22e">handleFallback</span>()
+    }
+
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">response</span>
+}</code></pre></div>
+<p>Providing product recommendations is the core of my Alexa skill. First, I extract the product name from the &ldquo;product&rdquo; intent slot. With that value, I can look up the status of that product by scraping <a href="https://buyersguide.macrumors.com/">MacRumors Buyers Guide</a>. Given the status, I can construct an Alexa response with my recommendation.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">handleRecommendation</span>(<span style="color:#a6e22e">request</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Request</span>) <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">Response</span> {
+    <span style="color:#a6e22e">product</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">request</span>.<span style="color:#a6e22e">Body</span>.<span style="color:#a6e22e">Intent</span>.<span style="color:#a6e22e">Slots</span>[<span style="color:#e6db74">&#34;product&#34;</span>].<span style="color:#a6e22e">Value</span>
+
+    <span style="color:#75715e">// get status of product ...
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">status</span> {
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">scraper</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Updated</span>:
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">alexa</span>.<span style="color:#a6e22e">NewResponse</span>(
+            <span style="color:#e6db74">&#34;Just updated!&#34;</span>,
+            <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;Now is a great time to buy the %s! It was recently updated.&#34;</span>, <span style="color:#a6e22e">product</span>),
+            <span style="color:#66d9ef">true</span>,
+        )
+
+    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">scraper</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Neutral</span>:
+       <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">scraper</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Caution</span>:
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">scraper</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Outdated</span>:
+        <span style="color:#75715e">// ...
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">case</span> <span style="color:#a6e22e">scraper</span>.<span style="color:#a6e22e">Status</span>.<span style="color:#a6e22e">Unknown</span>:
+    }
+
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">unknownProductResponse</span>
+}</code></pre></div>
+<p>You can find the complete implementation in <a href="https://github.com/jaredririe/alexa-apple-guide">this GitHub repo</a>.</p>
+
+<h2 id="demonstration">Demonstration</h2>
+
+<p><img src="/public/images/alexa-skill-demonstration.png" width="100%" alt="Alexa Skill demonstration" /></p>
+
+<p>Testing in the Alexa Developer Console is convenient. It simulates the experience of using a device with Alexa. Messages to Alexa can be spoken or typed. The following is a standard interaction where the user launches the skill, hears some instruction, and asks a question:</p>
+
+<p><img src="/public/images/alexa-skill-launch.png" width="100%" alt="Standard Alexa interaction" /></p>
+
+<p>The user can also ask for help:</p>
+
+<p><img src="/public/images/alexa-skill-help.png" width="100%" alt="Help Alexa interaction" /></p>
+
+<p>Once a user is more familiar with a skill, it&rsquo;s useful to combine launching a skill and asking a question:</p>
+
+<p><img src="/public/images/alexa-skill-direct.png" width="100%" alt="Direct Alexa interaction" /></p>
+
+<p>The exact language used is not critical. Alexa distills what you say down to the invocation name and intent. For example, I can alter the above statement and still trigger the skill correctly:</p>
+
+<p><img src="/public/images/alexa-skill-direct-2.png" width="100%" alt="Direct Alexa interaction 2" /></p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:1"><a href="https://medium.com/crowdbotics/how-to-build-a-custom-amazon-alexa-skill-step-by-step-my-favorite-chess-player-dcc0edae53fb">https://medium.com/crowdbotics/how-to-build-a-custom-amazon-alexa-skill-step-by-step-my-favorite-chess-player-dcc0edae53fb</a>
+ <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+
+  <h3>Metadata and Navigation</h3>
+  <span class="post-meta">
+  <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/golang">golang</a> <i class="fa fa-tag" aria-hidden="true"></i>&#160;<a href="/tags/microservices">microservices</a> 
+
+  <br />
+  <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> Previous Post: <a href="https://backendology.com/2018/10/08/distributed-systems-building-blocks/">Building Blocks of Distributed Systems</a>
+
+  
+  </span>
+
+  <h3>Subscribe</h3>
+  <p><a href="/subscribe">Subscribe via my newsletter or RSS feed</a></p>
+
+  <span class="post-sharing">
+    <h3>Share this post!</h3>
+
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fbackendology.com%2f2018%2f10%2f27%2falexa-skill-lambda-golang%2f" title="Share on Facebook"><i class="fa fa-facebook-square fa-2x"></i></a>
+    <a href="https://twitter.com/intent/tweet?url=https%3a%2f%2fbackendology.com%2f2018%2f10%2f27%2falexa-skill-lambda-golang%2f&text=Amazon%20Alexa%20Skill%20using%20a%20Go%20AWS%20Lambda%20Function" title="Share on Twitter"><i class="fa fa-twitter-square fa-2x"></i></a>
+    <a href="https://plus.google.com/share?url=https%3a%2f%2fbackendology.com%2f2018%2f10%2f27%2falexa-skill-lambda-golang%2f" title="Share on Google Plus"><i class="fa fa-google-plus-square fa-2x"></i></a></p>
+  </span>
+</div>
+
+<div class="related">
+  <h3>Related Posts</h3>
+  <ul class="related-posts">
+  <li><a href="/2018/10/08/distributed-systems-building-blocks/">Building Blocks of Distributed Systems</a> <span class="post-date-list">October 8, 2018</span></li><li><a href="/2018/07/30/top-software-books/">Top 10 Books for New Software Engineers</a> <span class="post-date-list">July 30, 2018</span></li><li><a href="/2018/07/14/what-this-blog-is-all-about/">What This Blog is All About</a> <span class="post-date-list">July 14, 2018</span></li>
+  </ul>
+</div>      </div>
+    </div>
+
+    <label for="sidebar-checkbox" class="sidebar-toggle"></label>
+
+  </body>
+</html>

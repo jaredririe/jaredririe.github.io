@@ -18,6 +18,11 @@
   </url>
   
   <url>
+    <loc>https://backendology.com/2018/10/27/alexa-skill-lambda-golang/</loc>
+    <lastmod>2018-10-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://backendology.com/2018/10/08/distributed-systems-building-blocks/</loc>
     <lastmod>2018-10-08T00:00:00+00:00</lastmod>
   </url>
@@ -169,13 +174,13 @@
   
   <url>
     <loc>https://backendology.com/tags/golang/</loc>
-    <lastmod>2018-10-08T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://backendology.com/categories/golang/</loc>
-    <lastmod>2018-08-13T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -199,7 +204,7 @@
   
   <url>
     <loc>https://backendology.com/tags/microservices/</loc>
-    <lastmod>2018-10-08T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -217,7 +222,7 @@
   
   <url>
     <loc>https://backendology.com/post/</loc>
-    <lastmod>2018-10-08T00:00:00+00:00</lastmod>
+    <lastmod>2018-10-27T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
